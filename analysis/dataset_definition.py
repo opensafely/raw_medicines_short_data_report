@@ -40,3 +40,34 @@ medications_rows = (
     medications.sort_by(medications.date)
     .first_for_patient()
 )
+
+# get number of rows for meds table
+dataset.meds_row_no = medications.count_for_patient()
+
+# get number of unique repeat ids
+dataset.meds_rep_id_no = medications.repeat_medication_id.count_distinct_for_patient()
+
+# get number of rows for repeat meds table
+dataset.repeats_row_no = repeat_medications.count_for_patient()
+
+# get number of unique repeat ids
+dataset.repeats_rep_id_no = repeat_medications.repeat_medication_id.count_distinct_for_patient()
+
+# get whether the number of unique ids differs per patient
+dataset.rep_ids_differ = dataset.meds_rep_id_no != dataset.repeats_rep_id_no
+
+# get number of occasions start_date and consultation date are same per patient
+dataset.concordant_dates = (
+    repeat_medications.where(repeat_medications.date == repeat_medications.start_date)
+    .date
+    .count_distinct_for_patient()
+)
+
+# get number of occasions start_date and consultation date are different per patient
+dataset.discordant_dates = (
+    repeat_medications.where(repeat_medications.date != repeat_medications.start_date)
+    .date
+    .count_distinct_for_patient()
+)
+
+show(dataset)
