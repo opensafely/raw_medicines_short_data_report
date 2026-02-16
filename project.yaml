@@ -10,6 +10,14 @@ actions:
     outputs:
       highly_sensitive:
         dataset: output/dataset.arrow
+
+  check_dataset:
+    run: r:v2 analysis/dataset_checks.R
+    needs:
+      - generate_dataset
+    outputs:
+      moderately_sensitive:
+        checks: output/dataset_check.csv
   
   generate_measures:
     run: >
