@@ -5,6 +5,7 @@ actions:
     run: >
       ehrql:v1 generate-dataset
       analysis/dataset_definition.py 
+      --test-data-file analysis/test_dataset_definition.py
       --dummy-tables dummy_tables
       --output output/dataset.arrow
     outputs:
