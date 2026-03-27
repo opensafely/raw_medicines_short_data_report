@@ -34,8 +34,16 @@ dataset.configure_dummy_data(
     population_size = 50
 )
 
+# get number of repeat prescriptions per patient which are active 
+dataset.active_repeats = (
+    repeat_medications.where(repeat_medications.end_date.is_after(index_date))
+    .repeat_medication_id.count_distinct_for_patient()
+)
+
 # restrict repeat medications table to after start date
-repeat_medications = repeat_medications.where(repeat_medications.date.is_on_or_after(index_date))
+repeat_medications = (
+    repeat_medications.where(repeat_medications.date.is_on_or_after(index_date))
+)
 
 # restrict medications table also
 medications = medications.where(medications.date.is_on_or_after(index_date))
@@ -61,18 +69,51 @@ dataset.repeats_rep_id_no = repeat_medications.repeat_medication_id.count_distin
 # get whether the number of unique ids differs per patient
 dataset.rep_ids_differ = dataset.meds_rep_id_no != dataset.repeats_rep_id_no
 
+# get information on missing data
+dataset.medications_missing_rep_id = (
+    medications.where(medications.repeat_medication_id.is_null())
+    .count_for_patient()
+)
+dataset.rep_missing_date = (
+    repeat_medications.where(repeat_medications.date.is_null())
+    .count_for_patient()
+)
+dataset.rep_missing_start_date = (
+    repeat_medications.where(repeat_medications.start_date.is_null())
+    .count_for_patient()
+)
+dataset.rep_missing_end_date = (
+    repeat_medications.where(repeat_medications.end_date.is_null())
+    .count_for_patient()
+)
+
 # get number of occasions start_date and consultation date are same per patient
 dataset.concordant_dates = (
-    repeat_medications.where(repeat_medications.date == repeat_medications.start_date)
+    repeat_medications
+    .where(repeat_medications.date.is_not_null() & repeat_medications.start_date.is_not_null())
+    .where(repeat_medications.date == repeat_medications.start_date)
     .date
     .count_distinct_for_patient()
 )
 
 # get number of occasions start_date and consultation date are different per patient
 dataset.discordant_dates = (
-    repeat_medications.where(repeat_medications.date != repeat_medications.start_date)
+    repeat_medications
+    .where(repeat_medications.date.is_not_null() & repeat_medications.start_date.is_not_null())
+    .where(repeat_medications.date != repeat_medications.start_date)
     .date
     .count_distinct_for_patient()
 )
 
-show(dataset)
+# get information about medication type
+# Count all medication status
+# This will add 6 x 28 = 168 new columns
+for status in range(29):
+    count_med_status_query = medications.where(
+        medications.medication_status.is_in([status])
+    ).count_for_patient()
+    dataset.add_column(f"medications_status_{status}", count_med_status_query)
+    count_rep_med_status_query = repeat_medications.where(
+        repeat_medications.medication_status.is_in([status])
+    ).count_for_patient()
+    dataset.add_column(f"repeats_status_{status}", count_rep_med_status_query)    

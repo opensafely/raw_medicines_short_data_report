@@ -7,7 +7,7 @@ library(tidyverse)
 df <- read_feather(here::here("output", "dataset.arrow"))
 
 # inspect data
-df_sum <- df %>%
+df_check <- df %>%
   summarise(
     av_meds = mean(meds_row_no),
     av_reps = mean(repeats_row_no),
@@ -15,8 +15,121 @@ df_sum <- df %>%
     av_reps_id = mean(repeats_rep_id_no),
     n_ids_differ = sum(rep_ids_differ),
     av_concord = mean(concordant_dates),
-    av_discord = mean(discordant_dates)
+    av_discord = mean(discordant_dates),
+    av_active_repeats = mean(active_repeats)
   )
 
 # save summary
-write_csv(df_sum, here::here("output", "dataset_check.csv"))
+write_csv(df_check, here::here("output", "dataset_check.csv"))
+
+# do some other checks
+df_miss <- df %>% 
+  summarise(
+    meds_rep_id = sum(medications_missing_rep_id),
+    rep_date = sum(rep_missing_date),
+    rep_start_date = sum(rep_missing_start_date),
+    rep_end_date = sum(rep_missing_end_date),
+  ) %>% 
+  pivot_longer(
+    cols = everything(),
+    names_to = "missing_type",
+    values_to = "total"
+  ) %>% 
+  mutate(
+    frac = total/nrow(df)
+  )
+
+# save summary
+write_csv(df_miss, here::here("output", "dataset_missing.csv"))
+
+# medication status
+df_status_med <- df %>% 
+  select(contains("medications_status")) %>% 
+  summarise(across(.cols = everything(), ~ sum(.x))) %>% 
+  pivot_longer(
+    cols = everything(),
+    names_to = "status_type",
+    names_prefix = "medications_status_",
+    values_to = "med_count"
+  ) %>% 
+  mutate(
+    "status" = case_when(
+      status_type == 0 ~ "Normal",
+      status_type == 4 ~ "Historical",
+      status_type == 5 ~ "Blue script",
+      status_type == 6 ~ "Private",
+      status_type == 7 ~ "Not in possession",
+      status_type == 8 ~ "Repeat dispensed",
+      status_type == 9 ~ "In possession",
+      status_type == 10 ~ "Dental",
+      status_type == 11 ~ "Hospital",
+      status_type == 12 ~ "Problem substance",
+      status_type == 13 ~ "From patient group direction",
+      status_type == 14 ~ "To take out",
+      status_type == 15 ~ "On admission",
+      status_type == 16 ~ "Regular medication",
+      status_type == 17 ~ "As required medication",
+      status_type == 18 ~ "Variable dose medication",
+      status_type == 19 ~ "Rate-controlled single regular",
+      status_type == 20 ~ "Only once",
+      status_type == 21 ~ "Outpatient",
+      status_type == 22 ~ "Rate-controlled multiple regular",
+      status_type == 23 ~ "Rate-controlled multiple only once",
+      status_type == 24 ~ "Rate-controlled single only once",
+      status_type == 25 ~ "Placeholder",
+      status_type == 26 ~ "Unconfirmed",
+      status_type == 27 ~ "Infusion",
+      status_type == 28 ~ "Reducing dose blue script",
+      TRUE ~ "Other"
+    ),
+    .after = 1
+  )
+
+# repeate medication status
+df_status_rep <- df %>% 
+  select(contains("repeats_status")) %>% 
+  summarise(across(.cols = everything(), ~ sum(.x))) %>% 
+  pivot_longer(
+    cols = everything(),
+    names_to = "status_type",
+    names_prefix = "repeats_status_",
+    values_to = "rep_count"
+  ) %>% 
+  mutate(
+    "status" = case_when(
+      status_type == 0 ~ "Normal",
+      status_type == 4 ~ "Historical",
+      status_type == 5 ~ "Blue script",
+      status_type == 6 ~ "Private",
+      status_type == 7 ~ "Not in possession",
+      status_type == 8 ~ "Repeat dispensed",
+      status_type == 9 ~ "In possession",
+      status_type == 10 ~ "Dental",
+      status_type == 11 ~ "Hospital",
+      status_type == 12 ~ "Problem substance",
+      status_type == 13 ~ "From patient group direction",
+      status_type == 14 ~ "To take out",
+      status_type == 15 ~ "On admission",
+      status_type == 16 ~ "Regular medication",
+      status_type == 17 ~ "As required medication",
+      status_type == 18 ~ "Variable dose medication",
+      status_type == 19 ~ "Rate-controlled single regular",
+      status_type == 20 ~ "Only once",
+      status_type == 21 ~ "Outpatient",
+      status_type == 22 ~ "Rate-controlled multiple regular",
+      status_type == 23 ~ "Rate-controlled multiple only once",
+      status_type == 24 ~ "Rate-controlled single only once",
+      status_type == 25 ~ "Placeholder",
+      status_type == 26 ~ "Unconfirmed",
+      status_type == 27 ~ "Infusion",
+      status_type == 28 ~ "Reducing dose blue script",
+      TRUE ~ "Other"
+    ),
+    .after = 1
+  )
+
+# combine
+df_status <- merge(df_status_med, df_status_rep)
+
+# save
+write_csv(df_status, here::here("output", "dataset_status.csv"))
