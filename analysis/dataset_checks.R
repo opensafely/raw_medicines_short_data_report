@@ -25,13 +25,14 @@ write_csv(df_check, here::here("output", "dataset_check.csv"))
 # do some other checks
 df_miss <- df %>% 
   summarise(
-    date = sum(rep_missing_date),
-    start_date = sum(rep_missing_start_date),
-    end_date = sum(rep_missing_end_date),
+    meds_rep_id = sum(medications_missing_rep_id),
+    rep_date = sum(rep_missing_date),
+    rep_start_date = sum(rep_missing_start_date),
+    rep_end_date = sum(rep_missing_end_date),
   ) %>% 
   pivot_longer(
     cols = everything(),
-    names_to = "missing_date_type",
+    names_to = "missing_type",
     values_to = "total"
   ) %>% 
   mutate(

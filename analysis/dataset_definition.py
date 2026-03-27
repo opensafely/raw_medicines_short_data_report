@@ -69,7 +69,11 @@ dataset.repeats_rep_id_no = repeat_medications.repeat_medication_id.count_distin
 # get whether the number of unique ids differs per patient
 dataset.rep_ids_differ = dataset.meds_rep_id_no != dataset.repeats_rep_id_no
 
-# get information on missing dates
+# get information on missing data
+dataset.medications_missing_rep_id = (
+    medications.where(medications.repeat_medication_id.is_null())
+    .count_for_patient()
+)
 dataset.rep_missing_date = (
     repeat_medications.where(repeat_medications.date.is_null())
     .count_for_patient()
