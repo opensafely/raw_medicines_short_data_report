@@ -1,4 +1,4 @@
-version: '4.0'
+version: '5.0'
 
 actions:
   generate_dataset:
@@ -19,6 +19,8 @@ actions:
     outputs:
       moderately_sensitive:
         checks: output/dataset_check.csv
+        missing: output/dataset_missing.csv
+        status: output/dataset_status.csv
   
   generate_measures:
     run: >
