@@ -16,6 +16,8 @@ df_check <- df %>%
     n_ids_differ = sum(rep_ids_differ),
     av_concord = mean(concordant_dates),
     av_discord = mean(discordant_dates),
+    av_start_first = mean(start_date_first),
+    av_start_second = mean(start_date_second),
     av_active_repeats = mean(active_repeats)
   )
 

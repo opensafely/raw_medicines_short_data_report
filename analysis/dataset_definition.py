@@ -116,6 +116,20 @@ dataset.discordant_dates = (
     .count_distinct_for_patient()
 )
 
+# get number of occurrences of start_date before date and start_date after date
+dataset.start_date_first = (
+    repeat_medications
+    .where(repeat_medications.date.is_on_or_after(index_date))
+    .where(repeat_medications.date > repeat_medications.start_date)
+    .count_for_patient()
+)
+dataset.start_date_second = (
+    repeat_medications
+    .where(repeat_medications.date.is_on_or_after(index_date))
+    .where(repeat_medications.date < repeat_medications.start_date)
+    .count_for_patient()
+)
+
 # get information about medication type
 # Count all medication status
 # This will add 6 x 28 = 168 new columns
