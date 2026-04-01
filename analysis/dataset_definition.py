@@ -1,7 +1,8 @@
 # import ehrql libraries
-from ehrql import create_dataset, show
+from ehrql import create_dataset, days
 from ehrql.tables.tpp import patients, practice_registrations, ons_deaths
 from ehrql.tables.raw.tpp import repeat_medications, medications
+from datetime import date
 
 # get codelists
 import codelists
@@ -40,57 +41,67 @@ dataset.active_repeats = (
     .repeat_medication_id.count_distinct_for_patient()
 )
 
-# restrict repeat medications table to after start date
-repeat_medications = (
-    repeat_medications.where(repeat_medications.date.is_on_or_after(index_date))
-)
-
-# restrict medications table also
-medications = medications.where(medications.date.is_on_or_after(index_date))
-
 # get first row for each patient
 medications_rows = (
-    medications.sort_by(medications.date)
+    medications
+    .where(medications.date.is_on_or_after(index_date))
+    .sort_by(medications.date)
     .first_for_patient()
 )
 
 # get number of rows for meds table
-dataset.meds_row_no = medications.count_for_patient()
+dataset.meds_row_no = (
+    medications.where(medications.date.is_on_or_after(index_date))
+    .count_for_patient()
+)
 
 # get number of unique repeat ids
-dataset.meds_rep_id_no = medications.repeat_medication_id.count_distinct_for_patient()
+dataset.meds_rep_id_no = (
+    medications.where(medications.date.is_on_or_after(index_date))
+    .repeat_medication_id.count_distinct_for_patient()
+)
 
 # get number of rows for repeat meds table
-dataset.repeats_row_no = repeat_medications.count_for_patient()
+dataset.repeats_row_no = (
+    repeat_medications.where(repeat_medications.date.is_on_or_after(index_date))
+    .count_for_patient()
+)
 
 # get number of unique repeat ids
-dataset.repeats_rep_id_no = repeat_medications.repeat_medication_id.count_distinct_for_patient()
+dataset.repeats_rep_id_no = (
+    repeat_medications.where(repeat_medications.date.is_on_or_after(index_date))
+    .repeat_medication_id.count_distinct_for_patient()
+)
 
 # get whether the number of unique ids differs per patient
 dataset.rep_ids_differ = dataset.meds_rep_id_no != dataset.repeats_rep_id_no
 
 # get information on missing data
 dataset.medications_missing_rep_id = (
-    medications.where(medications.repeat_medication_id.is_null())
+    medications.where(medications.date.is_on_or_after(index_date))
+    .where(medications.repeat_medication_id.is_null())
     .count_for_patient()
 )
 dataset.rep_missing_date = (
-    repeat_medications.where(repeat_medications.date.is_null())
+    repeat_medications.where(repeat_medications.date.is_on_or_after(index_date))
+    .where(repeat_medications.date.is_after(date.today()))
     .count_for_patient()
 )
 dataset.rep_missing_start_date = (
-    repeat_medications.where(repeat_medications.start_date.is_null())
+    repeat_medications.where(repeat_medications.date.is_on_or_after(index_date))
+    .where(~repeat_medications.start_date.is_between_but_not_on(index_date-days(1), "9999-12-31"))
     .count_for_patient()
 )
 dataset.rep_missing_end_date = (
-    repeat_medications.where(repeat_medications.end_date.is_null())
+    repeat_medications.where(repeat_medications.date.is_on_or_after(index_date))
+    .where(repeat_medications.end_date.is_after(date.today()))
     .count_for_patient()
 )
 
 # get number of occasions start_date and consultation date are same per patient
 dataset.concordant_dates = (
     repeat_medications
-    .where(repeat_medications.date.is_not_null() & repeat_medications.start_date.is_not_null())
+    .where(repeat_medications.date.is_on_or_after(index_date))
     .where(repeat_medications.date == repeat_medications.start_date)
     .date
     .count_distinct_for_patient()
@@ -99,7 +110,7 @@ dataset.concordant_dates = (
 # get number of occasions start_date and consultation date are different per patient
 dataset.discordant_dates = (
     repeat_medications
-    .where(repeat_medications.date.is_not_null() & repeat_medications.start_date.is_not_null())
+    .where(repeat_medications.date.is_on_or_after(index_date))
     .where(repeat_medications.date != repeat_medications.start_date)
     .date
     .count_distinct_for_patient()
@@ -109,11 +120,15 @@ dataset.discordant_dates = (
 # Count all medication status
 # This will add 6 x 28 = 168 new columns
 for status in range(29):
-    count_med_status_query = medications.where(
-        medications.medication_status.is_in([status])
-    ).count_for_patient()
+    count_med_status_query = (
+        medications.where(medications.date.is_on_or_after(index_date))
+        .where(medications.medication_status.is_in([status]))
+        .count_for_patient()
+    )
     dataset.add_column(f"medications_status_{status}", count_med_status_query)
-    count_rep_med_status_query = repeat_medications.where(
-        repeat_medications.medication_status.is_in([status])
-    ).count_for_patient()
+    count_rep_med_status_query = (
+        repeat_medications.where(repeat_medications.date.is_on_or_after(index_date))
+        .where(repeat_medications.medication_status.is_in([status]))
+        .count_for_patient()
+    )
     dataset.add_column(f"repeats_status_{status}", count_rep_med_status_query)    
