@@ -2,6 +2,7 @@
 library(here)
 library(arrow)
 library(tidyverse)
+library(ggplot2)
 
 # import dataset
 df <- read_feather(here::here("output", "dataset.arrow"))
@@ -9,13 +10,18 @@ df <- read_feather(here::here("output", "dataset.arrow"))
 # inspect data
 df_check <- df %>%
   summarise(
+    total = n_distinct(patient_id),
     av_meds = mean(meds_row_no),
     av_reps = mean(repeats_row_no),
     av_meds_id = mean(meds_rep_id_no),
+    av_meds_consult_id = mean(meds_consult_id_no),
     av_reps_id = mean(repeats_rep_id_no),
+    av_reps_consult_id = mean(repeats_consult_id_no),
     n_ids_differ = sum(rep_ids_differ),
     av_concord = mean(concordant_dates),
+    total_conord = sum(concordant_dates),
     av_discord = mean(discordant_dates),
+    total_discord = sum(discordant_dates),
     av_start_first = mean(start_date_first),
     av_start_second = mean(start_date_second),
     av_active_repeats = mean(active_repeats)
@@ -135,3 +141,22 @@ df_status <- merge(df_status_med, df_status_rep)
 
 # save
 write_csv(df_status, here::here("output", "dataset_status.csv"))
+
+# sample date distributions
+df_dates <- df %>% 
+  select(c(meds_sample_date, repeats_sample_date, 
+           repeats_sample_start_date, repeats_sample_end_date))
+
+# plot the date distributions
+med_date_plot <- df_dates %>% 
+  ggplot() + geom_histogram(aes(x = meds_sample_date))
+ggsave(here::here("output", "sample_med_date_plot.png"))
+rep_date_plot <- df_dates %>% 
+  ggplot() + geom_histogram((aes(x = repeats_sample_date)))
+ggsave(here::here("output", "sample_rep_date_plot.png"))
+rep_start_date_plot <- df_dates %>% 
+  ggplot() + geom_histogram((aes(x = repeats_sample_start_date)))
+ggsave(here::here("output", "sample_rep_start_date_plot.png"))
+rep_end_date_plot <- df_dates %>% 
+  ggplot() + geom_histogram((aes(x = repeats_sample_end_date)))
+ggsave(here::here("output", "sample_rep_end_date_plot.png"))

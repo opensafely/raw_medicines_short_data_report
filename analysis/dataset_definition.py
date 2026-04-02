@@ -48,6 +48,26 @@ medications_rows = (
     .sort_by(medications.date)
     .first_for_patient()
 )
+repeat_rows = (
+    repeat_medications
+    .where(repeat_medications.date.is_on_or_after(index_date))
+    .sort_by(repeat_medications.date)
+    .first_for_patient()
+)
+
+# get date distributions
+dataset.meds_sample_date = (
+    medications_rows.date
+)
+dataset.repeats_sample_date = (
+    repeat_rows.date
+)
+dataset.repeats_sample_start_date = (
+    repeat_rows.start_date
+)
+dataset.repeats_sample_end_date = (
+    repeat_rows.end_date
+)
 
 # get number of rows for meds table
 dataset.meds_row_no = (
@@ -58,7 +78,14 @@ dataset.meds_row_no = (
 # get number of unique repeat ids
 dataset.meds_rep_id_no = (
     medications.where(medications.date.is_on_or_after(index_date))
+    .where(medications.repeat_medication_id != 0)
     .repeat_medication_id.count_distinct_for_patient()
+)
+
+# get number of unique consultation ids
+dataset.meds_consult_id_no = (
+    medications.where(medications.date.is_on_or_after(index_date))
+    .consultation_id.count_distinct_for_patient() 
 )
 
 # get number of rows for repeat meds table
@@ -73,13 +100,19 @@ dataset.repeats_rep_id_no = (
     .repeat_medication_id.count_distinct_for_patient()
 )
 
+# get number of unique consultation ids
+dataset.repeats_consult_id_no = (
+    repeat_medications.where(repeat_medications.date.is_on_or_after(index_date))
+    .consultation_id.count_distinct_for_patient()
+)
+
 # get whether the number of unique ids differs per patient
 dataset.rep_ids_differ = dataset.meds_rep_id_no != dataset.repeats_rep_id_no
 
 # get information on missing data
 dataset.medications_missing_rep_id = (
     medications.where(medications.date.is_on_or_after(index_date))
-    .where(medications.repeat_medication_id.is_null())
+    .where(medications.repeat_medication_id == 0)
     .count_for_patient()
 )
 dataset.rep_missing_date = (
@@ -120,12 +153,14 @@ dataset.discordant_dates = (
 dataset.start_date_first = (
     repeat_medications
     .where(repeat_medications.date.is_on_or_after(index_date))
+    .where(repeat_medications.start_date.is_after("1900-01-01"))
     .where(repeat_medications.date > repeat_medications.start_date)
     .count_for_patient()
 )
 dataset.start_date_second = (
     repeat_medications
     .where(repeat_medications.date.is_on_or_after(index_date))
+    .where(repeat_medications.start_date.is_on_or_between(index_date, "9999-12-31"))
     .where(repeat_medications.date < repeat_medications.start_date)
     .count_for_patient()
 )

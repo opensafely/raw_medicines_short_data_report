@@ -29,50 +29,58 @@ test_data = {
             {
                 "date": date(2025, 2, 1),
                 "dmd_code": "10983311000001107",
-                "repeat_medication_id": None,
-                "medication_status": 0
+                "repeat_medication_id": 0,
+                "medication_status": 0,
+                "consultation_id": 45
             },
             {
                 "date": date(2025, 4, 1),
                 "dmd_code" : "3214311000001108",
                 "repeat_medication_id": 3,
-                "medication_status": 0
+                "medication_status": 0,
+                "consultation_id": 454
             },
             {
                 "date": date(2025, 5, 1),
                 "dmd_code" : "3214311000001108",
                 "repeat_medication_id": 3,
-                "medication_status": 0
+                "medication_status": 0,
+                "consultation_id": 4519
             },
             {
                 "date": date(2025, 6, 6),
                 "dmd_code" : "3214311000001108",
                 "repeat_medication_id": 8,
-                "medication_status": 0
+                "medication_status": 0,
+                "consultation_id": 4522
             },
             {
                 "date": date(2025, 8, 12),
                 "dmd_code" : "3214311000001108",
                 "repeat_medication_id": 8,
-                "medication_status": 0
+                "medication_status": 0,
+                "consultation_id": 4
             },
             {
                 "date": date(2025, 10, 1),
                 "dmd_code" : "3214311000001108",
                 "repeat_medication_id": 8,
-                "medication_status": 0
+                "medication_status": 0,
+                "consultation_id": 45092
             },
             {
                 "date": date(2025, 12, 1),
                 "dmd_code" : "3214311000001108",
                 "repeat_medication_id": 8,
-                "medication_status": 0
+                "medication_status": 0,
+                "consultation_id": 45
             },
             {
                 "date": date(2026, 1, 15),
                 "dmd_code" : "3214311000001108",
                 "repeat_medication_id": 8,
-                "medication_status": 0
+                "medication_status": 0,
+                "consultation_id": 45
             }
         ],
         "repeat_medications_raw": [
@@ -82,7 +90,8 @@ test_data = {
                 "dmd_code" : "3214311000001108",
                 "repeat_medication_id": 3,
                 "medication_status": 0,
-                "end_date": date(2026, 3, 5)
+                "end_date": date(2026, 3, 5),
+                "consultation_id": 459
             },
             {
                 "date": date(2025, 5, 1),
@@ -90,7 +99,8 @@ test_data = {
                 "dmd_code" : "3214311000001108",
                 "repeat_medication_id": 3,
                 "medication_status": 0,
-                "end_date": date(2026, 8, 5)
+                "end_date": date(2026, 8, 5),
+                "consultation_id": 492
             },
             {
                 "date": date(2025, 6, 6),
@@ -98,7 +108,8 @@ test_data = {
                 "dmd_code" : "3214311000001108",
                 "repeat_medication_id": 8,
                 "medication_status": 0,
-                "end_date": date(2025, 12, 5)
+                "end_date": date(2025, 12, 5),
+                "consultation_id": 45249
             },
             {
                 "date": date(2025, 8, 12),
@@ -106,7 +117,8 @@ test_data = {
                 "dmd_code" : "3214311000001108",
                 "repeat_medication_id": 8,
                 "medication_status": 0,
-                "end_date": date(2025, 11, 1)
+                "end_date": date(2025, 11, 1),
+                "consultation_id": 4512345
             },
             {
                 "date": date(2025, 10, 1),
@@ -114,7 +126,8 @@ test_data = {
                 "dmd_code" : "3214311000001108",
                 "repeat_medication_id": 8,
                 "medication_status": 0,
-                "end_date": date(2026, 1, 1)
+                "end_date": date(2026, 1, 1),
+                "consultation_id": 45234567
             },
             {
                 "date": date(2025, 12, 1),
@@ -122,7 +135,8 @@ test_data = {
                 "dmd_code" : "3214311000001108",
                 "repeat_medication_id": 8,
                 "medication_status": 0,
-                "end_date": date(2026, 8, 1)
+                "end_date": date(2026, 8, 1),
+                "consultation_id": 5
             },
             {
                 "date": date(2026, 1, 15),
@@ -130,16 +144,23 @@ test_data = {
                 "dmd_code" : "3214311000001108",
                 "repeat_medication_id": 8,
                 "medication_status": 0,
-                "end_date": date(2026, 2, 5)
+                "end_date": date(2026, 2, 5),
+                "consultation_id": 45098765
             }
         ],
         "expected_in_population": True,
         "expected_columns": {
             "active_repeats": 2,
+            "meds_sample_date": date(2025, 2, 1),
+            "repeats_sample_date": date(2025, 4, 1),
+            "repeats_sample_start_date": date(2025, 4, 1),
+            "repeats_sample_end_date": date(2026, 3, 5),
             "meds_row_no": 8,
             "meds_rep_id_no": 2,
+            "meds_consult_id_no": 6,
             "repeats_row_no": 7,
             "repeats_rep_id_no": 2,
+            "repeats_consult_id_no": 7,
             "rep_ids_differ": False,
             "concordant_dates": 5,
             "discordant_dates": 2,
