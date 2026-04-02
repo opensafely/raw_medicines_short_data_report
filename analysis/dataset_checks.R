@@ -160,7 +160,7 @@ df_dates_outliers <- df_dates %>%
   summarise(across(everything(), ~ nrow(.x)))
 
 # save
-write_csv(df_status, here::here("output", "dataset_date_outliers.csv"))
+write_csv(df_dates_outliers, here::here("output", "dataset_date_outliers.csv"))
 
 sapply(df_dates, class)
 
