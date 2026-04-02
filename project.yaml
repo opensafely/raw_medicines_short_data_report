@@ -22,6 +22,7 @@ actions:
         checks: output/dataset_check.csv
         missing: output/dataset_missing.csv
         status: output/dataset_status.csv
+        dates: output/dataset_date_outliers.csv
         plots: output/sample_*.png
   
   generate_measures:

@@ -153,10 +153,20 @@ write_csv(df_status, here::here("output", "dataset_status.csv"))
 # sample date distributions
 df_dates <- df %>% 
   select(c(meds_sample_date, repeats_sample_date, 
-           repeats_sample_start_date, repeats_sample_end_date)) %>% 
-  mutate(across(.cols = everything(), ~ymd(.x)))
+           repeats_sample_start_date, repeats_sample_end_date))
+
+df_dates_outliers <- df_dates %>% 
+  filter(if_any(.cols = everything(), ~ .x == as.Date("9999-12-31"))) %>% 
+  summarise(across(everything(), ~ nrow(.x)))
+
+# save
+write_csv(df_status, here::here("output", "dataset_date_outliers.csv"))
+
+sapply(df_dates, class)
 
 # plot the date distributions
+df_dates <- df_dates %>% 
+  filter(if_any(.cols = everything(), ~ .x < as.Date("9999-12-31")))
 med_date_plot <- df_dates %>% 
   ggplot() + geom_histogram(aes(x = meds_sample_date))
 ggsave(here::here("output", "sample_med_date_plot.png"))
