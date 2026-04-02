@@ -3,6 +3,7 @@ library(here)
 library(arrow)
 library(tidyverse)
 library(ggplot2)
+library(lubridate)
 
 # import dataset
 df <- read_feather(here::here("output", "dataset.arrow"))
@@ -145,7 +146,8 @@ write_csv(df_status, here::here("output", "dataset_status.csv"))
 # sample date distributions
 df_dates <- df %>% 
   select(c(meds_sample_date, repeats_sample_date, 
-           repeats_sample_start_date, repeats_sample_end_date))
+           repeats_sample_start_date, repeats_sample_end_date)) %>% 
+  mutate(across(.cols = everything(), ~ymd(.x)))
 
 # plot the date distributions
 med_date_plot <- df_dates %>% 
