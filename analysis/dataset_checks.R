@@ -8,6 +8,13 @@ library(lubridate)
 # import dataset
 df <- read_feather(here::here("output", "dataset.arrow"))
 
+# skim the data
+capture.output(
+  skimr::skim_without_charts(df),
+  file = here::here("output", "dataset_skim.txt"),
+  split=FALSE
+)
+
 # inspect data
 df_check <- df %>%
   summarise(

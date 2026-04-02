@@ -18,6 +18,7 @@ actions:
       - generate_dataset
     outputs:
       moderately_sensitive:
+        skim: output/dataset_skim.txt
         checks: output/dataset_check.csv
         missing: output/dataset_missing.csv
         status: output/dataset_status.csv
