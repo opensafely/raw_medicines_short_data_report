@@ -157,7 +157,7 @@ df_dates <- df %>%
 
 df_dates_outliers <- df_dates %>% 
   filter(if_any(.cols = everything(), ~ .x == as.Date("9999-12-31"))) %>% 
-  summarise(across(everything(), ~ nrow(.x)))
+  summarise(across(everything(), ~ sum(.x == as.Date("9999-12-31"), na.rm = TRUE)))
 
 # save
 write_csv(df_dates_outliers, here::here("output", "dataset_date_outliers.csv"))
@@ -166,20 +166,20 @@ sapply(df_dates, class)
 
 # plot the date distributions
 df_dates <- df_dates %>% 
-  filter(if_any(.cols = everything(), ~ .x < as.Date("9999-12-31")))
+  filter(if_any(.cols = everything(), ~ .x != as.Date("9999-12-31")))
 med_date_plot <- df_dates %>% 
   ggplot() + geom_histogram(aes(x = meds_sample_date)) +
-  scale_x_date(date_breaks = "1 year", date_labels = "%Y-%m")
+  scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_med_date_plot.png"))
 rep_date_plot <- df_dates %>% 
   ggplot() + geom_histogram((aes(x = repeats_sample_date))) +
-  scale_x_date(date_breaks = "1 year", date_labels = "%Y-%m")
+  scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_rep_date_plot.png"))
 rep_start_date_plot <- df_dates %>% 
   ggplot() + geom_histogram((aes(x = repeats_sample_start_date))) +
-  scale_x_date(date_breaks = "1 year", date_labels = "%Y-%m")
+  scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_rep_start_date_plot.png"))
 rep_end_date_plot <- df_dates %>% 
   ggplot() + geom_histogram((aes(x = repeats_sample_end_date))) +
-  scale_x_date(date_breaks = "1 year", date_labels = "%Y-%m")
+  scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_rep_end_date_plot.png"))
