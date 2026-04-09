@@ -29,7 +29,7 @@ test_data = {
             {
                 "date": date(2025, 2, 1),
                 "dmd_code": "10983311000001107",
-                "repeat_medication_id": 0,
+                "repeat_medication_id": -1,
                 "medication_status": 0,
                 "consultation_id": 45
             },
