@@ -35,6 +35,10 @@ dataset.configure_dummy_data(
     population_size = 50
 )
 
+# remove private prescriptions
+medications = medications.where(medications.medication_status != 6)
+repeat_medications = repeat_medications.where(repeat_medications.medication_status != 6)
+
 # get number of repeat prescriptions per patient which are active 
 dataset.active_repeats = (
     repeat_medications.where(repeat_medications.end_date.is_after(index_date))
@@ -78,7 +82,7 @@ dataset.meds_row_no = (
 # get number of unique repeat ids
 dataset.meds_rep_id_no = (
     medications.where(medications.date.is_on_or_after(index_date))
-    .where(medications.repeat_medication_id != 0)
+    .where(medications.repeat_medication_id != -1)
     .repeat_medication_id.count_distinct_for_patient()
 )
 
