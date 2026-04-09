@@ -176,8 +176,8 @@ rep_date_plot <- df_dates %>%
   scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_rep_date_plot.png"))
 rep_start_date_plot <- df_dates %>% 
-  ggplot() + geom_histogram((aes(x = repeats_sample_start_date))) +
-  scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
+  ggplot() + geom_histogram((aes(x = repeats_sample_start_date))) #+
+  #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_rep_start_date_plot.png"))
 rep_end_date_plot <- df_dates %>% 
   ggplot() + geom_histogram((aes(x = repeats_sample_end_date))) +
