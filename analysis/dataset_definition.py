@@ -23,11 +23,18 @@ death_date = ons_deaths.date.when_null_then(patients.date_of_death)
 was_alive = death_date.is_after(index_date) | death_date.is_null()
 correct_age = patients.age_on(index_date) <= 110
 
+# filter to patients with at least one medication record in relevant period
+meds_exist = (
+    medications.where(medications.date.is_on_or_after(index_date))
+    .exists_for_patient()
+)
+
 # define population
 dataset.define_population(
     has_registration & 
     was_alive &
-    correct_age
+    correct_age &
+    meds_exist
 )
 
 # configure the dummy data
