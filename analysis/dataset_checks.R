@@ -160,16 +160,13 @@ df_dates <- df %>%
 df_dates_outliers <- bind_rows(
   missing_identifier = df_dates %>% 
     filter(if_any(.cols = everything(), ~ .x == as.Date("9999-12-31"))) %>% 
-    summarise(across(everything(), ~ sum(.x, na.rm = TRUE))),
+    summarise(across(everything(), ~ sum(.x == as.Date("9999-12-31"), na.rm = TRUE))),
   prior_to_index = df_dates %>% 
     filter(if_any(.cols = everything(), ~ .x < as.Date("2025-01-01"))) %>% 
-    summarise(across(everything(), ~ sum(.x, na.rm = TRUE))),
+    summarise(across(everything(), ~ sum(.x < as.Date("2025-01-01"), na.rm = TRUE))),
   long_post_index = df_dates %>% 
-    filter(
-      if_any(.cols = everything(),
-             ~ .x > as.Date("2030-01-01") & .x != as.Date("9999-12-31"))
-      ) %>% 
-    summarise(across(everything(), ~ sum(.x, na.rm = TRUE))),
+    filter(if_any(.cols = everything(), ~ .x > as.Date("2030-01-01") & .x != as.Date("9999-12-31"))) %>% 
+    summarise(across(everything(), ~ sum(.x > as.Date("2030-01-01") & .x != as.Date("9999-12-31"), na.rm = TRUE))),
   .id = "outlier_type"
 )
 
