@@ -160,10 +160,16 @@ df_dates <- df %>%
 df_dates_outliers <- bind_rows(
   missing_identifier = df_dates %>% 
     filter(if_any(.cols = everything(), ~ .x == as.Date("9999-12-31"))) %>% 
-    summarise(across(everything(), ~ sum(.x == as.Date("9999-12-31"), na.rm = TRUE))),
+    summarise(across(everything(), ~ sum(.x, na.rm = TRUE))),
   prior_to_index = df_dates %>% 
     filter(if_any(.cols = everything(), ~ .x < as.Date("2025-01-01"))) %>% 
-    summarise(across(everything(), ~ sum(.x < as.Date("2025-01-01"), na.rm = TRUE))),
+    summarise(across(everything(), ~ sum(.x, na.rm = TRUE))),
+  long_post_index = df_dates %>% 
+    filter(
+      if_any(.cols = everything(),
+             ~ .x > as.Date("2030-01-01") & .x != as.Date("9999-12-31"))
+      ) %>% 
+    summarise(across(everything(), ~ sum(.x, na.rm = TRUE))),
   .id = "outlier_type"
 )
 
@@ -174,20 +180,21 @@ sapply(df_dates, class)
 
 # plot the date distributions
 df_dates <- df_dates %>% 
+  mutate(across(everything(), ~ as.Date(.x))) %>% 
   filter(if_any(.cols = everything(), ~ .x != as.Date("9999-12-31") & .x > as.Date("2025-01-01")))
 med_date_plot <- df_dates %>% 
-  ggplot() + geom_histogram(aes(x = meds_sample_date), binwidth = 365) #+
-  #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
+  ggplot() + geom_histogram(aes(x = meds_sample_date), binwidth = 365) +
+  scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_med_date_plot.png"))
 rep_date_plot <- df_dates %>% 
-  ggplot() + geom_histogram(aes(x = repeats_sample_date), binwidth = 365) #+
-  #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
+  ggplot() + geom_histogram(aes(x = repeats_sample_date), binwidth = 365) +
+  scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_rep_date_plot.png"))
 rep_start_date_plot <- df_dates %>% 
-  ggplot() + geom_histogram(aes(x = repeats_sample_start_date), binwidth = 365) #+
-  #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
+  ggplot() + geom_histogram(aes(x = repeats_sample_start_date), binwidth = 365) +
+  scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_rep_start_date_plot.png"))
 rep_end_date_plot <- df_dates %>% 
-  ggplot() + geom_histogram(aes(x = repeats_sample_end_date), binwidth = 365) #+
-  #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
+  ggplot() + geom_histogram(aes(x = repeats_sample_end_date), binwidth = 365) +
+  scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_rep_end_date_plot.png"))
