@@ -43,7 +43,10 @@ dataset.configure_dummy_data(
 )
 
 # remove private prescriptions
-medications = medications.where(medications.medication_status != 6)
+medications = (
+    medications.where(medications.medication_status != 6)
+    .where(medications.repeat_medication_id.is_in(repeat_medications.repeat_medication_id))
+)
 repeat_medications = repeat_medications.where(repeat_medications.medication_status != 6)
 
 # get number of repeat prescriptions per patient which are active 
@@ -206,3 +209,21 @@ dataset.has_matching_repeat_med = (case(
     .then(True),
     otherwise = False)
 )
+
+# check number of rows in meds table with repeat id non missing
+meds_repeats_no = (
+    medications.where(medications.date.is_on_or_after(index_date))
+    .where(medications.repeat_medication_id != -1)
+    .repeat_medication_id
+    .count_distinct_for_patient()
+)
+repeat_rows_no = (
+    repeat_medications.where(repeat_medications.repeat_medication_id != -1)
+    .where(repeat_medications.end_date.is_after(index_date))
+    .count_for_patient()
+)
+dataset.repeats_matching = (case(
+    when(meds_repeats_no == repeat_rows_no).then(True),
+    otherwise = False)
+)
+show(dataset.repeats_matching)
