@@ -1,5 +1,5 @@
 # import ehrql libraries
-from ehrql import create_dataset, days
+from ehrql import create_dataset, days, show, case, when
 from ehrql.tables.tpp import patients, practice_registrations, ons_deaths
 from ehrql.tables.raw.tpp import repeat_medications, medications
 from datetime import date
@@ -192,3 +192,17 @@ for status in range(29):
         .count_for_patient()
     )
     dataset.add_column(f"repeats_status_{status}", count_rep_med_status_query)    
+
+## check for repeat ids which match across tables
+#dataset.has_matching_repeat_med = (
+#    .where(medications.repeat_medication_id.is_in(repeat_medications.repeat_medication_id))
+#    medications.where(medications.date.is_on_or_after(index_date))
+#    .where(medications.dmd_code == repeat_medications.dmd_code)
+#    .exists_for_patient()
+#)
+#show(dataset.has_matching_repeat_med)
+dataset.has_matching_repeat_med = (case(
+    when(medications_rows.repeat_medication_id == repeat_rows.repeat_medication_id)
+    .then(True),
+    otherwise = False)
+)
