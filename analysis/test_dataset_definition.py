@@ -150,12 +150,15 @@ test_data = {
         ],
         "expected_in_population": True,
         "expected_columns": {
+            "patient_age": 42,
+            "patient_sex": None,
+            "age_cat": "25-54",
             "active_repeats": 2,
-            "meds_sample_date": date(2025, 2, 1),
+            "meds_sample_date": date(2025, 4, 1),
             "repeats_sample_date": date(2025, 4, 1),
             "repeats_sample_start_date": date(2025, 4, 1),
             "repeats_sample_end_date": date(2026, 3, 5),
-            "meds_row_no": 8,
+            "meds_row_no": 7,
             "meds_rep_id_no": 2,
             "meds_consult_id_no": 6,
             "repeats_row_no": 7,
@@ -164,7 +167,11 @@ test_data = {
             "rep_ids_differ": False,
             "concordant_dates": 5,
             "discordant_dates": 2,
-            "medications_status_0": 8,
+            "start_date_first": 0,
+            "start_date_second": 2,
+            "has_matching_repeat_med": True,
+            "repeats_matching": False,
+            "medications_status_0": 7,
             "medications_status_1": 0,
             "medications_status_2": 0,
             "medications_status_3": 0,
@@ -221,7 +228,11 @@ test_data = {
             "repeats_status_25": 0,
             "repeats_status_26": 0,
             "repeats_status_27": 0,
-            "repeats_status_28": 0
+            "repeats_status_28": 0,
+            "statin_prescriptions": 0,
+            "statin_repeats": False,
+            "codeine_prescriptions": 0,
+            "codeine_repeats": False
         }
     },
 

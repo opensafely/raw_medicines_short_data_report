@@ -42,6 +42,19 @@ dataset.configure_dummy_data(
     population_size = 50
 )
 
+# add basic patient demographics
+dataset.patient_age = patients.age_on(index_date)
+dataset.patient_sex = patients.sex
+
+# add age groups
+dataset.age_cat = (case(
+    when(patients.age_on(index_date) < 25).then("<25"),
+    when((patients.age_on(index_date) >= 25) & (patients.age_on(index_date) < 55)).then("25-54"),
+    when((patients.age_on(index_date) >= 55) & (patients.age_on(index_date) < 65)).then("55-64"),
+    when(patients.age_on(index_date) >= 65).then("65+"),
+    otherwise = "Unknown")
+)
+
 # remove private prescriptions
 medications = (
     medications.where(medications.medication_status != 6)
@@ -183,18 +196,28 @@ dataset.start_date_second = (
 # Count all medication status
 # This will add 6 x 28 = 168 new columns
 for status in range(29):
+    # within the medications table
     count_med_status_query = (
         medications.where(medications.date.is_on_or_after(index_date))
         .where(medications.medication_status.is_in([status]))
         .count_for_patient()
     )
     dataset.add_column(f"medications_status_{status}", count_med_status_query)
+    # within the repeat medications table
     count_rep_med_status_query = (
         repeat_medications.where(repeat_medications.date.is_on_or_after(index_date))
         .where(repeat_medications.medication_status.is_in([status]))
         .count_for_patient()
     )
-    dataset.add_column(f"repeats_status_{status}", count_rep_med_status_query)    
+    dataset.add_column(f"repeats_status_{status}", count_rep_med_status_query) 
+    # within the medications table, but only for rows with a non-missing repeat medication id
+    count_med_status_query_reps = (
+        medications.where(medications.date.is_on_or_after(index_date))
+        .where(medications.repeat_medication_id != -1)
+        .where(medications.medication_status.is_in([status]))
+        .count_for_patient()
+    )   
+    dataset.add_column(f"medications_status_{status}_with_rep_id", count_med_status_query_reps)
 
 ## check for repeat ids which match across tables
 #dataset.has_matching_repeat_med = (
@@ -226,4 +249,28 @@ dataset.repeats_matching = (case(
     when(meds_repeats_no == repeat_rows_no).then(True),
     otherwise = False)
 )
-show(dataset.repeats_matching)
+
+## queries looking at specific medications of interest
+
+# we expect statins to be on repeat
+dataset.statin_prescriptions = (
+    medications.where(medications.date.is_on_or_after(index_date))
+    .where(medications.dmd_code.is_in(codelists.statins))
+    .count_for_patient()
+)
+dataset.statin_repeats = (
+    repeat_medications.where(repeat_medications.date.is_on_or_after(index_date))
+    .where(repeat_medications.dmd_code.is_in(codelists.statins))
+    .exists_for_patient()
+)
+# whereas we don't expect codeine to be on repeat
+dataset.codeine_prescriptions = (
+    medications.where(medications.date.is_on_or_after(index_date))
+    .where(medications.dmd_code.is_in(codelists.codeine))
+    .count_for_patient()
+)
+dataset.codeine_repeats = (
+    repeat_medications.where(repeat_medications.date.is_on_or_after(index_date))
+    .where(repeat_medications.dmd_code.is_in(codelists.codeine))
+    .exists_for_patient()
+)
