@@ -16,9 +16,10 @@ has_registration = practice_registrations.for_patient_on(
 # require patient to be alive/dead: use ONS record if present, otherwise use GP record
 death_date = ons_deaths.date.when_null_then(patients.date_of_death)
 was_alive = death_date.is_after(INTERVAL.start_date) | death_date.is_null()
+correct_age = patients.age_on(INTERVAL.start_date) <= 110
 
 # define the interevals to be used for the measures
-intervals_years = years(2).starting_on(index_date)
+intervals_months = months(1).starting_on(index_date)
 
 # create ehrQL generated dummy measures
 measures = create_measures()
@@ -31,16 +32,11 @@ meds_no_int = (
     medications.where(medications.date.is_during(INTERVAL))
     .count_for_patient()
 )
-meds_no = medications.count_for_patient()
-
-# for the interval count the number of unique repeat IDs
-meds_rep_id_no_int = (
+# now get the count for those with a non-missing repeat medication id
+meds_no_rep_int = (
     medications.where(medications.date.is_during(INTERVAL))
-    .repeat_medication_id.count_distinct_for_patient()
-)
-meds_rep_id_no = (
-    medications.repeat_medication_id
-    .count_distinct_for_patient()
+    .where(medications.repeat_medication_id != -1)
+    .count_for_patient()
 )
 
 # for the interval count the number of repeat medication
@@ -48,79 +44,40 @@ repeat_meds_no_int = (
     repeat_medications.where(repeat_medications.date.is_during(INTERVAL))
     .count_for_patient()
 )
-repeat_meds_no = repeat_medications.count_for_patient()
 
 # for the interval count the number of unique repeat IDs
 repeat_rep_id_no_int = (
     repeat_medications.where(repeat_medications.date.is_during(INTERVAL))
     .repeat_medication_id.count_distinct_for_patient()
 )
-repeat_rep_id_no = (
-    repeat_medications.repeat_medication_id.count_distinct_for_patient()
+
+# for the interval count the number of unique repeat IDs
+med_rep_id_no_int = (
+    medications.where(medications.date.is_during(INTERVAL))
+    .where(medications.repeat_medication_id != -1)
+    .repeat_medication_id.count_distinct_for_patient()
 )
 
-# get number of occasions start_date and consultation date are same per patient
-concordant_dates = (
-    repeat_medications.where(repeat_medications.date.is_during(INTERVAL))
-    .where(repeat_medications.date == repeat_medications.start_date)
-    .date
-    .count_distinct_for_patient()
-)
-
-# get number of occasions start_date and consultation date are different per patient
-discordant_dates = (
-    repeat_medications.where(repeat_medications.date.is_during(INTERVAL))
-    .where(repeat_medications.date != repeat_medications.start_date)
-    .date
-    .count_distinct_for_patient()
-)
-
-## define measures
-
-# number of rows per patient in interval compared to all time
+# define the measure to look at proportion of monthly prescriptions which are repeats
 measures.define_measure(
-    "medications_rows",
-    numerator = meds_no_int,
-    denominator = meds_no,
-    intervals = intervals_years
+    "proportion_meds_rep_id",
+    numerator = meds_no_rep_int,
+    denominator = meds_no_int,
+    intervals = intervals_months
 )
 
-# number of unique rep ids in interval compared to all time
+# define the measure to look at proportion of monthly repeat meds with unique repeat medication id
 measures.define_measure(
-    "medications_rep_ids",
-    numerator = meds_rep_id_no_int,
-    denominator = meds_rep_id_no,
-    intervals = intervals_years
-)
-
-# number of rows per patient in interval compared to all time
-measures.define_measure(
-    "repeats_rows",
-    numerator = repeat_meds_no_int,
-    denominator = repeat_meds_no,
-    intervals = intervals_years
-)
-
-# number of unique rep ids in interval compared to all time
-measures.define_measure(
-    "repeats_rep_ids",
+    "proportion_repeats_unique_id",
     numerator = repeat_rep_id_no_int,
-    denominator = repeat_rep_id_no,
-    intervals = intervals_years
-)
-
-# number of concordant dates out of number of rows
-measures.define_measure(
-    "concordant_dates",
-    numerator = concordant_dates,
     denominator = repeat_meds_no_int,
-    intervals = intervals_years
+    intervals = intervals_months
 )
 
-# number of discordant dates out of number of rows
+# define the measure to look at proportion of monthly repeat prescriptions with unique repeat medication id
 measures.define_measure(
-    "discordant_dates",
-    numerator = discordant_dates,
-    denominator = repeat_meds_no,
-    intervals = intervals_years
+    "proportion_meds_unique_rep_id",
+    numerator = med_rep_id_no_int,
+    denominator = meds_no_rep_int,
+    intervals = intervals_months
 )
