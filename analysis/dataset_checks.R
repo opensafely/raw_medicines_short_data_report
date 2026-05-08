@@ -96,6 +96,7 @@ df_status_med <- df %>%
       status_type == 26 ~ "Unconfirmed",
       status_type == 27 ~ "Infusion",
       status_type == 28 ~ "Reducing dose blue script",
+      is.na(status_type) ~ "Missing",
       TRUE ~ "Other"
     ),
     .after = 1
@@ -139,6 +140,7 @@ df_status_rep <- df %>%
       status_type == 26 ~ "Unconfirmed",
       status_type == 27 ~ "Infusion",
       status_type == 28 ~ "Reducing dose blue script",
+      is.na(status_type) ~ "Missing",
       TRUE ~ "Other"
     ),
     .after = 1
@@ -173,25 +175,53 @@ df_dates_outliers <- bind_rows(
 # save
 write_csv(df_dates_outliers, here::here("output", "dataset_date_outliers.csv"))
 
-sapply(df_dates, class)
-
 # plot the date distributions
 df_dates <- df_dates %>% 
   mutate(across(everything(), ~ as.Date(.x))) %>% 
   filter(if_any(.cols = everything(), ~ .x != as.Date("9999-12-31") & .x >= as.Date("2025-01-01") & .x < as.Date("2030-01-01")))
 med_date_plot <- df_dates %>% 
+  filter(!is.na(meds_sample_date)) %>% 
   ggplot() + geom_histogram(aes(x = meds_sample_date), binwidth = 365) #+
   #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_med_date_plot.png"))
 rep_date_plot <- df_dates %>% 
+  filter(!is.na(repeats_sample_date)) %>% 
   ggplot() + geom_histogram(aes(x = repeats_sample_date), binwidth = 365) #+
   #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_rep_date_plot.png"))
 rep_start_date_plot <- df_dates %>% 
+  filter(!is.na(repeats_sample_start_date)) %>% 
   ggplot() + geom_histogram(aes(x = repeats_sample_start_date), binwidth = 365) #+
   #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_rep_start_date_plot.png"))
 rep_end_date_plot <- df_dates %>% 
+  filter(!is.na(repeats_sample_end_date)) %>% 
   ggplot() + geom_histogram(aes(x = repeats_sample_end_date), binwidth = 365) #+
   #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_rep_end_date_plot.png"))
+
+# looking at demographic breakdowns
+meds_by_sex <- df %>% 
+  group_by(patient_sex) %>% 
+  summarise(
+    mean_age = mean(patient_age, na.rm = TRUE),
+    mean_repeats = mean(active_repeats, na.rm = TRUE),
+    statin_users = sum(statin_prescriptions > 0),
+    statin_repeats = sum(statin_repeats),
+    codeine_users = sum(codeine_prescriptions > 0),
+    codeine_repeats = sum(codeine_repeats)
+  )
+meds_by_age <- df %>% 
+  group_by(age_cat) %>% 
+  summarise(
+    mean_age = mean(patient_age, na.rm = TRUE),
+    mean_repeats = mean(active_repeats, na.rm = TRUE),
+    statin_users = sum(statin_prescriptions > 0),
+    statin_repeats = sum(statin_repeats),
+    codeine_users = sum(codeine_prescriptions > 0),
+    codeine_repeats = sum(codeine_repeats)
+  )
+
+# save demographic summaries
+write_csv(meds_by_sex, here::here("output", "meds_by_sex.csv"))
+write_csv(meds_by_age, here::here("output", "meds_by_age.csv"))
