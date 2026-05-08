@@ -24,6 +24,7 @@ actions:
         status: output/dataset_status.csv
         dates: output/dataset_date_outliers.csv
         plots: output/sample_*.png
+        demographics: output/meds_by_*.csv
   
   generate_measures:
     run: >

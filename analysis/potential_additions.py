@@ -94,3 +94,72 @@
 #             selected_medications.medication_status.is_in([status])
 #         ).count_for_patient()
 #         dataset.add_column(f"{desc}_status{status}", count_med_status_query)
+
+
+##------- measures definition -------##
+
+# # get number of occasions start_date and consultation date are same per patient
+# concordant_dates = (
+#     repeat_medications.where(repeat_medications.date.is_during(INTERVAL))
+#     .where(repeat_medications.date == repeat_medications.start_date)
+#     .date
+#     .count_distinct_for_patient()
+# )
+
+# # get number of occasions start_date and consultation date are different per patient
+# discordant_dates = (
+#     repeat_medications.where(repeat_medications.date.is_during(INTERVAL))
+#     .where(repeat_medications.date != repeat_medications.start_date)
+#     .date
+#     .count_distinct_for_patient()
+# )
+
+# ## define measures
+
+# # number of rows per patient in interval compared to all time
+# measures.define_measure(
+#     "medications_rows",
+#     numerator = meds_no_int,
+#     denominator = meds_no,
+#     intervals = intervals_years
+# )
+
+# # number of unique rep ids in interval compared to all time
+# measures.define_measure(
+#     "medications_rep_ids",
+#     numerator = meds_rep_id_no_int,
+#     denominator = meds_rep_id_no,
+#     intervals = intervals_years
+# )
+
+# # number of rows per patient in interval compared to all time
+# measures.define_measure(
+#     "repeats_rows",
+#     numerator = repeat_meds_no_int,
+#     denominator = repeat_meds_no,
+#     intervals = intervals_years
+# )
+
+# # number of unique rep ids in interval compared to all time
+# measures.define_measure(
+#     "repeats_rep_ids",
+#     numerator = repeat_rep_id_no_int,
+#     denominator = repeat_rep_id_no,
+#     intervals = intervals_years
+# )
+
+# # number of concordant dates out of number of rows
+# measures.define_measure(
+#     "concordant_dates",
+#     numerator = concordant_dates,
+#     denominator = repeat_meds_no_int,
+#     intervals = intervals_years
+# )
+
+# # number of discordant dates out of number of rows
+# measures.define_measure(
+#     "discordant_dates",
+#     numerator = discordant_dates,
+#     denominator = repeat_meds_no,
+#     intervals = intervals_years
+# )
