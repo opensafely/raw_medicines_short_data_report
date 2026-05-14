@@ -192,7 +192,8 @@ df_status_med_reps <- df %>%
   )
 
 # combine
-df_status <- merge(df_status_med, df_status_rep, df_status_med_reps)
+df_status <- merge(df_status_med, df_status_rep)
+df_status <- merge(df_status, df_status_med_reps)
 
 # save
 write_csv(df_status, here::here("output", "dataset_status.csv"))
