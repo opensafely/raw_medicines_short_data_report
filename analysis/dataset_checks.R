@@ -42,6 +42,7 @@ write_csv(df_check, here::here("output", "dataset_check.csv"))
 df_miss <- df %>% 
   summarise(
     meds_rep_id = sum(medications_missing_rep_id),
+    reps_rep_id = sum(repeats_missing_rep_id),
     rep_date = sum(rep_missing_date),
     rep_start_date = sum(rep_missing_start_date),
     rep_end_date = sum(rep_missing_end_date),
@@ -60,7 +61,7 @@ write_csv(df_miss, here::here("output", "dataset_missing.csv"))
 
 # medication status
 df_status_med <- df %>% 
-  select(contains("medications_status")) %>% 
+  select(contains("medications_status") & !contains("rep_id")) %>% 
   summarise(across(.cols = everything(), ~ sum(.x))) %>% 
   pivot_longer(
     cols = everything(),
@@ -146,8 +147,52 @@ df_status_rep <- df %>%
     .after = 1
   )
 
+# medication status for rows with repeat ID
+df_status_med_reps <- df %>% 
+  select(contains("medications_status") & contains("rep_id")) %>% 
+  summarise(across(.cols = everything(), ~ sum(.x))) %>% 
+  pivot_longer(
+    cols = everything(),
+    names_to = "status_type",
+    names_prefix = "medications_status_",
+    values_to = "med_count"
+  ) %>% 
+  mutate(
+    "status" = case_when(
+      status_type == 0 ~ "Normal",
+      status_type == 4 ~ "Historical",
+      status_type == 5 ~ "Blue script",
+      status_type == 6 ~ "Private",
+      status_type == 7 ~ "Not in possession",
+      status_type == 8 ~ "Repeat dispensed",
+      status_type == 9 ~ "In possession",
+      status_type == 10 ~ "Dental",
+      status_type == 11 ~ "Hospital",
+      status_type == 12 ~ "Problem substance",
+      status_type == 13 ~ "From patient group direction",
+      status_type == 14 ~ "To take out",
+      status_type == 15 ~ "On admission",
+      status_type == 16 ~ "Regular medication",
+      status_type == 17 ~ "As required medication",
+      status_type == 18 ~ "Variable dose medication",
+      status_type == 19 ~ "Rate-controlled single regular",
+      status_type == 20 ~ "Only once",
+      status_type == 21 ~ "Outpatient",
+      status_type == 22 ~ "Rate-controlled multiple regular",
+      status_type == 23 ~ "Rate-controlled multiple only once",
+      status_type == 24 ~ "Rate-controlled single only once",
+      status_type == 25 ~ "Placeholder",
+      status_type == 26 ~ "Unconfirmed",
+      status_type == 27 ~ "Infusion",
+      status_type == 28 ~ "Reducing dose blue script",
+      is.na(status_type) ~ "Missing",
+      TRUE ~ "Other"
+    ),
+    .after = 1
+  )
+
 # combine
-df_status <- merge(df_status_med, df_status_rep)
+df_status <- merge(df_status_med, df_status_rep, df_status_med_reps)
 
 # save
 write_csv(df_status, here::here("output", "dataset_status.csv"))
@@ -178,7 +223,7 @@ write_csv(df_dates_outliers, here::here("output", "dataset_date_outliers.csv"))
 # plot the date distributions
 df_dates <- df_dates %>% 
   mutate(across(everything(), ~ as.Date(.x))) %>% 
-  filter(if_any(.cols = everything(), ~ .x != as.Date("9999-12-31") & .x >= as.Date("2025-01-01") & .x < as.Date("2030-01-01")))
+  filter(if_any(.cols = everything(), ~ .x >= as.Date("2020-01-01") & .x < as.Date("2030-01-01")))
 med_date_plot <- df_dates %>% 
   filter(!is.na(meds_sample_date)) %>% 
   ggplot() + geom_histogram(aes(x = meds_sample_date), binwidth = 365) #+

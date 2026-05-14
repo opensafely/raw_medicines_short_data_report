@@ -58,7 +58,7 @@ dataset.age_cat = (case(
 # remove private prescriptions
 medications = (
     medications.where(medications.medication_status != 6)
-    .where(medications.repeat_medication_id.is_in(repeat_medications.repeat_medication_id))
+    #.where(medications.repeat_medication_id.is_in(repeat_medications.repeat_medication_id))
 )
 repeat_medications = repeat_medications.where(repeat_medications.medication_status != 6)
 
@@ -139,8 +139,13 @@ dataset.rep_ids_differ = dataset.meds_rep_id_no != dataset.repeats_rep_id_no
 # get information on missing data
 dataset.medications_missing_rep_id = (
     medications.where(medications.date.is_on_or_after(index_date))
-    .where(medications.repeat_medication_id == 0)
+    .where(medications.repeat_medication_id == -1)
     .count_for_patient()
+)
+dataset.repeats_missing_rep_id = (
+    repeat_medications.where(repeat_medications.date.is_on_or_after(index_date))
+    .where(repeat_medications.repeat_medication_id == -1)
+    .count_for_patient()    
 )
 dataset.rep_missing_date = (
     repeat_medications.where(repeat_medications.date.is_on_or_after(index_date))
