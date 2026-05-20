@@ -25,6 +25,8 @@ actions:
         dates: output/dataset_date_outliers.csv
         plots: output/sample_*.png
         demographics: output/meds_by_*.csv
+        text_sum: output/quantity_sums.csv
+        tex_sum_vis: output/quantity_summary_plot.png
   
   generate_measures:
     run: >

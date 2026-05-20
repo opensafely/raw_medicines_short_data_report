@@ -4,6 +4,7 @@ library(arrow)
 library(tidyverse)
 library(ggplot2)
 library(lubridate)
+library(scales)
 
 # import dataset
 df <- read_feather(here::here("output", "dataset.arrow"))
@@ -271,3 +272,51 @@ meds_by_age <- df %>%
 # save demographic summaries
 write_csv(meds_by_sex, here::here("output", "meds_by_sex.csv"))
 write_csv(meds_by_age, here::here("output", "meds_by_age.csv"))
+
+## quantities
+
+# get a subset/summary of quantity fields
+text_based <- df %>%
+  select(contains("quantity")) %>%
+  pivot_longer(
+    cols = everything(),
+    names_to = "variable",
+    values_to = "value"
+  ) %>%
+  #filter(!is.na(value)) %>%
+  count(variable, value) %>%
+  group_by(variable) %>%
+  mutate(prop = n / sum(n)) %>%
+  ungroup()
+
+# save
+write_csv(text_based, here::here("output", "quantity_sums.csv"))
+
+# visualise
+visual_sum <- ggplot(
+  text_based,
+  aes(
+    x = reorder(value, prop),
+    y = prop,
+    fill = variable
+  )
+) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  facet_wrap(~ variable, scales = "free_y") +
+  scale_y_continuous(labels = percent_format()) +
+  geom_text(
+    aes(label = percent(prop, accuracy = 0.1)),
+    hjust = -0.1,
+    size = 3
+  ) +
+  expand_limits(y = max(text_based$prop) * 1.15) +
+  labs(
+    title = "Proportion of Quantity Categories",
+    x = NULL,
+    y = "Proportion"
+  ) +
+  theme_minimal()
+
+# save 
+ggsave(here::here("output", "quantity_summary_plot.png"))
