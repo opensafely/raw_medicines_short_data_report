@@ -224,14 +224,7 @@ for status in range(29):
     )   
     dataset.add_column(f"medications_status_{status}_with_rep_id", count_med_status_query_reps)
 
-## check for repeat ids which match across tables
-#dataset.has_matching_repeat_med = (
-#    .where(medications.repeat_medication_id.is_in(repeat_medications.repeat_medication_id))
-#    medications.where(medications.date.is_on_or_after(index_date))
-#    .where(medications.dmd_code == repeat_medications.dmd_code)
-#    .exists_for_patient()
-#)
-#show(dataset.has_matching_repeat_med)
+# check for matching repeat IDs in sample rows
 dataset.has_matching_repeat_med = (case(
     when(medications_rows.repeat_medication_id == repeat_rows.repeat_medication_id)
     .then(True),
@@ -278,4 +271,62 @@ dataset.codeine_repeats = (
     repeat_medications.where(repeat_medications.date.is_on_or_after(index_date))
     .where(repeat_medications.dmd_code.is_in(codelists.codeine))
     .exists_for_patient()
+)
+
+## quantities work
+
+medications_repeats_rows = (
+    medications
+    .where(medications.repeat_medication_id != -1)
+    .where(medications.date.is_on_or_after(index_date))
+    .sort_by(medications.date)
+    .first_for_patient()
+)
+
+# look at the quantity information for the sample rows
+dataset.sample_issue_quantity = medications_rows.quantity
+dataset.sample_issue_quantity_reps = medications_repeats_rows.quantity
+dataset.sample_repeat_quantity = repeat_rows.quantity
+
+# look at what medications these quantities correspond to 
+dataset.sample_issue_med = medications_rows.dmd_code
+dataset.sample_issue_med_reps = medications_repeats_rows.dmd_code
+dataset.sample_repeat_med = repeat_rows.dmd_code
+
+# look at specific medications
+dataset.statin_quantity = (
+    medications
+    .where(medications.repeat_medication_id != -1)
+    .where(medications.date.is_on_or_after(index_date))
+    .where(medications.dmd_code.is_in(codelists.statins))
+    .sort_by(medications.date)
+    .first_for_patient()
+    .quantity
+)
+dataset.statin_quantity_rep = (
+    repeat_medications
+    .where(repeat_medications.repeat_medication_id != -1)
+    .where(repeat_medications.date.is_on_or_after(index_date))
+    .where(repeat_medications.dmd_code.is_in(codelists.statins))
+    .sort_by(repeat_medications.date)
+    .first_for_patient()
+    .quantity
+)
+dataset.codeine_quantity = (
+    medications
+    .where(medications.repeat_medication_id != -1)
+    .where(medications.date.is_on_or_after(index_date))
+    .where(medications.dmd_code.is_in(codelists.codeine))
+    .sort_by(medications.date)
+    .first_for_patient()
+    .quantity
+)
+dataset.codeine_quantity_rep = (
+    repeat_medications
+    .where(repeat_medications.repeat_medication_id != -1)
+    .where(repeat_medications.date.is_on_or_after(index_date))
+    .where(repeat_medications.dmd_code.is_in(codelists.codeine))
+    .sort_by(repeat_medications.date)
+    .first_for_patient()
+    .quantity
 )
