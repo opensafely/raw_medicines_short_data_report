@@ -18,6 +18,7 @@ capture.output(
 
 # inspect data
 df_check <- df %>%
+  group_by(meds_exist) %>%
   summarise(
     total = n_distinct(patient_id),
     av_meds = mean(meds_row_no),
@@ -28,7 +29,7 @@ df_check <- df %>%
     av_reps_consult_id = mean(repeats_consult_id_no),
     n_ids_differ = sum(rep_ids_differ),
     av_concord = mean(concordant_dates),
-    total_conord = sum(concordant_dates),
+    total_concord = sum(concordant_dates),
     av_discord = mean(discordant_dates),
     total_discord = sum(discordant_dates),
     av_start_first = mean(start_date_first),
@@ -41,6 +42,7 @@ write_csv(df_check, here::here("output", "dataset_check.csv"))
 
 # do some other checks
 df_miss <- df %>% 
+  group_by(meds_exist) %>%
   summarise(
     meds_rep_id = sum(medications_missing_rep_id),
     reps_rep_id = sum(repeats_missing_rep_id),
@@ -49,7 +51,7 @@ df_miss <- df %>%
     rep_end_date = sum(rep_missing_end_date),
   ) %>% 
   pivot_longer(
-    cols = everything(),
+    cols = !meds_exist,
     names_to = "missing_type",
     values_to = "total"
   ) %>% 
@@ -62,10 +64,11 @@ write_csv(df_miss, here::here("output", "dataset_missing.csv"))
 
 # medication status
 df_status_med <- df %>% 
+  group_by(meds_exist) %>%
   select(contains("medications_status") & !contains("rep_id")) %>% 
   summarise(across(.cols = everything(), ~ sum(.x))) %>% 
   pivot_longer(
-    cols = everything(),
+    cols = !meds_exist,
     names_to = "status_type",
     names_prefix = "medications_status_",
     values_to = "med_count"
@@ -104,12 +107,13 @@ df_status_med <- df %>%
     .after = 1
   )
 
-# repeate medication status
+# repeat medication status
 df_status_rep <- df %>% 
+  group_by(meds_exist) %>%
   select(contains("repeats_status")) %>% 
   summarise(across(.cols = everything(), ~ sum(.x))) %>% 
   pivot_longer(
-    cols = everything(),
+    cols = !meds_exist,
     names_to = "status_type",
     names_prefix = "repeats_status_",
     values_to = "rep_count"
@@ -150,10 +154,11 @@ df_status_rep <- df %>%
 
 # medication status for rows with repeat ID
 df_status_med_reps <- df %>% 
-  select(contains("medications_status") & contains("rep_id")) %>% 
+  group_by(meds_exist) %>% 
+  select(contains("medications_status") & contains("rep_id")) %>%
   summarise(across(.cols = everything(), ~ sum(.x))) %>% 
   pivot_longer(
-    cols = everything(),
+    cols = !meds_exist,
     names_to = "status_type",
     names_prefix = "medications_status_",
     values_to = "med_count"
@@ -201,6 +206,7 @@ write_csv(df_status, here::here("output", "dataset_status.csv"))
 
 # sample date distributions
 df_dates <- df %>% 
+  group_by(meds_exist) %>%
   select(c(meds_sample_date, repeats_sample_date, 
            repeats_sample_start_date, repeats_sample_end_date)) %>% 
   # filter data to include only people with medicines data
@@ -217,7 +223,7 @@ df_dates_outliers <- bind_rows(
     filter(if_any(.cols = everything(), ~ .x >= as.Date("2030-01-01") & .x != as.Date("9999-12-31"))) %>% 
     summarise(across(everything(), ~ sum(.x >= as.Date("2030-01-01") & .x != as.Date("9999-12-31"), na.rm = TRUE))),
   .id = "outlier_type"
-)
+) 
 
 # save
 write_csv(df_dates_outliers, here::here("output", "dataset_date_outliers.csv"))
@@ -228,27 +234,32 @@ df_dates <- df_dates %>%
   filter(if_any(.cols = everything(), ~ .x >= as.Date("2020-01-01") & .x < as.Date("2030-01-01")))
 med_date_plot <- df_dates %>% 
   filter(!is.na(meds_sample_date)) %>% 
-  ggplot() + geom_histogram(aes(x = meds_sample_date), binwidth = 365) #+
+  ggplot() + geom_histogram(aes(x = meds_sample_date), binwidth = 365) +
+  facet_wrap(~meds_exist) #+
   #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_med_date_plot.png"))
 rep_date_plot <- df_dates %>% 
   filter(!is.na(repeats_sample_date)) %>% 
-  ggplot() + geom_histogram(aes(x = repeats_sample_date), binwidth = 365) #+
+  ggplot() + geom_histogram(aes(x = repeats_sample_date), binwidth = 365) +
+  facet_wrap(~meds_exist) #+
   #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_rep_date_plot.png"))
 rep_start_date_plot <- df_dates %>% 
   filter(!is.na(repeats_sample_start_date)) %>% 
-  ggplot() + geom_histogram(aes(x = repeats_sample_start_date), binwidth = 365) #+
+  ggplot() + geom_histogram(aes(x = repeats_sample_start_date), binwidth = 365) +
+  facet_wrap(~meds_exist) #+
   #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_rep_start_date_plot.png"))
 rep_end_date_plot <- df_dates %>% 
   filter(!is.na(repeats_sample_end_date)) %>% 
-  ggplot() + geom_histogram(aes(x = repeats_sample_end_date), binwidth = 365) #+
+  ggplot() + geom_histogram(aes(x = repeats_sample_end_date), binwidth = 365) +
+  facet_wrap(~meds_exist) #+
   #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_rep_end_date_plot.png"))
 
 # looking at demographic breakdowns
 meds_by_sex <- df %>% 
+  filter(meds_exist) %>%
   group_by(patient_sex) %>% 
   summarise(
     mean_age = mean(patient_age, na.rm = TRUE),
@@ -259,6 +270,7 @@ meds_by_sex <- df %>%
     codeine_repeats = sum(codeine_repeats)
   )
 meds_by_age <- df %>% 
+  filter(meds_exist) %>%
   group_by(age_cat) %>% 
   summarise(
     mean_age = mean(patient_age, na.rm = TRUE),
@@ -277,9 +289,10 @@ write_csv(meds_by_age, here::here("output", "meds_by_age.csv"))
 
 # get a subset/summary of quantity fields
 text_based <- df %>%
+  group_by(meds_exist) %>%
   select(contains("quantity")) %>%
   pivot_longer(
-    cols = everything(),
+    cols = !meds_exist,
     names_to = "variable",
     values_to = "value"
   ) %>%
@@ -303,7 +316,7 @@ visual_sum <- ggplot(
 ) +
   geom_col(show.legend = FALSE) +
   coord_flip() +
-  facet_wrap(~ variable, scales = "free_y") +
+  facet_grid(meds_exist ~ variable, scales = "free") +
   scale_y_continuous(labels = percent_format()) +
   geom_text(
     aes(label = percent(prop, accuracy = 0.1)),
