@@ -170,7 +170,6 @@ test_data = {
             "start_date_first": 0,
             "start_date_second": 2,
             "has_matching_repeat_med": False,
-            "repeats_matching": False,
             "medications_status_0": 8,
             "medications_status_1": 0,
             "medications_status_2": 0,
