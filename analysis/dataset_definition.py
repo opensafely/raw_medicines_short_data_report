@@ -198,7 +198,7 @@ for status in range(29):
         .where(medications.medication_status.is_in([status]))
         .count_for_patient()
     )   
-    dataset.add_column(f"medications_status_{status}_with_rep_id", count_med_status_query_reps)
+    dataset.add_column(f"medications_status_with_rep_id_{status}", count_med_status_query_reps)
 
 ## looking at one row per patient 
 
