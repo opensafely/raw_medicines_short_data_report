@@ -11,6 +11,12 @@
       "url": "https://www.opencodelists.org/codelist/user/emprestige/codeine-for-pain-dmd/295f725a/",
       "downloaded_at": "2026-02-13 13:12:23.794969Z",
       "sha": "f8359e4bffcc65cae5bf1d1ba0fdfab385462827"
+    },
+    "opensafely-oxycodone-subcutaneous-dmd.csv": {
+      "id": "opensafely/oxycodone-subcutaneous-dmd/454f1041",
+      "url": "https://www.opencodelists.org/codelist/opensafely/oxycodone-subcutaneous-dmd/454f1041/",
+      "downloaded_at": "2026-05-27 13:15:55.300016Z",
+      "sha": "93802d85d4a96e1cf8ed21d21cb8d0260e131009"
     }
   }
 }
