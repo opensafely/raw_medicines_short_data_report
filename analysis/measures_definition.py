@@ -19,7 +19,8 @@ was_alive = death_date.is_after(INTERVAL.start_date) | death_date.is_null()
 correct_age = patients.age_on(INTERVAL.start_date) <= 110
 
 # define the interevals to be used for the measures
-intervals_months = months(1).starting_on(index_date)
+intervals_months = months(12).starting_on(index_date)
+intervals_years = years(1).starting_on(index_date)
 
 # create ehrQL generated dummy measures
 measures = create_measures()
@@ -80,4 +81,20 @@ measures.define_measure(
     numerator = med_rep_id_no_int,
     denominator = meds_no_rep_int,
     intervals = intervals_months
+)
+
+# count the number of rows and group by repeat ID for each table
+measures.define_measure(
+    "repeat_ids",
+    numerator=repeat_meds_no_int,
+    denominator=repeat_meds_no_int,
+    intervals=intervals_years,
+    group_by={"test1" : repeat_rep_id_no_int}
+)
+measures.define_measure(
+    "issue_repeat_ids",
+    numerator=meds_no_rep_int,
+    denominator=meds_no_rep_int,
+    intervals=intervals_years,
+    group_by={"test2": med_rep_id_no_int}
 )
