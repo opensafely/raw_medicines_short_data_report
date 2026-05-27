@@ -1,2 +1,4 @@
 user/emprestige/all-statins-dmd/58cb98ce/
 user/emprestige/codeine-for-pain-dmd/295f725a/
+
+opensafely/oxycodone-subcutaneous-dmd/454f1041/
