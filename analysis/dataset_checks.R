@@ -258,22 +258,22 @@ df_dates <- df_dates %>%
   mutate(across(everything(), ~ as.Date(.x))) %>% 
   filter(if_any(.cols = everything(), ~ .x >= as.Date("2020-01-01") & .x < as.Date("2030-01-01") & .x != as.Date("2025-01-01")))
 med_date_plot <- df_dates %>% 
-  filter(!is.na(meds_sample_date)) %>% 
+  #filter(!is.na(meds_sample_date)) %>% 
   ggplot() + geom_histogram(aes(x = meds_sample_date), binwidth = 365) +
   scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_med_date_plot.png"))
 rep_date_plot <- df_dates %>% 
-  filter(!is.na(repeats_sample_date)) %>% 
+  #filter(!is.na(repeats_sample_date)) %>% 
   ggplot() + geom_histogram(aes(x = repeats_sample_date), binwidth = 365) +
   scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_rep_date_plot.png"))
 rep_start_date_plot <- df_dates %>% 
-  filter(!is.na(repeats_sample_start_date)) %>% 
+  #filter(!is.na(repeats_sample_start_date)) %>% 
   ggplot() + geom_histogram(aes(x = repeats_sample_start_date), binwidth = 365) +
   scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_rep_start_date_plot.png"))
 rep_end_date_plot <- df_dates %>% 
-  filter(!is.na(repeats_sample_end_date)) %>% 
+  #filter(!is.na(repeats_sample_end_date)) %>% 
   ggplot() + geom_histogram(aes(x = repeats_sample_end_date), binwidth = 365) +
   scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_rep_end_date_plot.png"))
