@@ -43,12 +43,14 @@ meds_no_rep_int = (
 # for the interval count the number of repeat medication
 repeat_meds_no_int = (
     repeat_medications.where(repeat_medications.date.is_during(INTERVAL))
+    .where(repeat_medications.repeat_medication_id != -1)
     .count_for_patient()
 )
 
 # for the interval count the number of unique repeat IDs
 repeat_rep_id_no_int = (
     repeat_medications.where(repeat_medications.date.is_during(INTERVAL))
+    .where(repeat_medications.repeat_medication_id != -1)
     .repeat_medication_id.count_distinct_for_patient()
 )
 
@@ -83,18 +85,18 @@ measures.define_measure(
     intervals = intervals_months
 )
 
-# count the number of rows and group by repeat ID for each table
+# count the number of rows and group by number of repeat IDs for each table
 measures.define_measure(
     "repeat_ids",
+    group_by={"distinct_ids_repeat" : repeat_rep_id_no_int},
     numerator=repeat_meds_no_int,
     denominator=repeat_meds_no_int,
-    intervals=intervals_years,
-    group_by={"test1" : repeat_rep_id_no_int}
+    intervals=intervals_years
 )
 measures.define_measure(
     "issue_repeat_ids",
+    group_by={"distinct_ids_issue": med_rep_id_no_int},
     numerator=meds_no_rep_int,
     denominator=meds_no_rep_int,
-    intervals=intervals_years,
-    group_by={"test2": med_rep_id_no_int}
+    intervals=intervals_years
 )
