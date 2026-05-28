@@ -178,7 +178,7 @@ df_status_med_reps <- df %>%
     cols = everything(),
     names_to = "status_type",
     names_prefix = "medications_status_with_rep_id_",
-    values_to = "med_count"
+    values_to = "med_count_with_rep"
   ) %>% 
   mutate(
     "status" = case_when(
@@ -248,7 +248,7 @@ write_csv(df_dates_outliers, here::here("output", "dataset_date_outliers.csv"))
 # get info about dates occuring on index 
 df_dates_index <- df_dates %>% 
   filter(if_any(.cols = everything(), ~ .x == as.Date("2025-01-01"))) %>% 
-  summarise(across(everything(), ~sum(.x == as.Date("2025-01-01"))))
+  summarise(across(everything(), ~sum(.x == as.Date("2025-01-01"), na.rm = TRUE)))
 
 # save
 write_csv(df_dates_index, here::here("output", "dataset_date_indexes.csv"))
@@ -256,7 +256,7 @@ write_csv(df_dates_index, here::here("output", "dataset_date_indexes.csv"))
 # plot the date distributions
 df_dates <- df_dates %>% 
   mutate(across(everything(), ~ as.Date(.x))) %>% 
-  filter(if_any(.cols = everything(), ~ .x >= as.Date("2020-01-01") & .x < as.Date("2030-01-01") & .x == as.Date("2025-01-01")))
+  filter(if_any(.cols = everything(), ~ .x >= as.Date("2020-01-01") & .x < as.Date("2030-01-01") & .x != as.Date("2025-01-01")))
 med_date_plot <- df_dates %>% 
   filter(!is.na(meds_sample_date)) %>% 
   ggplot() + geom_histogram(aes(x = meds_sample_date), binwidth = 365) #+
@@ -323,6 +323,9 @@ text_based <- df %>%
   mutate(prop = n / sum(n)) %>%
   ungroup()
 
+text_based_save <- text_based %>% 
+  filter(grepl("sample", variable))
+
 # save summary in files of suitable sizx
 chunk_size <- 5000
 n_chunks <- ceiling(nrow(text_based) / chunk_size)
@@ -338,6 +341,7 @@ for (i in seq_len(n_chunks)) {
 
 # keep only top 10 categories per variable for plotting
 plot_data <- text_based %>%
+  filter(!is.na(value)) %>% 
   group_by(variable) %>%
   slice_max(order_by = prop, n = 10, with_ties = FALSE) %>%
   ungroup()
