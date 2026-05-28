@@ -259,23 +259,23 @@ df_dates <- df_dates %>%
   filter(if_any(.cols = everything(), ~ .x >= as.Date("2020-01-01") & .x < as.Date("2030-01-01") & .x != as.Date("2025-01-01")))
 med_date_plot <- df_dates %>% 
   filter(!is.na(meds_sample_date)) %>% 
-  ggplot() + geom_histogram(aes(x = meds_sample_date), binwidth = 365) #+
-  #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
+  ggplot() + geom_histogram(aes(x = meds_sample_date), binwidth = 365) +
+  scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_med_date_plot.png"))
 rep_date_plot <- df_dates %>% 
   filter(!is.na(repeats_sample_date)) %>% 
-  ggplot() + geom_histogram(aes(x = repeats_sample_date), binwidth = 365) #+
-  #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
+  ggplot() + geom_histogram(aes(x = repeats_sample_date), binwidth = 365) +
+  scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_rep_date_plot.png"))
 rep_start_date_plot <- df_dates %>% 
   filter(!is.na(repeats_sample_start_date)) %>% 
-  ggplot() + geom_histogram(aes(x = repeats_sample_start_date), binwidth = 365) #+
-  #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
+  ggplot() + geom_histogram(aes(x = repeats_sample_start_date), binwidth = 365) +
+  scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_rep_start_date_plot.png"))
 rep_end_date_plot <- df_dates %>% 
   filter(!is.na(repeats_sample_end_date)) %>% 
-  ggplot() + geom_histogram(aes(x = repeats_sample_end_date), binwidth = 365) #+
-  #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
+  ggplot() + geom_histogram(aes(x = repeats_sample_end_date), binwidth = 365) +
+  scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_rep_end_date_plot.png"))
 
 # looking at demographic breakdowns
@@ -310,6 +310,7 @@ write_csv(meds_by_age, here::here("output", "meds_by_age.csv"))
 
 # get a subset/summary of quantity fields
 text_based <- df %>%
+  filter(!is.na(value)) %>% 
   #group_by(meds_exist) %>%
   select(contains("quantity")) %>%
   pivot_longer(
@@ -328,11 +329,11 @@ text_based_save <- text_based %>%
 
 # save summary in files of suitable sizx
 chunk_size <- 5000
-n_chunks <- ceiling(nrow(text_based) / chunk_size)
+n_chunks <- ceiling(nrow(text_based_save) / chunk_size)
 for (i in seq_len(n_chunks)) {
   start_row <- (i - 1) * chunk_size + 1
   end_row <- min(i * chunk_size, nrow(text_based))
-  chunk <- text_based[start_row:end_row, ]
+  chunk <- text_based_save[start_row:end_row, ]
   write_csv(
     chunk,
     here::here("output", paste0("quantity_sums_part_", i, ".csv"))
@@ -341,7 +342,6 @@ for (i in seq_len(n_chunks)) {
 
 # keep only top 10 categories per variable for plotting
 plot_data <- text_based %>%
-  filter(!is.na(value)) %>% 
   group_by(variable) %>%
   slice_max(order_by = prop, n = 10, with_ties = FALSE) %>%
   ungroup()
