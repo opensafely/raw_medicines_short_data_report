@@ -310,7 +310,6 @@ write_csv(meds_by_age, here::here("output", "meds_by_age.csv"))
 
 # get a subset/summary of quantity fields
 text_based <- df %>%
-  filter(!is.na(value)) %>% 
   #group_by(meds_exist) %>%
   select(contains("quantity")) %>%
   pivot_longer(
@@ -318,7 +317,7 @@ text_based <- df %>%
     names_to = "variable",
     values_to = "value"
   ) %>%
-  #filter(!is.na(value)) %>%
+  filter(!is.na(value)) %>%
   count(variable, value) %>%
   group_by(variable) %>%
   mutate(prop = n / sum(n)) %>%
