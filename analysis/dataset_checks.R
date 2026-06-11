@@ -360,7 +360,7 @@ text_based_missing <- df %>%
   count(variable, value) %>%
   group_by(variable) %>%
   mutate(prop = n / sum(n)) %>%
-  filter(is.na(value)) %>%
+  filter(is.na(value)|value == "") %>%
   ungroup()
 
 # save
@@ -375,7 +375,7 @@ text_based <- df %>%
     names_to = "variable",
     values_to = "value"
   ) %>%
-  filter(!is.na(value)) %>%
+  filter(!is.na(value) & value != "") %>%
   count(variable, value) %>%
   group_by(variable) %>%
   mutate(prop = n / sum(n)) %>%
