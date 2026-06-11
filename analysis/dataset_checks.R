@@ -348,6 +348,24 @@ write_csv(meds_by_age, here::here("output", "meds_by_age.csv"))
 
 ## quantities
 
+# get missing quantitys
+text_based_missing <- df %>%
+  #group_by(meds_exist) %>%
+  select(contains("quantity")) %>%
+  pivot_longer(
+    cols = everything(),
+    names_to = "variable",
+    values_to = "value"
+  ) %>%
+  count(variable, value) %>%
+  group_by(variable) %>%
+  mutate(prop = n / sum(n)) %>%
+  filter(is.na(value)) %>%
+  ungroup()
+
+# save
+write_csv(text_based_missing, here::here("output", "missing_quantities.csv"))
+
 # get a subset/summary of quantity fields
 text_based <- df %>%
   #group_by(meds_exist) %>%
