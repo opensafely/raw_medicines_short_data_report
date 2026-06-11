@@ -264,27 +264,58 @@ write_csv(df_dates_index, here::here("output", "dataset_date_indexes.csv"))
 
 # plot the date distributions
 df_dates <- df_dates %>% 
-  mutate(across(everything(), ~ as.Date(.x))) %>% 
-  filter(if_any(.cols = everything(), ~ .x >= as.Date("2020-01-01") & .x < as.Date("2030-01-01") & .x != as.Date("2025-01-01")))
+  mutate(across(everything(), ~ as.Date(.x)))
+
 med_date_plot <- df_dates %>% 
-  #filter(!is.na(meds_sample_date)) %>% 
-  ggplot() + geom_histogram(aes(x = meds_sample_date))#, binwidth = 365) #+
-  #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
+  filter(
+    !is.na(meds_sample_date),
+    meds_sample_date >= as.Date("2020-01-01"),
+    meds_sample_date < as.Date("2030-01-01"),
+    meds_sample_date != as.Date("2025-01-01")
+  ) %>% 
+  ggplot(aes(x = meds_sample_date)) + 
+  geom_histogram()
+#  #binwidth = 365) #+
+#  #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_med_date_plot.png"))
+
 rep_date_plot <- df_dates %>% 
-  #filter(!is.na(repeats_sample_date)) %>% 
-  ggplot() + geom_histogram(aes(x = repeats_sample_date))#, binwidth = 365) #+
-  #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
+  filter(
+    !is.na(repeats_sample_date),
+    repeats_sample_date >= as.Date("2020-01-01"),
+    repeats_sample_date < as.Date("2030-01-01"),
+    repeats_sample_date != as.Date("2025-01-01")
+  ) %>% 
+  ggplot(aes(x = repeats_sample_date)) + 
+  geom_histogram()
+#  #binwidth = 365) #+
+#  #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_rep_date_plot.png"))
+
 rep_start_date_plot <- df_dates %>% 
-  #filter(!is.na(repeats_sample_start_date)) %>% 
-  ggplot() + geom_histogram(aes(x = repeats_sample_start_date))#, binwidth = 365) #+
-  #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
+  filter(
+    !is.na(repeats_sample_start_date),
+    repeats_sample_start_date >= as.Date("2020-01-01"),
+    repeats_sample_start_date < as.Date("2030-01-01"),
+    repeats_sample_start_date != as.Date("2025-01-01")
+  ) %>% 
+  ggplot(aes(x = repeats_sample_start_date)) + 
+  geom_histogram()
+#  #binwidth = 365) #+
+#  #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_rep_start_date_plot.png"))
+
 rep_end_date_plot <- df_dates %>% 
-  #filter(!is.na(repeats_sample_end_date)) %>% 
-  ggplot() + geom_histogram(aes(x = repeats_sample_end_date))#, binwidth = 365) #+
-  #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
+  filter(
+    !is.na(repeats_sample_end_date),
+    repeats_sample_end_date >= as.Date("2020-01-01"),
+    repeats_sample_end_date < as.Date("2030-01-01"),
+    repeats_sample_end_date != as.Date("2025-01-01")
+  ) %>% 
+  ggplot(aes(x = repeats_sample_end_date)) + 
+  geom_histogram()
+#  #binwidth = 365) #+
+#  #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_rep_end_date_plot.png"))
 
 # looking at demographic breakdowns
@@ -334,14 +365,14 @@ text_based <- df %>%
 
 text_based_save <- text_based %>% 
   filter(grepl("sample", variable)) %>%
-  arrange(prop)
+  arrange(desc(prop))
 
 # save summary in files of suitable sizx
 chunk_size <- 5000
 n_chunks <- ceiling(nrow(text_based_save) / chunk_size)
 for (i in seq_len(n_chunks)) {
   start_row <- (i - 1) * chunk_size + 1
-  end_row <- min(i * chunk_size, nrow(text_based))
+  end_row <- min(i * chunk_size, nrow(text_based_save))
   chunk <- text_based_save[start_row:end_row, ]
   write_csv(
     chunk,
