@@ -122,6 +122,9 @@ df_status_med <- df %>%
       TRUE ~ "Other"
     ),
     .after = 1
+  ) %>%
+  mutate(
+    med_count_perc = med_count/sum(med_count) * 100
   )
 
 # repeat medication status
@@ -167,6 +170,9 @@ df_status_rep <- df %>%
       TRUE ~ "Other"
     ),
     .after = 1
+  ) %>%
+  mutate(
+    rep_count_perc = rep_count/sum(rep_count) * 100
   )
 
 # medication status for rows with repeat ID
@@ -212,6 +218,9 @@ df_status_med_reps <- df %>%
       TRUE ~ "Other"
     ),
     .after = 1
+  ) %>%
+  mutate(
+    med_count_with_rep_perc = med_count_with_rep/sum(med_count_with_rep) * 100
   )
 
 # combine
@@ -324,7 +333,8 @@ text_based <- df %>%
   ungroup()
 
 text_based_save <- text_based %>% 
-  filter(grepl("sample", variable))
+  filter(grepl("sample", variable)) %>%
+  arrange(prop)
 
 # save summary in files of suitable sizx
 chunk_size <- 5000
