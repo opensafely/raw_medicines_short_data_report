@@ -1,5 +1,6 @@
 # import ehrql libraries
 from ehrql import create_measures, years, case, when, months
+from datetime import date, datetime
 # import the measures functionality
 from ehrql.measures import INTERVAL
 from ehrql.tables.tpp import patients, practice_registrations, ons_deaths
@@ -7,6 +8,7 @@ from ehrql.tables.raw.tpp import repeat_medications, medications
 
 # define start of period of interest
 index_date = "2025-01-01"
+start_date = datetime.strptime(index_date, "%Y-%m-%d").date()
 
 # require registration to exist 
 has_registration = practice_registrations.for_patient_on(
@@ -19,7 +21,12 @@ was_alive = death_date.is_after(INTERVAL.start_date) | death_date.is_null()
 correct_age = patients.age_on(INTERVAL.start_date) <= 110
 
 # define the interevals to be used for the measures
-intervals_months = months(12).starting_on(index_date)
+intervals_months = [
+    (date(start_date.year, 1, 1), date(start_date.year, 3, 31)),
+    (date(start_date.year, 4, 1), date(start_date.year, 6, 30)),
+    (date(start_date.year, 7, 1), date(start_date.year, 9, 30)),
+    (date(start_date.year, 10, 1), date(start_date.year, 12, 31)),
+]
 intervals_years = years(1).starting_on(index_date)
 
 # create ehrQL generated dummy measures
