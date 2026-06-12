@@ -29,7 +29,8 @@ actions:
         text_miss: output/missing_quantities.csv
         text_sum: output/quantity_sums_*.csv
         tex_sum_vis: output/quantity_summary_plot.png
-  
+        dmd_sum_vis: output/dmd_summary_plot.png
+
   generate_measures:
     run: >
         ehrql:v1 generate-measures

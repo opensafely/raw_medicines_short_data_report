@@ -285,7 +285,7 @@ dataset.sample_repeat_med = repeat_rows.dmd_code
 # look at specific medications
 dataset.statin_quantity = (
     medications
-    .where(medications.repeat_medication_id != -1)
+    #.where(medications.repeat_medication_id != -1)
     .where(medications.date.is_on_or_after(index_date))
     .where(medications.dmd_code.is_in(codelists.statins))
     .sort_by(medications.date)
@@ -294,7 +294,7 @@ dataset.statin_quantity = (
 )
 dataset.statin_term = (
     medications
-    .where(medications.repeat_medication_id != -1)
+    #.where(medications.repeat_medication_id != -1)
     .where(medications.date.is_on_or_after(index_date))
     .where(medications.dmd_code.is_in(codelists.statins))
     .sort_by(medications.date)
@@ -310,9 +310,18 @@ dataset.statin_quantity_rep = (
     .first_for_patient()
     .quantity
 )
+dataset.statin_term_rep = (
+    repeat_medications
+    .where(repeat_medications.repeat_medication_id != -1)
+    .where(repeat_medications.date.is_on_or_after(index_date))
+    .where(repeat_medications.dmd_code.is_in(codelists.statins))
+    .sort_by(repeat_medications.date)
+    .first_for_patient()
+    .dmd_code
+)
 dataset.codeine_quantity = (
     medications
-    .where(medications.repeat_medication_id != -1)
+    #.where(medications.repeat_medication_id != -1)
     .where(medications.date.is_on_or_after(index_date))
     .where(medications.dmd_code.is_in(codelists.codeine))
     .sort_by(medications.date)
@@ -321,7 +330,7 @@ dataset.codeine_quantity = (
 )
 dataset.codeine_term = (
     medications
-    .where(medications.repeat_medication_id != -1)
+    #.where(medications.repeat_medication_id != -1)
     .where(medications.date.is_on_or_after(index_date))
     .where(medications.dmd_code.is_in(codelists.codeine))
     .sort_by(medications.date)
@@ -336,4 +345,13 @@ dataset.codeine_quantity_rep = (
     .sort_by(repeat_medications.date)
     .first_for_patient()
     .quantity
+)
+dataset.codeine_term_rep = (
+    repeat_medications
+    .where(repeat_medications.repeat_medication_id != -1)
+    .where(repeat_medications.date.is_on_or_after(index_date))
+    .where(repeat_medications.dmd_code.is_in(codelists.codeine))
+    .sort_by(repeat_medications.date)
+    .first_for_patient()
+    .dmd_code
 )

@@ -432,3 +432,53 @@ visual_sum <- ggplot(
 
 # save 
 ggsave(here::here("output", "quantity_summary_plot.png"))
+
+# look at the medications associated with the quantity
+dmds_for_quants <- df %>%
+  #group_by(meds_exist) %>%
+  select(c(sample_issue_med, sample_issue_med_reps, sample_repeat_med)) %>%
+  pivot_longer(
+    cols = everything(),
+    names_to = "variable",
+    values_to = "value"
+  ) %>%
+  #filter(!is.na(value) & value != "") %>%
+  count(variable, value) %>%
+  group_by(variable) %>%
+  mutate(prop = n / sum(n)) %>%
+  ungroup()
+
+# keep only top 10 categories per variable for plotting
+plot_data <- dmds_for_quants %>%
+  group_by(variable) %>%
+  slice_max(order_by = prop, n = 10, with_ties = FALSE) %>%
+  ungroup()
+
+# visualise
+visual_sum <- ggplot(
+  plot_data,
+  aes(
+    x = reorder(value, prop),
+    y = prop,
+    fill = variable
+  )
+) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  facet_wrap(~ variable, scales = "free_y") +
+  scale_y_continuous(labels = percent_format()) +
+  geom_text(
+    aes(label = percent(prop, accuracy = 0.1)),
+    hjust = -0.1,
+    size = 3
+  ) +
+  expand_limits(y = max(text_based$prop) * 1.15) +
+  labs(
+    title = "Proportion of dm+d Codes",
+    x = NULL,
+    y = "Proportion"
+  ) +
+  theme_minimal()
+
+# save 
+ggsave(here::here("output", "dmd_summary_plot.png"))
