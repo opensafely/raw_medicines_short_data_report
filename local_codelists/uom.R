@@ -112,3 +112,7 @@ save_codelist(
   "local_codelists/user-emprestige-codeine-for-pain-uom.csv",
   "codelists/user-emprestige-codeine-for-pain-dmd.csv"
 )
+save_codelist(
+  "local_codelists/opensafely-high-dose-long-acting-opioids-openprescribing-dmd-uom.csv",
+  "codelists/opensafely-high-dose-long-acting-opioids-openprescribing-dmd.csv"
+)

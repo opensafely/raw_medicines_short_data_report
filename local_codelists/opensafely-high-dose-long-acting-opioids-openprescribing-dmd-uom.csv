@@ -1,0 +1,189 @@
+code,term,dmd_id,dmd_type,uom
+36057211000001102,Hydromorphone 16mg modified-release capsules,36057211000001102,VMP,capsule
+36057311000001105,Hydromorphone 24mg modified-release capsules,36057311000001105,VMP,capsule
+4001411000001107,Palladone SR 16mg capsules,4001411000001107,AMP,capsule
+4004111000001104,Palladone SR 24mg capsules,4004111000001104,AMP,capsule
+36120211000001106,Fentanyl 50micrograms/hour transdermal patches,36120211000001106,VMP,patch
+15024011000001104,Fentanyl 50micrograms/hour transdermal patches,15024011000001104,AMP,patch
+10724911000001106,Fentanyl 50micrograms/hour transdermal patches,10724911000001106,AMP,patch
+13440811000001103,Fentanyl 50micrograms/hour transdermal patches,13440811000001103,AMP,patch
+36120311000001103,Fentanyl 75micrograms/hour transdermal patches,36120311000001103,VMP,patch
+15024211000001109,Fentanyl 75micrograms/hour transdermal patches,15024211000001109,AMP,patch
+10725111000001107,Fentanyl 75micrograms/hour transdermal patches,10725111000001107,AMP,patch
+13441011000001100,Fentanyl 75micrograms/hour transdermal patches,13441011000001100,AMP,patch
+36119911000001103,Fentanyl 100micrograms/hour transdermal patches,36119911000001103,VMP,patch
+15024411000001108,Fentanyl 100micrograms/hour transdermal patches,15024411000001108,AMP,patch
+10725311000001109,Fentanyl 100micrograms/hour transdermal patches,10725311000001109,AMP,patch
+13441211000001105,Fentanyl 100micrograms/hour transdermal patches,13441211000001105,AMP,patch
+2836411000001102,Durogesic 50micrograms transdermal patches,2836411000001102,AMP,patch
+2836711000001108,Durogesic 75micrograms transdermal patches,2836711000001108,AMP,patch
+2838111000001106,Durogesic 100micrograms transdermal patches,2838111000001106,AMP,patch
+9089911000001100,Durogesic DTrans 50micrograms/hour transdermal patches,9089911000001100,AMP,patch
+9090111000001109,Durogesic DTrans 75micrograms/hour transdermal patches,9090111000001109,AMP,patch
+9090311000001106,Durogesic DTrans 100micrograms/hour transdermal patches,9090311000001106,AMP,patch
+9508211000001101,Tilofyl 50micrograms/hour transdermal patches,9508211000001101,AMP,patch
+9508511000001103,Tilofyl 75micrograms/hour transdermal patches,9508511000001103,AMP,patch
+9508911000001105,Tilofyl 100micrograms/hour transdermal patches,9508911000001105,AMP,patch
+11085311000001109,Matrifen 50micrograms/hour transdermal patches,11085311000001109,AMP,patch
+11085711000001108,Matrifen 75micrograms/hour transdermal patches,11085711000001108,AMP,patch
+11085911000001105,Matrifen 100micrograms/hour transdermal patches,11085911000001105,AMP,patch
+12882011000001103,Mezolar Matrix 50micrograms/hour transdermal patches,12882011000001103,AMP,patch
+12882411000001107,Mezolar Matrix 75micrograms/hour transdermal patches,12882411000001107,AMP,patch
+12882611000001105,Mezolar Matrix 100micrograms/hour transdermal patches,12882611000001105,AMP,patch
+12874911000001104,Fentalis Reservoir 50micrograms/hour transdermal patches,12874911000001104,AMP,patch
+12875011000001104,Fentalis Reservoir 75micrograms/hour transdermal patches,12875011000001104,AMP,patch
+12875111000001103,Fentalis Reservoir 100micrograms/hour transdermal patches,12875111000001103,AMP,patch
+13567711000001108,Osmach 50micrograms/hour transdermal patches,13567711000001108,AMP,patch
+13567911000001105,Osmach 75micrograms/hour transdermal patches,13567911000001105,AMP,patch
+13568111000001108,Osmach 100micrograms/hour transdermal patches,13568111000001108,AMP,patch
+15302611000001107,Osmanil 50micrograms/hour transdermal patches,15302611000001107,AMP,patch
+15302811000001106,Osmanil 75micrograms/hour transdermal patches,15302811000001106,AMP,patch
+15303011000001109,Osmanil 100micrograms/hour transdermal patches,15303011000001109,AMP,patch
+15363411000001101,Victanyl 50micrograms/hour transdermal patches,15363411000001101,AMP,patch
+15363611000001103,Victanyl 75micrograms/hour transdermal patches,15363611000001103,AMP,patch
+15363811000001104,Victanyl 100micrograms/hour transdermal patches,15363811000001104,AMP,patch
+19487111000001100,Fencino 50micrograms/hour transdermal patches,19487111000001100,AMP,patch
+19487311000001103,Fencino 75micrograms/hour transdermal patches,19487311000001103,AMP,patch
+19487511000001109,Fencino 100micrograms/hour transdermal patches,19487511000001109,AMP,patch
+23449811000001106,Opiodur 75micrograms/hour transdermal patches,23449811000001106,AMP,patch
+23450011000001105,Opiodur 100micrograms/hour transdermal patches,23450011000001105,AMP,patch
+23450311000001108,Opiodur 50micrograms/hour transdermal patches,23450311000001108,AMP,patch
+35359511000001107,Opiodur 50micrograms/hour transdermal patches,35359511000001107,AMP,patch
+35359711000001102,Opiodur 75micrograms/hour transdermal patches,35359711000001102,AMP,patch
+35359911000001100,Opiodur 100micrograms/hour transdermal patches,35359911000001100,AMP,patch
+37974911000001105,Opiodur 50micrograms/hour transdermal patches,37974911000001105,AMP,patch
+37975411000001101,Opiodur 75micrograms/hour transdermal patches,37975411000001101,AMP,patch
+37975711000001107,Opiodur 100micrograms/hour transdermal patches,37975711000001107,AMP,patch
+24560611000001100,Mylafent 50micrograms/hour transdermal patches,24560611000001100,AMP,patch
+24560811000001101,Mylafent 75micrograms/hour transdermal patches,24560811000001101,AMP,patch
+24561011000001103,Mylafent 100micrograms/hour transdermal patches,24561011000001103,AMP,patch
+30002211000001101,Yemex 50micrograms/hour transdermal patches,30002211000001101,AMP,patch
+30002711000001108,Yemex 75micrograms/hour transdermal patches,30002711000001108,AMP,patch
+30003011000001102,Yemex 100micrograms/hour transdermal patches,30003011000001102,AMP,patch
+36130911000001104,Oxycodone 40mg modified-release tablets,36130911000001104,VMP,tablet
+36131511000001104,Oxycodone 80mg modified-release tablets,36131511000001104,VMP,tablet
+18645511000001107,Oxycodone 120mg modified-release tablets,18645511000001107,VMP,tablet
+36131311000001105,Oxycodone 60mg modified-release tablets,36131311000001105,VMP,tablet
+2897211000001106,OxyContin 40mg modified-release tablets,2897211000001106,AMP,tablet
+2898111000001104,OxyContin 80mg modified-release tablets,2898111000001104,AMP,tablet
+18641711000001104,OxyContin 120mg modified-release tablets,18641711000001104,AMP,tablet
+18643311000001102,OxyContin 60mg modified-release tablets,18643311000001102,AMP,tablet
+32196811000001100,Carexil 40mg modified-release tablets,32196811000001100,AMP,tablet
+32197311000001107,Carexil 80mg modified-release tablets,32197311000001107,AMP,tablet
+20938111000001106,Longtec 40mg modified-release tablets,20938111000001106,AMP,tablet
+20938311000001108,Longtec 80mg modified-release tablets,20938311000001108,AMP,tablet
+29838211000001107,Longtec 120mg modified-release tablets,29838211000001107,AMP,tablet
+29838811000001108,Longtec 60mg modified-release tablets,29838811000001108,AMP,tablet
+20969211000001103,Oxylan 40mg modified-release tablets,20969211000001103,AMP,tablet
+20969411000001104,Oxylan 80mg modified-release tablets,20969411000001104,AMP,tablet
+22420411000001106,Oxylan 40mg modified-release tablets,22420411000001106,AMP,tablet
+22420911000001103,Oxylan 80mg modified-release tablets,22420911000001103,AMP,tablet
+21516811000001107,Candox 40mg modified-release tablets,21516811000001107,AMP,tablet
+21516511000001109,Candox 80mg modified-release tablets,21516511000001109,AMP,tablet
+23020811000001107,Dolocodon PR 40mg tablets,23020811000001107,AMP,tablet
+24467711000001101,Reltebon 40mg modified-release tablets,24467711000001101,AMP,tablet
+24467911000001104,Reltebon 80mg modified-release tablets,24467911000001104,AMP,tablet
+27993311000001101,Reltebon 60mg modified-release tablets,27993311000001101,AMP,tablet
+29676711000001106,Oxeltra 80mg modified-release tablets,29676711000001106,AMP,tablet
+29677411000001103,Oxeltra 60mg modified-release tablets,29677411000001103,AMP,tablet
+29677611000001100,Oxeltra 40mg modified-release tablets,29677611000001100,AMP,tablet
+30720811000001109,Abtard 40mg modified-release tablets,30720811000001109,AMP,tablet
+30721411000001103,Abtard 60mg modified-release tablets,30721411000001103,AMP,tablet
+30721711000001109,Abtard 80mg modified-release tablets,30721711000001109,AMP,tablet
+32133511000001104,Zomestine 80mg modified-release tablets,32133511000001104,AMP,tablet
+32136711000001102,Zomestine 40mg modified-release tablets,32136711000001102,AMP,tablet
+33629811000001105,Leveraxo 40mg modified-release tablets,33629811000001105,AMP,tablet
+33630011000001105,Leveraxo 60mg modified-release tablets,33630011000001105,AMP,tablet
+33630211000001100,Leveraxo 80mg modified-release tablets,33630211000001100,AMP,tablet
+34052211000001105,Onexila XL 80mg tablets,34052211000001105,AMP,tablet
+35542911000001106,Renocontin 40mg modified-release tablets,35542911000001106,AMP,tablet
+35543311000001100,Renocontin 60mg modified-release tablets,35543311000001100,AMP,tablet
+35847011000001108,Oxypro 40mg modified-release tablets,35847011000001108,AMP,tablet
+35847211000001103,Oxypro 60mg modified-release tablets,35847211000001103,AMP,tablet
+35847411000001104,Oxypro 80mg modified-release tablets,35847411000001104,AMP,tablet
+35857911000001109,Ixyldone 40mg modified-release tablets,35857911000001109,AMP,tablet
+35858711000001108,Ixyldone 60mg modified-release tablets,35858711000001108,AMP,tablet
+35859011000001101,Ixyldone 80mg modified-release tablets,35859011000001101,AMP,tablet
+15852811000001104,Oxycodone 40mg / Naloxone 20mg modified-release tablets,15852811000001104,VMP,tablet
+15851311000001104,Targinact 40mg/20mg modified-release tablets,15851311000001104,AMP,tablet
+38420311000001107,Myloxifin 40mg/20mg modified-release tablets,38420311000001107,AMP,tablet
+38802811000001102,Oxyargin 40mg/20mg modified-release tablets,38802811000001102,AMP,tablet
+18671911000001101,Tapentadol 150mg modified-release tablets,18671911000001101,VMP,tablet
+18672011000001108,Tapentadol 200mg modified-release tablets,18672011000001108,VMP,tablet
+18672111000001109,Tapentadol 250mg modified-release tablets,18672111000001109,VMP,tablet
+18664411000001101,Palexia SR 150mg tablets,18664411000001101,AMP,tablet
+18664711000001107,Palexia SR 200mg tablets,18664711000001107,AMP,tablet
+18665211000001104,Palexia SR 250mg tablets,18665211000001104,AMP,tablet
+39585511000001109,Ationdo SR 150mg tablets,39585511000001109,AMP,tablet
+39585711000001104,Ationdo SR 200mg tablets,39585711000001104,AMP,tablet
+39585911000001102,Ationdo SR 250mg tablets,39585911000001102,AMP,tablet
+35913811000001106,Buprenorphine 52.5micrograms/hour transdermal patches,35913811000001106,VMP,patch
+35913911000001101,Buprenorphine 70micrograms/hour transdermal patches,35913911000001101,VMP,patch
+3448811000001101,Transtec 52.5micrograms/hour transdermal patches,3448811000001101,AMP,patch
+3449311000001104,Transtec 70micrograms/hour transdermal patches,3449311000001104,AMP,patch
+23446411000001102,Hapoctasin 52.5micrograms/hour transdermal patches,23446411000001102,AMP,patch
+23446611000001104,Hapoctasin 70micrograms/hour transdermal patches,23446611000001104,AMP,patch
+32484411000001105,Bupeaze 52.5micrograms/hour transdermal patches,32484411000001105,AMP,patch
+32484611000001108,Bupeaze 70micrograms/hour transdermal patches,32484611000001108,AMP,patch
+32643211000001102,Prenotrix 52.5micrograms/hour transdermal patches,32643211000001102,AMP,patch
+32643711000001109,Prenotrix 70micrograms/hour transdermal patches,32643711000001109,AMP,patch
+33546411000001107,Buplast 52.5micrograms/hour transdermal patches,33546411000001107,AMP,patch
+33548111000001103,Buplast 70micrograms/hour transdermal patches,33548111000001103,AMP,patch
+34172311000001107,Relevtec 52.5micrograms/hour transdermal patches,34172311000001107,AMP,patch
+34172111000001105,Relevtec 70micrograms/hour transdermal patches,34172111000001105,AMP,patch
+34911911000001105,Turgeon 52.5micrograms/hour transdermal patches,34911911000001105,AMP,patch
+34912111000001102,Turgeon 70micrograms/hour transdermal patches,34912111000001102,AMP,patch
+35543911000001104,Carlosafine 52.5micrograms/hour transdermal patches,35543911000001104,AMP,patch
+35544111000001100,Carlosafine 70micrograms/hour transdermal patches,35544111000001100,AMP,patch
+36127011000001100,Morphine 200mg modified-release tablets,36127011000001100,VMP,tablet
+16653411000001104,Morphine 200mg modified-release tablets,16653411000001104,AMP,tablet
+36126211000001108,Morphine 100mg modified-release tablets,36126211000001108,VMP,tablet
+36127711000001103,Morphine 60mg modified-release tablets,36127711000001103,VMP,tablet
+4110911000001104,Morphine 60mg modified-release granules sachets sugar free,4110911000001104,VMP,sachet
+4110711000001101,Morphine 100mg modified-release granules sachets sugar free,4110711000001101,VMP,sachet
+4110811000001109,Morphine 200mg modified-release granules sachets sugar free,4110811000001109,VMP,sachet
+36127811000001106,Morphine 90mg modified-release capsules,36127811000001106,VMP,capsule
+36126611000001105,Morphine 120mg modified-release capsules,36126611000001105,VMP,capsule
+36126711000001101,Morphine 150mg modified-release capsules,36126711000001101,VMP,capsule
+36125811000001101,Morphine 100mg modified-release capsules,36125811000001101,VMP,capsule
+36127611000001107,Morphine 60mg modified-release capsules,36127611000001107,VMP,capsule
+36126911000001104,Morphine 200mg modified-release capsules,36126911000001104,VMP,capsule
+2883211000001103,MST Continus 60mg tablets,2883211000001103,AMP,tablet
+2883611000001101,MST Continus 100mg tablets,2883611000001101,AMP,tablet
+394011000001106,MST Continus 200mg tablets,394011000001106,AMP,tablet
+4088311000001108,MST Continus suspension 60mg granules sachets,4088311000001108,AMP,sachet
+4088611000001103,MST Continus suspension 100mg granules sachets,4088611000001103,AMP,sachet
+4089211000001105,MST Continus suspension 200mg granules sachets,4089211000001105,AMP,sachet
+3883211000001109,MXL 120mg capsules,3883211000001109,AMP,capsule
+3882911000001107,MXL 150mg capsules,3882911000001107,AMP,capsule
+4388011000001106,MXL 200mg capsules,4388011000001106,AMP,capsule
+3882211000001103,Morcap SR 100mg capsules,3882211000001103,AMP,capsule
+3778011000001102,Zomorph 60mg modified-release capsules,3778011000001102,AMP,capsule
+3881611000001107,Zomorph 100mg modified-release capsules,3881611000001107,AMP,capsule
+4035511000001101,Zomorph 200mg modified-release capsules,4035511000001101,AMP,capsule
+93411000001103,Filnarine SR 60mg tablets,93411000001103,AMP,tablet
+219511000001108,Filnarine SR 100mg tablets,219511000001108,AMP,tablet
+14930611000001104,Filnarine SR 200mg tablets,14930611000001104,AMP,tablet
+4527211000001108,Morphgesic SR 60mg tablets,4527211000001108,AMP,tablet
+4527911000001104,Morphgesic SR 100mg tablets,4527911000001104,AMP,tablet
+4527411000001107,Rhotard Morphine SR 60mg tablets,4527411000001107,AMP,tablet
+4528311000001104,Rhotard Morphine SR 100mg tablets,4528311000001104,AMP,tablet
+322672007,VMP previous to 36057211000001102,322672007,VMP,capsule
+322673002,VMP previous to 36057311000001105,322673002,VMP,capsule
+322696002,VMP previous to 36130911000001104,322696002,VMP,tablet
+322697006,VMP previous to 36131511000001104,322697006,VMP,tablet
+322714005,VMP previous to 36127711000001103,322714005,VMP,tablet
+322715006,VMP previous to 36126211000001108,322715006,VMP,tablet
+322716007,VMP previous to 36127011000001100,322716007,VMP,tablet
+322722003,VMP previous to 36127611000001107,322722003,VMP,capsule
+322723008,VMP previous to 36125811000001101,322723008,VMP,capsule
+322730002,VMP previous to 36127811000001106,322730002,VMP,capsule
+322731003,VMP previous to 36126611000001105,322731003,VMP,capsule
+322732005,VMP previous to 36126711000001101,322732005,VMP,capsule
+322733000,VMP previous to 36126911000001104,322733000,VMP,capsule
+333920004,VMP previous to 36120211000001106,333920004,VMP,patch
+333921000,VMP previous to 36120311000001103,333921000,VMP,patch
+333922007,VMP previous to 36119911000001103,333922007,VMP,patch
+407896004,VMP previous to 35913811000001106,407896004,VMP,patch
+407897008,VMP previous to 35913911000001101,407897008,VMP,patch
+445146000,VMP previous to 36131311000001105,445146000,VMP,tablet
