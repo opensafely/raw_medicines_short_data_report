@@ -259,8 +259,8 @@ test_data = {
             "medications_status_with_rep_id_28": 0,
             "statin_prescriptions": 0,
             "statin_repeats": False,
-            "codeine_prescriptions": 0,
-            "codeine_repeats": False
+            "opioids_prescriptions": 0,
+            "opioids_repeats": False
         }
     },
 

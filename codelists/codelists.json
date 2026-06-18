@@ -17,6 +17,12 @@
       "url": "https://www.opencodelists.org/codelist/opensafely/oxycodone-subcutaneous-dmd/454f1041/",
       "downloaded_at": "2026-05-27 13:15:55.300016Z",
       "sha": "93802d85d4a96e1cf8ed21d21cb8d0260e131009"
+    },
+    "opensafely-high-dose-long-acting-opioids-openprescribing-dmd.csv": {
+      "id": "opensafely/high-dose-long-acting-opioids-openprescribing-dmd/1911156a",
+      "url": "https://www.opencodelists.org/codelist/opensafely/high-dose-long-acting-opioids-openprescribing-dmd/1911156a/",
+      "downloaded_at": "2026-06-18 08:25:28.837066Z",
+      "sha": "7e58d79cabd6a607bd38c533def07931a1c25247"
     }
   }
 }

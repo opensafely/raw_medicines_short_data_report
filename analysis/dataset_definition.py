@@ -250,15 +250,15 @@ dataset.statin_repeats = (
     .where(repeat_medications.dmd_code.is_in(codelists.statins))
     .exists_for_patient()
 )
-# whereas we don't expect codeine to be on repeat
-dataset.codeine_prescriptions = (
+# whereas we don't expect opioids to be on repeat
+dataset.opioids_prescriptions = (
     medications.where(medications.date.is_on_or_after(index_date))
-    .where(medications.dmd_code.is_in(codelists.codeine))
+    .where(medications.dmd_code.is_in(codelists.opioids))
     .count_for_patient()
 )
-dataset.codeine_repeats = (
+dataset.opioids_repeats = (
     repeat_medications.where(repeat_medications.date.is_on_or_after(index_date))
-    .where(repeat_medications.dmd_code.is_in(codelists.codeine))
+    .where(repeat_medications.dmd_code.is_in(codelists.opioids))
     .exists_for_patient()
 )
 
@@ -319,38 +319,38 @@ dataset.statin_term_rep = (
     .first_for_patient()
     .dmd_code
 )
-dataset.codeine_quantity = (
+dataset.opioids_quantity = (
     medications
     #.where(medications.repeat_medication_id != -1)
     .where(medications.date.is_on_or_after(index_date))
-    .where(medications.dmd_code.is_in(codelists.codeine))
+    .where(medications.dmd_code.is_in(codelists.opioids))
     .sort_by(medications.date)
     .first_for_patient()
     .quantity
 )
-dataset.codeine_term = (
+dataset.opioids_term = (
     medications
     #.where(medications.repeat_medication_id != -1)
     .where(medications.date.is_on_or_after(index_date))
-    .where(medications.dmd_code.is_in(codelists.codeine))
+    .where(medications.dmd_code.is_in(codelists.opioids))
     .sort_by(medications.date)
     .first_for_patient()
     .dmd_code # match to term in codelist
 )
-dataset.codeine_quantity_rep = (
+dataset.opioids_quantity_rep = (
     repeat_medications
     .where(repeat_medications.repeat_medication_id != -1)
     .where(repeat_medications.date.is_on_or_after(index_date))
-    .where(repeat_medications.dmd_code.is_in(codelists.codeine))
+    .where(repeat_medications.dmd_code.is_in(codelists.opioids))
     .sort_by(repeat_medications.date)
     .first_for_patient()
     .quantity
 )
-dataset.codeine_term_rep = (
+dataset.opioids_term_rep = (
     repeat_medications
     .where(repeat_medications.repeat_medication_id != -1)
     .where(repeat_medications.date.is_on_or_after(index_date))
-    .where(repeat_medications.dmd_code.is_in(codelists.codeine))
+    .where(repeat_medications.dmd_code.is_in(codelists.opioids))
     .sort_by(repeat_medications.date)
     .first_for_patient()
     .dmd_code

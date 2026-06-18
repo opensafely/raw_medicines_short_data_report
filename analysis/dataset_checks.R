@@ -327,8 +327,8 @@ meds_by_sex <- df %>%
     mean_repeats = mean(active_repeats, na.rm = TRUE),
     statin_users = sum(statin_prescriptions > 0),
     statin_repeats = sum(statin_repeats),
-    codeine_users = sum(codeine_prescriptions > 0),
-    codeine_repeats = sum(codeine_repeats)
+    opioids_users = sum(opioids_prescriptions > 0),
+    opioids_repeats = sum(opioids_repeats)
   )
 meds_by_age <- df %>% 
   #filter(meds_exist) %>%
@@ -338,8 +338,8 @@ meds_by_age <- df %>%
     mean_repeats = mean(active_repeats, na.rm = TRUE),
     statin_users = sum(statin_prescriptions > 0),
     statin_repeats = sum(statin_repeats),
-    codeine_users = sum(codeine_prescriptions > 0),
-    codeine_repeats = sum(codeine_repeats)
+    opioids_users = sum(opioids_prescriptions > 0),
+    opioids_repeats = sum(opioids_repeats)
   )
 
 # save demographic summaries
