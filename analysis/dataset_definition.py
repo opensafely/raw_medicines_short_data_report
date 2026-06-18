@@ -292,7 +292,7 @@ dataset.statin_quantity = (
     .first_for_patient()
     .quantity
 )
-dataset.statin_term = (
+dataset.statin_code = (
     medications
     #.where(medications.repeat_medication_id != -1)
     .where(medications.date.is_on_or_after(index_date))
@@ -310,7 +310,7 @@ dataset.statin_quantity_rep = (
     .first_for_patient()
     .quantity
 )
-dataset.statin_term_rep = (
+dataset.statin_code_rep = (
     repeat_medications
     .where(repeat_medications.repeat_medication_id != -1)
     .where(repeat_medications.date.is_on_or_after(index_date))
@@ -328,7 +328,7 @@ dataset.opioids_quantity = (
     .first_for_patient()
     .quantity
 )
-dataset.opioids_term = (
+dataset.opioids_code = (
     medications
     #.where(medications.repeat_medication_id != -1)
     .where(medications.date.is_on_or_after(index_date))
@@ -346,7 +346,7 @@ dataset.opioids_quantity_rep = (
     .first_for_patient()
     .quantity
 )
-dataset.opioids_term_rep = (
+dataset.opioids_code_rep = (
     repeat_medications
     .where(repeat_medications.repeat_medication_id != -1)
     .where(repeat_medications.date.is_on_or_after(index_date))
