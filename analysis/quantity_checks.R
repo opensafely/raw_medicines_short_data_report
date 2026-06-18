@@ -6,7 +6,7 @@ library(readr)
 # import dataset
 df <- read_feather(here::here("output", "dataset.arrow")) %>% 
   select(c(patient_id, statin_quantity, statin_term, statin_quantity_rep, statin_term_rep,
-           opioids_quantity, opioids_term, opioids_quantity_rep, opioids_term_rep))
+           codeine_quantity, codeine_term, codeine_quantity_rep, codeine_term_rep))
 
 # import codelists with uom
 uom_statin <- read_csv(
@@ -17,8 +17,8 @@ uom_statin <- read_csv(
                    dmd_type = col_character(),
                    uom = col_character())
   )
-uom_opioids <- read_csv(
-  here::here("local_codelists", "opensafely-high-dose-long-acting-opioids-openprescribing-dmd-uom.csv"),
+uom_codeine <- read_csv(
+  here::here("local_codelists", "user-emprestige-codeine-for-pain-uom.csv"),
   col_types = cols(code = col_character(),
                    term = col_character(),
                    dmd_id = col_character(),
@@ -37,12 +37,12 @@ df_with_uom <- df %>%
     by = c("statin_term_rep" = "code")
   ) %>%
   left_join(
-    uom_opioids %>% select(c(code, term, uom)) %>% rename(opioids_term = term, opioids_uom = uom),
-    by = c("opioids_term" = "code")
+    uom_codeine %>% select(c(code, term, uom)) %>% rename(codeine_term = term, codeine_uom = uom),
+    by = c("codeine_term" = "code")
   ) %>%
   left_join(
-    uom_opioids %>% select(c(code, term, uom)) %>% rename(opioids_term_rep = term, opioids_uom_rep = uom),
-    by = c("opioids_term_rep" = "code")
+    uom_codeine %>% select(c(code, term, uom)) %>% rename(codeine_term_rep = term, codeine_uom_rep = uom),
+    by = c("codeine_term_rep" = "code")
   )
 
 # skim the data
