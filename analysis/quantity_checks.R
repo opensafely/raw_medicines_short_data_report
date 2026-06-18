@@ -18,7 +18,7 @@ uom_statin <- read_csv(
                    uom = col_character())
   )
 uom_opioids <- read_csv(
-  here::here("local_codelists", "user-emprestige-opioids-for-pain-uom.csv"),
+  here::here("local_codelists", "opensafely-high-dose-long-acting-opioids-openprescribing-dmd-uom.csv"),
   col_types = cols(code = col_character(),
                    term = col_character(),
                    dmd_id = col_character(),
