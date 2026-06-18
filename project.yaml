@@ -31,6 +31,14 @@ actions:
         tex_sum_vis: output/quantity_summary_plot.png
         dmd_sum_vis: output/dmd_summary_plot.png
 
+  quantity_checks:
+    run: r:v2 analysis/quantity_checks.R
+    needs:
+      - generate_dataset
+    outputs:
+      moderately_sensitive:
+        quantity_skim: output/quantity_skim.txt
+
   generate_measures:
     run: >
         ehrql:v1 generate-measures
