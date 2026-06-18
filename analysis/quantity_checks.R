@@ -5,8 +5,8 @@ library(readr)
 
 # import dataset
 df <- read_feather(here::here("output", "dataset.arrow")) %>% 
-  select(c(patient_id, statin_quantity, statin_term, statin_quantity_rep, statin_term_rep,
-           codeine_quantity, codeine_term, codeine_quantity_rep, codeine_term_rep))
+  select(c(patient_id, statin_quantity, statin_code, statin_quantity_rep, statin_code_rep,
+           opioids_quantity, opioids_code, opioids_quantity_rep, opioids_code_rep))
 
 # import codelists with uom
 uom_statin <- read_csv(
@@ -17,8 +17,8 @@ uom_statin <- read_csv(
                    dmd_type = col_character(),
                    uom = col_character())
   )
-uom_codeine <- read_csv(
-  here::here("local_codelists", "user-emprestige-codeine-for-pain-uom.csv"),
+uom_opioids <- read_csv(
+  here::here("local_codelists", "user-emprestige-opioids-for-pain-uom.csv"),
   col_types = cols(code = col_character(),
                    term = col_character(),
                    dmd_id = col_character(),
@@ -30,25 +30,39 @@ uom_codeine <- read_csv(
 df_with_uom <- df %>%
   left_join(
     uom_statin %>% select(c(code, term, uom)) %>% rename(statin_term = term, statin_uom = uom),
-    by = c("statin_term" = "code")
+    by = c("statin_code" = "code")
   ) %>%
   left_join(
     uom_statin %>% select(c(code, term, uom)) %>% rename(statin_term_rep = term, statin_uom_rep = uom),
-    by = c("statin_term_rep" = "code")
+    by = c("statin_code_rep" = "code")
   ) %>%
   left_join(
-    uom_codeine %>% select(c(code, term, uom)) %>% rename(codeine_term = term, codeine_uom = uom),
-    by = c("codeine_term" = "code")
+    uom_opioids %>% select(c(code, term, uom)) %>% rename(opioids_term = term, opioids_uom = uom),
+    by = c("opioids_code" = "code")
   ) %>%
   left_join(
-    uom_codeine %>% select(c(code, term, uom)) %>% rename(codeine_term_rep = term, codeine_uom_rep = uom),
-    by = c("codeine_term_rep" = "code")
+    uom_opioids %>% select(c(code, term, uom)) %>% rename(opioids_term_rep = term, opioids_uom_rep = uom),
+    by = c("opioids_code_rep" = "code")
   )
 
-# skim the data
-capture.output(
-  df_with_uom %>%
-    skimr::skim_without_charts(),
-  file = here::here("output", "quantity_skim.txt"),
-  split = FALSE
-)
+# check to see how often the uom appears in the quantity
+statin_sum <- df_with_uom %>%
+  group_by(statin_uom) %>%
+  summarise(
+    n = n(),
+    n_quantity_contains_uom = sum(str_detect(statin_quantity, statin_uom), na.rm = TRUE),
+    n_quantity_rep_contains_uom = sum(str_detect(statin_quantity_rep, statin_uom_rep), na.rm = TRUE)
+  ) %>%
+  mutate(med_type = "statins")
+opioids_sum <- df_with_uom %>%
+  group_by(opioids_uom) %>%
+  summarise(
+    n = n(),
+    n_quantity_contains_uom = sum(str_detect(opioids_quantity, opioids_uom), na.rm = TRUE),
+    n_quantity_rep_contains_uom = sum(str_detect(opioids_quantity_rep, opioids_uom_rep), na.rm = TRUE)
+  ) %>%
+  mutate(med_type = "opioids")
+sums <- bind_rows(statin_sum, opioids_sum)
+
+# save
+write_csv(sums, here::here("output", "quantity_uoms.csv"))

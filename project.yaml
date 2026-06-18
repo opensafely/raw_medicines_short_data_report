@@ -37,7 +37,7 @@ actions:
       - generate_dataset
     outputs:
       moderately_sensitive:
-        quantity_skim: output/quantity_skim.txt
+        quantity_skim: output/quantity_uoms.csv
 
   generate_measures:
     run: >
