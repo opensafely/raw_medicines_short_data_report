@@ -20,3 +20,21 @@ opioids = codelist_from_csv(
     "codelists/opensafely-high-dose-long-acting-opioids-openprescribing-dmd.csv",
     column = "code"
 )
+
+# nhs issues
+nhs_issues = codelist_from_csv(
+    "codelists/user-chriswood-repeat-table-sdr-nhs-issue.csv",
+    column = "code"
+)
+
+# private issue
+private_issues = codelist_from_csv(
+    "codelists/user-chriswood-repeat-table-sdr-private-issue.csv",
+    column = "code"
+)
+
+# installment dispensed issue
+installment = codelist_from_csv(
+    "codelists/user-chriswood-repeat-table-sdr-installment-dispensed.csv",
+    column = "code"
+)

@@ -199,6 +199,28 @@ for status in range(29):
         .count_for_patient()
     )   
     dataset.add_column(f"medications_status_with_rep_id_{status}", count_med_status_query_reps)
+    # looking at specific medications to check whether private prescriptions are coming through
+    nhs_issue_status_counts = (
+        medications.where(medications.date.is_on_or_after(index_date))
+        .where(medications.dmd_code.is_in(codelists.nhs_issues))
+        .where(medications.medication_status.is_in([status]))
+        .count_for_patient()
+    )   
+    dataset.add_column(f"nhs_issues_status_{status}", nhs_issue_status_counts)
+    private_issue_status_counts = (
+        medications.where(medications.date.is_on_or_after(index_date))
+        .where(medications.dmd_code.is_in(codelists.private_issues))
+        .where(medications.medication_status.is_in([status]))
+        .count_for_patient()
+    )
+    dataset.add_column(f"private_issues_status_{status}", private_issue_status_counts)
+    installment_issue_status_counts = (
+        medications.where(medications.date.is_on_or_after(index_date))
+        .where(medications.dmd_code.is_in(codelists.installment))
+        .where(medications.medication_status.is_in([status]))
+        .count_for_patient()
+    )
+    dataset.add_column(f"installment_issues_status_{status}", installment_issue_status_counts)
 
 ## looking at one row per patient 
 

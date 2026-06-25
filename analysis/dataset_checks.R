@@ -230,6 +230,157 @@ df_status <- merge(df_status, df_status_med_reps)
 # save
 write_csv(df_status, here::here("output", "dataset_status.csv"))
 
+# medication status for nhs issues
+df_status_nhs_issues <- df %>% 
+  #group_by(meds_exist) %>% 
+  select(contains("nhs_issues")) %>%
+  summarise(across(.cols = everything(), ~ sum(.x))) %>% 
+  pivot_longer(
+    cols = everything(),
+    names_to = "status_type",
+    names_prefix = "nhs_issues_status_",
+    values_to = "NHS_ISSUE"
+  ) %>% 
+  mutate(
+    "status" = case_when(
+      status_type == 0 ~ "Normal",
+      status_type == 4 ~ "Historical",
+      status_type == 5 ~ "Blue script",
+      status_type == 6 ~ "Private",
+      status_type == 7 ~ "Not in possession",
+      status_type == 8 ~ "Repeat dispensed",
+      status_type == 9 ~ "In possession",
+      status_type == 10 ~ "Dental",
+      status_type == 11 ~ "Hospital",
+      status_type == 12 ~ "Problem substance",
+      status_type == 13 ~ "From patient group direction",
+      status_type == 14 ~ "To take out",
+      status_type == 15 ~ "On admission",
+      status_type == 16 ~ "Regular medication",
+      status_type == 17 ~ "As required medication",
+      status_type == 18 ~ "Variable dose medication",
+      status_type == 19 ~ "Rate-controlled single regular",
+      status_type == 20 ~ "Only once",
+      status_type == 21 ~ "Outpatient",
+      status_type == 22 ~ "Rate-controlled multiple regular",
+      status_type == 23 ~ "Rate-controlled multiple only once",
+      status_type == 24 ~ "Rate-controlled single only once",
+      status_type == 25 ~ "Placeholder",
+      status_type == 26 ~ "Unconfirmed",
+      status_type == 27 ~ "Infusion",
+      status_type == 28 ~ "Reducing dose blue script",
+      is.na(status_type) ~ "Missing",
+      TRUE ~ "Other"
+    ),
+    .after = 1
+  ) %>%
+  mutate(
+    nhs_issue_perc = NHS_ISSUE/sum(NHS_ISSUE) * 100
+  )
+
+# medication status for private issues
+df_status_private_issues <- df %>% 
+  #group_by(meds_exist) %>% 
+  select(contains("private_issues")) %>%
+  summarise(across(.cols = everything(), ~ sum(.x))) %>% 
+  pivot_longer(
+    cols = everything(),
+    names_to = "status_type",
+    names_prefix = "private_issues_status_",
+    values_to = "PRIVATE_ISSUE"
+  ) %>% 
+  mutate(
+    "status" = case_when(
+      status_type == 0 ~ "Normal",
+      status_type == 4 ~ "Historical",
+      status_type == 5 ~ "Blue script",
+      status_type == 6 ~ "Private",
+      status_type == 7 ~ "Not in possession",
+      status_type == 8 ~ "Repeat dispensed",
+      status_type == 9 ~ "In possession",
+      status_type == 10 ~ "Dental",
+      status_type == 11 ~ "Hospital",
+      status_type == 12 ~ "Problem substance",
+      status_type == 13 ~ "From patient group direction",
+      status_type == 14 ~ "To take out",
+      status_type == 15 ~ "On admission",
+      status_type == 16 ~ "Regular medication",
+      status_type == 17 ~ "As required medication",
+      status_type == 18 ~ "Variable dose medication",
+      status_type == 19 ~ "Rate-controlled single regular",
+      status_type == 20 ~ "Only once",
+      status_type == 21 ~ "Outpatient",
+      status_type == 22 ~ "Rate-controlled multiple regular",
+      status_type == 23 ~ "Rate-controlled multiple only once",
+      status_type == 24 ~ "Rate-controlled single only once",
+      status_type == 25 ~ "Placeholder",
+      status_type == 26 ~ "Unconfirmed",
+      status_type == 27 ~ "Infusion",
+      status_type == 28 ~ "Reducing dose blue script",
+      is.na(status_type) ~ "Missing",
+      TRUE ~ "Other"
+    ),
+    .after = 1
+  ) %>%
+  mutate(
+    private_issue_perc = PRIVATE_ISSUE/sum(PRIVATE_ISSUE) * 100
+  )
+
+# medication status for installment issues
+df_status_installment_issues <- df %>% 
+  #group_by(meds_exist) %>% 
+  select(contains("installment_issues")) %>%
+  summarise(across(.cols = everything(), ~ sum(.x))) %>% 
+  pivot_longer(
+    cols = everything(),
+    names_to = "status_type",
+    names_prefix = "installment_issues_status_",
+    values_to = "INSTALLMENT_ISSUE"
+  ) %>% 
+  mutate(
+    "status" = case_when(
+      status_type == 0 ~ "Normal",
+      status_type == 4 ~ "Historical",
+      status_type == 5 ~ "Blue script",
+      status_type == 6 ~ "Private",
+      status_type == 7 ~ "Not in possession",
+      status_type == 8 ~ "Repeat dispensed",
+      status_type == 9 ~ "In possession",
+      status_type == 10 ~ "Dental",
+      status_type == 11 ~ "Hospital",
+      status_type == 12 ~ "Problem substance",
+      status_type == 13 ~ "From patient group direction",
+      status_type == 14 ~ "To take out",
+      status_type == 15 ~ "On admission",
+      status_type == 16 ~ "Regular medication",
+      status_type == 17 ~ "As required medication",
+      status_type == 18 ~ "Variable dose medication",
+      status_type == 19 ~ "Rate-controlled single regular",
+      status_type == 20 ~ "Only once",
+      status_type == 21 ~ "Outpatient",
+      status_type == 22 ~ "Rate-controlled multiple regular",
+      status_type == 23 ~ "Rate-controlled multiple only once",
+      status_type == 24 ~ "Rate-controlled single only once",
+      status_type == 25 ~ "Placeholder",
+      status_type == 26 ~ "Unconfirmed",
+      status_type == 27 ~ "Infusion",
+      status_type == 28 ~ "Reducing dose blue script",
+      is.na(status_type) ~ "Missing",
+      TRUE ~ "Other"
+    ),
+    .after = 1
+  ) %>%
+  mutate(
+    installment_issue_perc = INSTALLMENT_ISSUE/sum(INSTALLMENT_ISSUE) * 100
+  )
+
+# combine
+df_status_issues <- merge(df_status_nhs_issues, df_status_private_issues)
+df_status_issues <- merge(df_status_issues, df_status_installment_issues)
+
+# save
+write_csv(df_status_issues, here::here("output", "dataset_status_issues.csv"))
+
 # sample date distributions
 df_dates <- df %>% 
   #group_by(meds_exist) %>%

@@ -23,6 +23,24 @@
       "url": "https://www.opencodelists.org/codelist/opensafely/high-dose-long-acting-opioids-openprescribing-dmd/1911156a/",
       "downloaded_at": "2026-06-18 08:25:28.837066Z",
       "sha": "7e58d79cabd6a607bd38c533def07931a1c25247"
+    },
+    "user-chriswood-repeat-table-sdr-nhs-issue.csv": {
+      "id": "user/chriswood/repeat-table-sdr-nhs-issue/32df7566",
+      "url": "https://www.opencodelists.org/codelist/user/chriswood/repeat-table-sdr-nhs-issue/32df7566/",
+      "downloaded_at": "2026-06-25 09:36:42.068133Z",
+      "sha": "c6d54a9c0cbcfdbf11b007eb78ddb9860112ee48"
+    },
+    "user-chriswood-sdr-private-issue.csv": {
+      "id": "user/chriswood/sdr-private-issue/64fe5bd0",
+      "url": "https://www.opencodelists.org/codelist/user/chriswood/sdr-private-issue/64fe5bd0/",
+      "downloaded_at": "2026-06-25 09:36:42.227194Z",
+      "sha": "516fb7e06e07cb225614c5e81083f40504f35eb5"
+    },
+    "user-chriswood-repeat-table-sdr-instalment-dispensed-issue.csv": {
+      "id": "user/chriswood/repeat-table-sdr-instalment-dispensed-issue/4beee89b",
+      "url": "https://www.opencodelists.org/codelist/user/chriswood/repeat-table-sdr-instalment-dispensed-issue/4beee89b/",
+      "downloaded_at": "2026-06-25 09:36:42.353608Z",
+      "sha": "5ef7992698b02a6d89e40fd06f1329b2d5c4bd20"
     }
   }
 }

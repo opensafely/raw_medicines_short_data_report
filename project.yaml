@@ -22,6 +22,7 @@ actions:
         checks: output/dataset_check.csv
         missing: output/dataset_missing.csv
         status: output/dataset_status.csv
+        status_issues: output/dataset_status_issues.csv
         dates: output/dataset_date_outliers.csv
         indexes: output/dataset_date_indexes.csv
         plots: output/sample_*.png
