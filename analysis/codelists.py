@@ -35,6 +35,6 @@ private_issues = codelist_from_csv(
 
 # installment dispensed issue
 installment = codelist_from_csv(
-    "codelists/user-chriswood-repeat-table-sdr-installment-dispensed-issue.csv",
+    "codelists/user-chriswood-repeat-table-sdr-instalment-dispensed-issue.csv",
     column = "code"
 )
