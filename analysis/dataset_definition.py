@@ -222,6 +222,24 @@ for status in range(29):
     )
     dataset.add_column(f"installment_issues_status_{status}", installment_issue_status_counts)
 
+# look at whether medication status is ever missing
+dataset.medications_missing_status_issue = (
+    medications.where(medications.date.is_on_or_after(index_date))
+    .where(medications.medication_status.is_null())
+    .count_for_patient()
+)
+dataset.medications_missing_status_repeat = (
+    repeat_medications.where(repeat_medications.date.is_on_or_after(index_date))
+    .where(repeat_medications.medication_status.is_null())
+    .count_for_patient()
+)
+dataset.medications_missing_status_issue_with_rep_id = (
+    medications.where(medications.date.is_on_or_after(index_date))
+    .where(medications.repeat_medication_id != -1)
+    .where(medications.medication_status.is_null())
+    .count_for_patient()
+)
+
 ## looking at one row per patient 
 
 # get first row for each patient
