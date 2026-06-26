@@ -420,7 +420,8 @@ write_csv(df_dates_outliers, here::here("output", "dataset_date_outliers.csv"))
 # get info about dates occuring on index 
 df_dates_index <- df_dates %>% 
   filter(if_any(.cols = everything(), ~ .x == as.Date("2025-01-01"))) %>% 
-  summarise(across(everything(), ~sum(.x == as.Date("2025-01-01"), na.rm = TRUE)))
+  summarise(across(everything(), ~sum(.x == as.Date("2025-01-01"), na.rm = TRUE))) %>%
+  mutate(across(everything(), ~ .x/nrow(df_dates) * 100, .names = "{.col}_perc"))
 
 # save
 write_csv(df_dates_index, here::here("output", "dataset_date_indexes.csv"))
