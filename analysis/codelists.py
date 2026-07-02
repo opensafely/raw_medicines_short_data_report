@@ -42,7 +42,7 @@ installment = codelist_from_csv(
 # other types of meds
 injections = codelist_from_csv(
     "codelists/opensafely-long-acting-injectable-and-depot-antipsychotics-dmd.csv",
-    column = "codde"
+    column = "code"
 )
 injections_oxy = codelist_from_csv(
     "codelists/opensafely-oxycodone-subcutaneous-dmd.csv",
