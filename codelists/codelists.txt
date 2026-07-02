@@ -7,3 +7,6 @@ opensafely/high-dose-long-acting-opioids-openprescribing-dmd/1911156a
 user/chriswood/repeat-table-sdr-nhs-issue/32df7566
 user/chriswood/sdr-private-issue/64fe5bd0
 user/chriswood/repeat-table-sdr-instalment-dispensed-issue/4beee89b
+
+opensafely/long-acting-injectable-and-depot-antipsychotics-dmd/536cc8dc
+user/emprestige/all-inhalers-dmd/5ff7812d

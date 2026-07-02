@@ -41,6 +41,18 @@
       "url": "https://www.opencodelists.org/codelist/user/chriswood/repeat-table-sdr-instalment-dispensed-issue/4beee89b/",
       "downloaded_at": "2026-06-25 09:36:42.353608Z",
       "sha": "5ef7992698b02a6d89e40fd06f1329b2d5c4bd20"
+    },
+    "opensafely-long-acting-injectable-and-depot-antipsychotics-dmd.csv": {
+      "id": "opensafely/long-acting-injectable-and-depot-antipsychotics-dmd/536cc8dc",
+      "url": "https://www.opencodelists.org/codelist/opensafely/long-acting-injectable-and-depot-antipsychotics-dmd/536cc8dc/",
+      "downloaded_at": "2026-07-02 10:57:18.578638Z",
+      "sha": "3a76be80db352f2968c6fbae166e070a2bdde01a"
+    },
+    "user-emprestige-all-inhalers-dmd.csv": {
+      "id": "user/emprestige/all-inhalers-dmd/5ff7812d",
+      "url": "https://www.opencodelists.org/codelist/user/emprestige/all-inhalers-dmd/5ff7812d/",
+      "downloaded_at": "2026-07-02 10:57:18.746882Z",
+      "sha": "d44494e47e7ff951e68f01a1b263971c8a104be3"
     }
   }
 }

@@ -38,3 +38,17 @@ installment = codelist_from_csv(
     "codelists/user-chriswood-repeat-table-sdr-instalment-dispensed-issue.csv",
     column = "code"
 )
+
+# other types of meds
+injections = codelist_from_csv(
+    "codelists/opensafely-long-acting-injectable-and-depot-antipsychotics-dmd.csv",
+    column = "codde"
+)
+injections_oxy = codelist_from_csv(
+    "codelists/opensafely-oxycodone-subcutaneous-dmd.csv",
+    column = "code"
+)
+inhalers = codelist_from_csv(
+    "codelists/user-emprestige-all-inhalers-dmd.csv",
+    column = "code"
+)
