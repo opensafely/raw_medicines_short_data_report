@@ -80,13 +80,13 @@ df_miss <- df %>%
 write_csv(df_miss, here::here("output", "dataset_missing.csv"))
 
 # get missing medication status
-missing_status_row <- df %>%
-  select(contains("missing_status")) %>%
-  summarise(across(.cols = everything(), ~ sum(.x))) %>% 
-  rename(med_count = medications_missing_status_issue,
-         rep_count = medications_missing_status_repeat,
-         med_count_with_rep = medications_missing_status_issue_with_rep_id) %>% 
-  mutate(status_type = NA_real_, status = "Missing", .before = 1)
+#missing_status_row <- df %>%
+#  select(contains("missing_status")) %>%
+#  summarise(across(.cols = everything(), ~ sum(.x))) %>% 
+#  rename(med_count = medications_missing_status_issue,
+#         rep_count = medications_missing_status_repeat,
+#         med_count_with_rep = medications_missing_status_issue_with_rep_id) %>% 
+#  mutate(status_type = NA_real_, status = "Missing", .before = 1)
 
 # medication status
 df_status_med <- df %>% 
@@ -132,7 +132,7 @@ df_status_med <- df %>%
     ),
     .after = 1
   ) %>%
-  rbind(missing_status_row[, 1:3]) %>% 
+  #rbind(missing_status_row[, 1:3]) %>% 
   mutate(
     med_count_perc = med_count/sum(med_count) * 100
   )
@@ -181,7 +181,7 @@ df_status_rep <- df %>%
     ),
     .after = 1
   ) %>%
-  rbind(missing_status_row[, c(1:2, 4)]) %>% 
+  #rbind(missing_status_row[, c(1:2, 4)]) %>% 
   mutate(
     rep_count_perc = rep_count/sum(rep_count) * 100
   )
@@ -230,7 +230,7 @@ df_status_med_reps <- df %>%
     ),
     .after = 1
   ) %>%
-  rbind(missing_status_row[, c(1:2, 5)]) %>% 
+  #rbind(missing_status_row[, c(1:2, 5)]) %>% 
   mutate(
     med_count_with_rep_perc = med_count_with_rep/sum(med_count_with_rep) * 100
   )
