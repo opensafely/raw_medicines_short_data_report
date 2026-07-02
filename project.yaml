@@ -24,7 +24,9 @@ actions:
         status: output/dataset_status.csv
         status_issues: output/dataset_status_issues.csv
         dates: output/dataset_date_outliers.csv
+        dates_check: output/dataset_date_outliers_check.csv
         indexes: output/dataset_date_indexes.csv
+        indexes_check: output/dataset_date_indexes_check.csv
         plots: output/sample_*.png
         demographics: output/meds_by_*.csv
         text_miss: output/missing_quantities.csv

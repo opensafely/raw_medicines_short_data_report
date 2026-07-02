@@ -395,13 +395,42 @@ write_csv(df_status_issues, here::here("output", "dataset_status_issues.csv"))
 
 # sample date distributions
 df_dates <- df %>% 
-  #group_by(meds_exist) %>%
   select(c(meds_sample_date, repeats_sample_date, 
-           repeats_sample_start_date, repeats_sample_end_date)) %>% 
-  # filter data to include only people with medicines data
-  filter(if_any(.cols = c(meds_sample_date, repeats_sample_date), ~ !is.na(.x)))
+           repeats_sample_start_date, repeats_sample_end_date))
+  # filter data to include only people with medicines data - done earlier
+
+summarise_date_outliers <- function(df, cond) {
+  date_cols <- names(df)
+  n_total <- nrow(df)
+
+  df %>%
+    mutate(outlier_row = if_any(all_of(date_cols), ~ cond(.x))) %>%
+    filter(outlier_row) %>%
+    summarise(
+      n_rows = n(),
+      pct_rows = 100 * n() / n_total,
+      across(all_of(date_cols), ~ sum(cond(.x), na.rm = TRUE), .names = "{.col}_n"),
+      across(all_of(date_cols), ~ 100 * sum(cond(.x), na.rm = TRUE) / n_total, .names = "{.col}_pct")
+    )
+}
 
 df_dates_outliers <- bind_rows(
+  missing_identifier = summarise_date_outliers(
+    df_dates,
+    function(x) x == as.Date("9999-12-31")
+  ),
+  prior_to_index = summarise_date_outliers(
+    df_dates,
+    function(x) x < as.Date("2025-01-01")
+  ),
+  long_post_index = summarise_date_outliers(
+    df_dates,
+    function(x) x >= as.Date("2030-01-01") & x != as.Date("9999-12-31")
+  ),
+  .id = "outlier_type"
+)
+
+df_dates_outliers_check <- bind_rows(
   missing_identifier = df_dates %>% 
     filter(if_any(.cols = everything(), ~ .x == as.Date("9999-12-31"))) %>% 
     summarise(across(everything(), ~ sum(.x == as.Date("9999-12-31"), na.rm = TRUE))),
@@ -416,15 +445,22 @@ df_dates_outliers <- bind_rows(
 
 # save
 write_csv(df_dates_outliers, here::here("output", "dataset_date_outliers.csv"))
+write_csv(df_dates_outliers_check, here::here("output", "dataset_date_outliers_check.csv"))
 
 # get info about dates occuring on index 
 df_dates_index <- df_dates %>% 
+  summarise_date_outliers(
+    function(x) x == as.Date("2025-01-01")
+  )
+
+df_dates_index_check <- df_dates %>% 
   filter(if_any(.cols = everything(), ~ .x == as.Date("2025-01-01"))) %>% 
   summarise(across(everything(), ~sum(.x == as.Date("2025-01-01"), na.rm = TRUE))) %>%
   mutate(across(everything(), ~ .x/nrow(df_dates) * 100, .names = "{.col}_perc"))
 
 # save
 write_csv(df_dates_index, here::here("output", "dataset_date_indexes.csv"))
+write_csv(df_dates_index_check, here::here("output", "dataset_date_indexes_check.csv"))
 
 # plot the date distributions
 df_dates <- df_dates %>% 
