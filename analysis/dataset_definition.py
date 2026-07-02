@@ -199,7 +199,7 @@ for status in range(29):
         .count_for_patient()
     )   
     dataset.add_column(f"medications_status_with_rep_id_{status}", count_med_status_query_reps)
-    # looking at specific medications to check whether private prescriptions are coming through
+    # looking at specific medications to check whether expected prescription statuses are coming through
     nhs_issue_status_counts = (
         medications.where(medications.date.is_on_or_after(index_date))
         .where(medications.dmd_code.is_in(codelists.nhs_issues))
@@ -221,6 +221,28 @@ for status in range(29):
         .count_for_patient()
     )
     dataset.add_column(f"installment_issues_status_{status}", installment_issue_status_counts)
+    # now for repeats
+    nhs_issue_status_counts_rep = (
+        repeat_medications.where(repeat_medications.date.is_on_or_after(index_date))
+        .where(repeat_medications.dmd_code.is_in(codelists.nhs_issues))
+        .where(repeat_medications.medication_status.is_in([status]))
+        .count_for_patient()
+    )   
+    dataset.add_column(f"nhs_issues_rep_status_{status}", nhs_issue_status_counts_rep)
+    private_issue_status_counts_rep = (
+        repeat_medications.where(repeat_medications.date.is_on_or_after(index_date))
+        .where(repeat_medications.dmd_code.is_in(codelists.private_issues))
+        .where(repeat_medications.medication_status.is_in([status]))
+        .count_for_patient()
+    )
+    dataset.add_column(f"private_issues_rep_status_{status}", private_issue_status_counts_rep)
+    installment_issue_status_counts_rep = (
+        repeat_medications.where(repeat_medications.date.is_on_or_after(index_date))
+        .where(repeat_medications.dmd_code.is_in(codelists.installment))
+        .where(repeat_medications.medication_status.is_in([status]))
+        .count_for_patient()
+    )
+    dataset.add_column(f"installment_issues_rep_status_{status}", installment_issue_status_counts_rep)
 
 # look at whether medication status is ever missing
 dataset.medications_missing_status_issue = (
