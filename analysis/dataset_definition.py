@@ -304,6 +304,7 @@ dataset.has_matching_repeat_med = (case(
 # we expect statins to be on repeat
 dataset.statin_prescriptions = (
     medications.where(medications.date.is_on_or_after(index_date))
+    .where(medications.repeat_medication_id == -1)
     .where(medications.dmd_code.is_in(codelists.statins))
     .count_for_patient()
 )
@@ -312,9 +313,16 @@ dataset.statin_repeats = (
     .where(repeat_medications.dmd_code.is_in(codelists.statins))
     .exists_for_patient()
 )
+dataset.statin_repeat_issues = (
+    medications.where(medications.date.is_on_or_after(index_date))
+    .where(medications.repeat_medication_id != -1)
+    .where(medications.dmd_code.is_in(codelists.statins))
+    .count_for_patient()
+)
 # whereas we don't expect opioids to be on repeat
 dataset.opioids_prescriptions = (
     medications.where(medications.date.is_on_or_after(index_date))
+    .where(medications.repeat_medication_id == -1)
     .where(medications.dmd_code.is_in(codelists.opioids))
     .count_for_patient()
 )
@@ -322,6 +330,12 @@ dataset.opioids_repeats = (
     repeat_medications.where(repeat_medications.date.is_on_or_after(index_date))
     .where(repeat_medications.dmd_code.is_in(codelists.opioids))
     .exists_for_patient()
+)
+dataset.opioids_repeat_issues = (
+    medications.where(medications.date.is_on_or_after(index_date))
+    .where(medications.repeat_medication_id != -1)
+    .where(medications.dmd_code.is_in(codelists.opioids))
+    .count_for_patient()
 )
 
 ## quantities work
@@ -347,7 +361,7 @@ dataset.sample_repeat_med = repeat_rows.dmd_code
 # look at specific medications
 dataset.statin_quantity = (
     medications
-    #.where(medications.repeat_medication_id != -1)
+    .where(medications.repeat_medication_id == -1)
     .where(medications.date.is_on_or_after(index_date))
     .where(medications.dmd_code.is_in(codelists.statins))
     .sort_by(medications.date)
@@ -356,7 +370,7 @@ dataset.statin_quantity = (
 )
 dataset.statin_code = (
     medications
-    #.where(medications.repeat_medication_id != -1)
+    .where(medications.repeat_medication_id == -1)
     .where(medications.date.is_on_or_after(index_date))
     .where(medications.dmd_code.is_in(codelists.statins))
     .sort_by(medications.date)
@@ -381,9 +395,27 @@ dataset.statin_code_rep = (
     .first_for_patient()
     .dmd_code
 )
+dataset.statin_quantity_med_with_rep = (
+    medications
+    .where(medications.repeat_medication_id != -1)
+    .where(medications.date.is_on_or_after(index_date))
+    .where(medications.dmd_code.is_in(codelists.statins))
+    .sort_by(medications.date)
+    .first_for_patient()
+    .quantity
+)
+dataset.statin_code_med_with_rep = (
+    medications
+    .where(medications.repeat_medication_id != -1)
+    .where(medications.date.is_on_or_after(index_date))
+    .where(medications.dmd_code.is_in(codelists.statins))
+    .sort_by(medications.date)
+    .first_for_patient()
+    .dmd_code
+)
 dataset.opioids_quantity = (
     medications
-    #.where(medications.repeat_medication_id != -1)
+    .where(medications.repeat_medication_id == -1)
     .where(medications.date.is_on_or_after(index_date))
     .where(medications.dmd_code.is_in(codelists.opioids))
     .sort_by(medications.date)
@@ -392,7 +424,7 @@ dataset.opioids_quantity = (
 )
 dataset.opioids_code = (
     medications
-    #.where(medications.repeat_medication_id != -1)
+    .where(medications.repeat_medication_id == -1)
     .where(medications.date.is_on_or_after(index_date))
     .where(medications.dmd_code.is_in(codelists.opioids))
     .sort_by(medications.date)
@@ -414,6 +446,74 @@ dataset.opioids_code_rep = (
     .where(repeat_medications.date.is_on_or_after(index_date))
     .where(repeat_medications.dmd_code.is_in(codelists.opioids))
     .sort_by(repeat_medications.date)
+    .first_for_patient()
+    .dmd_code
+)
+dataset.opioids_quantity_med_with_rep = (
+    medications
+    .where(medications.repeat_medication_id != -1)
+    .where(medications.date.is_on_or_after(index_date))
+    .where(medications.dmd_code.is_in(codelists.opioids))
+    .sort_by(medications.date)
+    .first_for_patient()
+    .quantity
+)
+dataset.opioids_code_med_with_rep = (
+    medications
+    .where(medications.repeat_medication_id != -1)
+    .where(medications.date.is_on_or_after(index_date))
+    .where(medications.dmd_code.is_in(codelists.opioids))
+    .sort_by(medications.date)
+    .first_for_patient()
+    .dmd_code
+)
+
+# look at other medication types (injections and inhalers) to explore quantity information
+dataset.injections_quantity = (
+    medications
+    .where(medications.date.is_on_or_after(index_date))
+    .where(medications.dmd_code.is_in(codelists.injections))
+    .sort_by(medications.date)
+    .first_for_patient()
+    .quantity
+)
+dataset.injections_code = (
+    medications
+    .where(medications.date.is_on_or_after(index_date))
+    .where(medications.dmd_code.is_in(codelists.injections))
+    .sort_by(medications.date)
+    .first_for_patient()
+    .dmd_code
+)
+dataset.injections_oxy_quantity = (
+    medications
+    .where(medications.date.is_on_or_after(index_date))
+    .where(medications.dmd_code.is_in(codelists.injections_oxy))
+    .sort_by(medications.date)
+    .first_for_patient()
+    .quantity
+)
+dataset.injections_oxy_code = (
+    medications
+    .where(medications.date.is_on_or_after(index_date))
+    .where(medications.dmd_code.is_in(codelists.injections_oxy))
+    .sort_by(medications.date)
+    .first_for_patient()
+    .dmd_code
+)
+dataset.inhalers_quantity = (
+    medications
+    .where(medications.date.is_on_or_after(index_date))
+    .where(medications.dmd_code.is_in(codelists.inhalers))
+    .sort_by(medications.date)
+    .first_for_patient()
+    .quantity
+)
+dataset.inhalers_code = (
+    medications
+    .where(medications.date.is_on_or_after(index_date))
+    .where(medications.dmd_code.is_in(codelists.inhalers))
+    .sort_by(medications.date)
     .first_for_patient()
     .dmd_code
 )

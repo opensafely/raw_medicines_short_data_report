@@ -554,32 +554,58 @@ summarise_date_outliers <- function(df, cond) {
   date_cols <- names(df)
   n_total <- nrow(df)
 
-  df %>%
+  outlier_rows <- df %>%
     mutate(outlier_row = if_any(all_of(date_cols), ~ cond(.x))) %>%
-    filter(outlier_row) %>%
-    summarise(
-      n_rows = n(),
-      pct_rows = 100 * n() / n_total,
-      across(all_of(date_cols), ~ sum(cond(.x), na.rm = TRUE), .names = "{.col}_n"),
-      across(all_of(date_cols), ~ 100 * sum(cond(.x), na.rm = TRUE) / n_total, .names = "{.col}_pct")
+    filter(outlier_row)
+
+  tibble(
+    n_rows = nrow(outlier_rows),
+    pct_rows = 100 * nrow(outlier_rows) / n_total,
+    !!!setNames(
+      lapply(date_cols, function(col) {
+        sum(cond(pull(df, !!sym(col))), na.rm = TRUE)
+      }),
+      paste0(date_cols, "_n")
+    ),
+    !!!setNames(
+      lapply(date_cols, function(col) {
+        100 * sum(cond(pull(df, !!sym(col))), na.rm = TRUE) / n_total
+      }),
+      paste0(date_cols, "_pct")
     )
+  )
 }
 
-df_dates_outliers <- bind_rows(
-  missing_identifier = summarise_date_outliers(
-    df_dates,
-    function(x) x == as.Date("9999-12-31")
-  ),
-  prior_to_index = summarise_date_outliers(
-    df_dates,
-    function(x) x < as.Date("2025-01-01")
-  ),
-  long_post_index = summarise_date_outliers(
-    df_dates,
-    function(x) x >= as.Date("2030-01-01") & x != as.Date("9999-12-31")
-  ),
-  .id = "outlier_type"
+summarise_date_outlier_types <- function(df, outlier_conditions) {
+  date_cols <- names(df)
+  n_total <- nrow(df)
+
+  bind_rows(lapply(names(outlier_conditions), function(outlier_type) {
+    cond <- outlier_conditions[[outlier_type]]
+    counts <- vapply(date_cols, function(col) {
+      sum(cond(pull(df, !!sym(col))), na.rm = TRUE)
+    }, numeric(1))
+
+    values <- c(
+      total = n_total,
+      setNames(counts, paste0(date_cols, "_n")),
+      setNames(100 * counts / n_total, paste0(date_cols, "_pct"))
+    )
+
+    tibble(
+      outlier_type = outlier_type,
+      !!!as.list(values)
+    )
+  }))
+}
+
+outlier_conditions <- list(
+  missing_identifier = function(x) x == as.Date("9999-12-31"),
+  prior_to_index = function(x) x < as.Date("2025-01-01"),
+  long_post_index = function(x) x >= as.Date("2030-01-01") & x != as.Date("9999-12-31")
 )
+
+df_dates_outliers <- summarise_date_outlier_types(df_dates, outlier_conditions)
 
 df_dates_outliers_check <- bind_rows(
   missing_identifier = df_dates %>% 
@@ -678,8 +704,10 @@ meds_by_sex <- df %>%
     mean_repeats = mean(active_repeats, na.rm = TRUE),
     statin_users = sum(statin_prescriptions > 0),
     statin_repeats = sum(statin_repeats),
+    statin_repeat_issues = sum(statin_repeat_issues),
     opioids_users = sum(opioids_prescriptions > 0),
-    opioids_repeats = sum(opioids_repeats)
+    opioids_repeats = sum(opioids_repeats),
+    opioids_repeat_issues = sum(opioids_repeat_issues)
   )
 meds_by_age <- df %>% 
   #filter(meds_exist) %>%
@@ -689,8 +717,10 @@ meds_by_age <- df %>%
     mean_repeats = mean(active_repeats, na.rm = TRUE),
     statin_users = sum(statin_prescriptions > 0),
     statin_repeats = sum(statin_repeats),
+    statin_repeat_issues = sum(statin_repeat_issues),
     opioids_users = sum(opioids_prescriptions > 0),
-    opioids_repeats = sum(opioids_repeats)
+    opioids_repeats = sum(opioids_repeats),
+    opioids_repeat_issues = sum(opioids_repeat_issues)
   )
 
 # save demographic summaries
