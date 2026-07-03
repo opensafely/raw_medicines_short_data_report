@@ -45,7 +45,7 @@ df_check <- df %>%
     av_reps_id = mean(repeats_rep_id_no),
     av_reps_consult_id = mean(repeats_consult_id_no),
     n_ids_differ = sum(rep_ids_differ),
-    prop_ids_differ = sum(reps_ids_differ)/n_distinct(patient_id)*100,
+    prop_ids_differ = sum(rep_ids_differ)/n_distinct(patient_id)*100,
     av_concord = mean(concordant_dates),
     total_concord = sum(concordant_dates),
     prop_concord = sum(concordant_dates)/n_distinct(patient_id)*100,
