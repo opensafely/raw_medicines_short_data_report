@@ -135,6 +135,11 @@ dataset.rep_missing_start_date = (
 )
 dataset.rep_missing_end_date = (
     repeat_medications.where(repeat_medications.date.is_on_or_after(index_date))
+    .where(~repeat_medications.end_date.is_between_but_not_on(index_date-days(1), "9999-12-31"))
+    .count_for_patient()
+)
+dataset.rep_end_date_in_future = (
+    repeat_medications.where(repeat_medications.date.is_on_or_after(index_date))
     .where(repeat_medications.end_date.is_after(date.today()))
     .count_for_patient()
 )

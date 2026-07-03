@@ -45,10 +45,13 @@ df_check <- df %>%
     av_reps_id = mean(repeats_rep_id_no),
     av_reps_consult_id = mean(repeats_consult_id_no),
     n_ids_differ = sum(rep_ids_differ),
+    prop_ids_differ = sum(reps_ids_differ)/n_distinct(patient_id)*100,
     av_concord = mean(concordant_dates),
     total_concord = sum(concordant_dates),
+    prop_concord = sum(concordant_dates)/n_distinct(patient_id)*100,
     av_discord = mean(discordant_dates),
     total_discord = sum(discordant_dates),
+    prop_discord = sum(discordant_dates)/n_distinct(patient_id)*100,
     av_start_first = mean(start_date_first),
     av_start_second = mean(start_date_second),
     av_active_repeats = mean(active_repeats)
@@ -66,6 +69,7 @@ df_miss <- df %>%
     rep_date = sum(rep_missing_date),
     rep_start_date = sum(rep_missing_start_date),
     rep_end_date = sum(rep_missing_end_date),
+    rep_end_date_in_future = sum(rep_end_date_in_future)
   ) %>% 
   pivot_longer(
     cols = everything(),
