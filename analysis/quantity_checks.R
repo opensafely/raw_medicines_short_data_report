@@ -95,7 +95,7 @@ df_long <- df_with_uom %>%
   filter(!is.na(code))  # optional: keep rows with a prescription
 
 # check to see how often the uom appears in the quantity
-sum <- df_long %>%
+sums <- df_long %>%
   group_by(med, record) %>%
   summarise(
     n = n(),

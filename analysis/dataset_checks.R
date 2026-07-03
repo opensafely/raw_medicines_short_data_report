@@ -547,34 +547,9 @@ write_csv(df_status_issues_rep, here::here("output", "dataset_status_repeats.csv
 # sample date distributions
 df_dates <- df %>% 
   select(c(meds_sample_date, repeats_sample_date, 
-           repeats_sample_start_date, repeats_sample_end_date))
+           repeats_sample_start_date, repeats_sample_end_date)) %>%
   # filter data to include only people with medicines data - done earlier
-
-summarise_date_outliers <- function(df, cond) {
-  date_cols <- names(df)
-  n_total <- nrow(df)
-
-  outlier_rows <- df %>%
-    mutate(outlier_row = if_any(all_of(date_cols), ~ cond(.x))) %>%
-    filter(outlier_row)
-
-  tibble(
-    n_rows = nrow(outlier_rows),
-    pct_rows = 100 * nrow(outlier_rows) / n_total,
-    !!!setNames(
-      lapply(date_cols, function(col) {
-        sum(cond(pull(df, !!sym(col))), na.rm = TRUE)
-      }),
-      paste0(date_cols, "_n")
-    ),
-    !!!setNames(
-      lapply(date_cols, function(col) {
-        100 * sum(cond(pull(df, !!sym(col))), na.rm = TRUE) / n_total
-      }),
-      paste0(date_cols, "_pct")
-    )
-  )
-}
+  mutate(across(everything(), ~ as.Date(.x)))
 
 summarise_date_outlier_types <- function(df, outlier_conditions) {
   date_cols <- names(df)
@@ -626,7 +601,7 @@ write_csv(df_dates_outliers_check, here::here("output", "dataset_date_outliers_c
 
 # get info about dates occuring on index 
 df_dates_index <- df_dates %>% 
-  summarise_date_outliers(
+  summarise_date_outlier_types(
     function(x) x == as.Date("2025-01-01")
   )
 
@@ -640,19 +615,15 @@ write_csv(df_dates_index, here::here("output", "dataset_date_indexes.csv"))
 write_csv(df_dates_index_check, here::here("output", "dataset_date_indexes_check.csv"))
 
 # plot the date distributions
-df_dates <- df_dates %>% 
-  mutate(across(everything(), ~ as.Date(.x)))
 
 med_date_plot <- df_dates %>% 
   filter(
     !is.na(meds_sample_date),
     meds_sample_date >= as.Date("2020-01-01"),
-    meds_sample_date < as.Date("2030-01-01"),
-    meds_sample_date != as.Date("2025-01-01")
+    meds_sample_date < as.Date("2030-01-01")
   ) %>% 
   ggplot(aes(x = meds_sample_date)) + 
-  geom_histogram()
-#  #binwidth = 365) #+
+  geom_histogram(binwidth = 15) #+
 #  #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
 ggsave(here::here("output", "sample_med_date_plot.png"))
 
@@ -660,39 +631,30 @@ rep_date_plot <- df_dates %>%
   filter(
     !is.na(repeats_sample_date),
     repeats_sample_date >= as.Date("2020-01-01"),
-    repeats_sample_date < as.Date("2030-01-01"),
-    repeats_sample_date != as.Date("2025-01-01")
+    repeats_sample_date < as.Date("2030-01-01")
   ) %>% 
   ggplot(aes(x = repeats_sample_date)) + 
-  geom_histogram()
-#  #binwidth = 365) #+
-#  #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
+  geom_histogram(binwidth = 15) 
 ggsave(here::here("output", "sample_rep_date_plot.png"))
 
 rep_start_date_plot <- df_dates %>% 
   filter(
     !is.na(repeats_sample_start_date),
     repeats_sample_start_date >= as.Date("2020-01-01"),
-    repeats_sample_start_date < as.Date("2030-01-01"),
-    repeats_sample_start_date != as.Date("2025-01-01")
+    repeats_sample_start_date < as.Date("2030-01-01")
   ) %>% 
   ggplot(aes(x = repeats_sample_start_date)) + 
-  geom_histogram()
-#  #binwidth = 365) #+
-#  #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
+  geom_histogram(binwidth = 15)
 ggsave(here::here("output", "sample_rep_start_date_plot.png"))
 
 rep_end_date_plot <- df_dates %>% 
   filter(
     !is.na(repeats_sample_end_date),
     repeats_sample_end_date >= as.Date("2020-01-01"),
-    repeats_sample_end_date < as.Date("2030-01-01"),
-    repeats_sample_end_date != as.Date("2025-01-01")
+    repeats_sample_end_date < as.Date("2030-01-01")
   ) %>% 
   ggplot(aes(x = repeats_sample_end_date)) + 
-  geom_histogram()
-#  #binwidth = 365) #+
-#  #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
+  geom_histogram(binwidth = 15) 
 ggsave(here::here("output", "sample_rep_end_date_plot.png"))
 
 # looking at demographic breakdowns
