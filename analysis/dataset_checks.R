@@ -29,6 +29,18 @@ capture.output(
   split = FALSE
 )
 
+# summarise those missing meds
+meds_exist_sum <- df %>% 
+  summarise(
+    total = n_distinct(patient_id),
+    missing_meds = sum(meds_exist == FALSE),
+    prop_missing_meds = missing_meds/total
+  )
+
+# save
+write_csv(meds_exist_sum, here::here("output", "missing_meds.csv"))
+
+# remove people with missing meds
 df <- df %>% 
   filter(meds_exist) %>% 
   select(-meds_exist)
@@ -45,13 +57,13 @@ df_check <- df %>%
     av_reps_id = mean(repeats_rep_id_no),
     av_reps_consult_id = mean(repeats_consult_id_no),
     n_ids_differ = sum(rep_ids_differ),
-    prop_ids_differ = sum(reps_ids_differ)/n_distinct(patient_id)*100,
+    prop_ids_differ = n_ids_differ/total*100,
     av_concord = mean(concordant_dates),
     total_concord = sum(concordant_dates),
-    prop_concord = sum(concordant_dates)/n_distinct(patient_id)*100,
+    prop_concord = total_concord/total*100,
     av_discord = mean(discordant_dates),
     total_discord = sum(discordant_dates),
-    prop_discord = sum(discordant_dates)/n_distinct(patient_id)*100,
+    prop_discord = total_discord/total*100,
     av_start_first = mean(start_date_first),
     av_start_second = mean(start_date_second),
     av_active_repeats = mean(active_repeats)
