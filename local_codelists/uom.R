@@ -8,17 +8,22 @@ con <- connect_bq(dataset = "dmd", credentials_var = "OP_CREDENTIALS")
 
 # create function to read codelist with correct column types
 read_codelist <- function(path) {
-  read_csv(
+  cl <- read_csv(
     path,
     col_types = cols(
       code = col_character(),
       term = col_character(),
       dmd_id = col_character(),
-      dmd_type = col_character(),
-      bnf_code = col_character()
+      .default = col_character()
     ),
     show_col_types = FALSE
   )
+  # opensafely-oxycodone-subcutaneous-dmd uses "type" instead of "dmd_type"
+  if (!"dmd_type" %in% names(cl) && "type" %in% names(cl)) {
+    cl$dmd_type <- cl$type
+    cl$type <- NULL
+  }
+  cl
 }
 
 # convert dmd covdes to bigint for SQL queries
@@ -115,4 +120,16 @@ save_codelist(
 save_codelist(
   "local_codelists/opensafely-high-dose-long-acting-opioids-openprescribing-dmd-uom.csv",
   "codelists/opensafely-high-dose-long-acting-opioids-openprescribing-dmd.csv"
+)
+save_codelist(
+  "local_codelists/opensafely-long-acting-injectable-and-depot-antipsychotics-dmd-uom.csv",
+  "codelists/opensafely-long-acting-injectable-and-depot-antipsychotics-dmd.csv"
+)
+save_codelist(
+  "local_codelists/opensafely-oxycodone-subcutaneous-dmd-uom.csv",
+  "codelists/opensafely-oxycodone-subcutaneous-dmd.csv"
+)
+save_codelist(
+  "local_codelists/user-emprestige-all-inhalers-dmd-uom.csv",
+  "codelists/user-emprestige-all-inhalers-dmd.csv"
 )

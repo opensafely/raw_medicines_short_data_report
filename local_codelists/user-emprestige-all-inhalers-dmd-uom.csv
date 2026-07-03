@@ -1,0 +1,358 @@
+code,term,dmd_id,dmd_type,uom
+12626211000001108,Formoterol 12microgram inhalation powder capsules with device,12626211000001108,VMP,capsule
+39112911000001101,Formoterol 6micrograms/dose dry powder inhaler,39112911000001101,VMP,dose
+39113011000001109,Formoterol 12micrograms/dose dry powder inhaler,39113011000001109,VMP,dose
+9652711000001107,Formoterol 12micrograms/dose inhaler CFC free,9652711000001107,VMP,dose
+3206811000001109,Foradil 12microgram inhalation powder capsules with device,3206811000001109,AMP,capsule
+3243511000001107,Oxis 6 Turbohaler,3243511000001107,AMP,dose
+3245011000001103,Oxis 12 Turbohaler,3245011000001103,AMP,dose
+9628711000001106,Atimos Modulite 12micrograms/dose inhaler,9628711000001106,AMP,dose
+11176411000001106,Formoterol Easyhaler 12micrograms/dose dry powder inhaler,11176411000001106,AMP,dose
+35937811000001108,Salmeterol 50microgram inhalation powder blisters with device,35937811000001108,VMP,actuation
+35938011000001101,Salmeterol 50microgram inhalation powder blisters,35938011000001101,VMP,actuation
+39110811000001105,Salmeterol 25micrograms/dose inhaler,39110811000001105,VMP,dose
+39113211000001104,Salmeterol 50micrograms/dose dry powder inhaler,39113211000001104,VMP,dose
+10075611000001101,Salmeterol 25micrograms/dose inhaler CFC free,10075611000001101,VMP,dose
+3084011000001103,Serevent 50microgram disks with Diskhaler,3084011000001103,AMP,actuation
+3082411000001100,Serevent 50microgram disks,3082411000001100,AMP,actuation
+408911000001105,Serevent 25micrograms/dose inhaler,408911000001105,AMP,dose
+3380111000001107,Serevent 50micrograms/dose Accuhaler,3380111000001107,AMP,dose
+10073011000001107,Serevent 25micrograms/dose Evohaler,10073011000001107,AMP,dose
+19562111000001107,Neovent 25micrograms/dose inhaler CFC free,19562111000001107,AMP,dose
+19568411000001100,Neovent 25micrograms/dose inhaler CFC free,19568411000001100,AMP,dose
+22650111000001100,Vertine 25micrograms/dose inhaler CFC free,22650111000001100,AMP,dose
+33561211000001109,Soltel 25micrograms/dose inhaler CFC free,33561211000001109,AMP,dose
+39113111000001105,Terbutaline 250micrograms/dose inhaler,39113111000001105,VMP,dose
+35916311000001106,Terbutaline 500micrograms/dose dry powder inhaler,35916311000001106,VMP,dose
+3248011000001106,Bricanyl 250micrograms/dose inhaler,3248011000001106,AMP,dose
+3218311000001103,Bricanyl 500micrograms/dose Turbohaler,3218311000001103,AMP,dose
+17313711000001107,Indacaterol 150microgram inhalation powder capsules with device,17313711000001107,VMP,capsule
+17313811000001104,Indacaterol 300microgram inhalation powder capsules with device,17313811000001104,VMP,capsule
+17300811000001109,Onbrez Breezhaler 150microgram inhalation powder capsules with device,17300811000001109,AMP,capsule
+17299911000001102,Onbrez Breezhaler 300microgram inhalation powder capsules with device,17299911000001102,AMP,capsule
+36049311000001103,Ipratropium bromide 20micrograms/dose inhaler,36049311000001103,VMP,dose
+38894511000001107,Ipratropium bromide 20micrograms/dose inhaler CFC free,38894511000001107,VMP,dose
+27872911000001109,Ipratropium bromide 20micrograms/dose inhaler CFC free,27872911000001109,AMP,dose
+24011000001103,Atrovent 20micrograms/dose inhaler,24011000001103,AMP,dose
+347611000001103,Atrovent Forte 40micrograms/dose inhaler,347611000001103,AMP,dose
+351411000001106,Atrovent 20micrograms/dose Autohaler,351411000001106,AMP,dose
+7389911000001105,Atrovent 20micrograms/dose inhaler CFC free,7389911000001105,AMP,dose
+34954811000001109,Inhalvent 20micrograms/dose inhaler,34954811000001109,AMP,dose
+37842911000001109,Ipravent 20micrograms/dose inhaler CFC free,37842911000001109,AMP,dose
+2944211000001101,Oxivent 100micrograms/dose inhaler,2944211000001101,AMP,dose
+9479011000001103,Tiotropium bromide 18microgram inhalation powder capsules with device,9479011000001103,VMP,capsule
+9478911000001107,Tiotropium bromide 18microgram inhalation powder capsules,9478911000001107,VMP,capsule
+33596311000001107,Tiotropium bromide 10microgram inhalation powder capsules with device,33596311000001107,VMP,capsule
+3378211000001106,Spiriva 18microgram inhalation powder capsules with HandiHaler,3378211000001106,AMP,capsule
+3380011000001106,Spiriva 18microgram inhalation powder capsules,3380011000001106,AMP,capsule
+33594911000001100,Braltus 10microgram inhalation powder capsules with Zonda inhaler,33594911000001100,AMP,capsule
+38893611000001108,Aclidinium bromide 375micrograms/dose dry powder inhaler,38893611000001108,VMP,dose
+20985511000001101,Eklira 322micrograms/dose Genuair,20985511000001101,AMP,dose
+21496211000001102,Glycopyrronium bromide 55microgram inhalation powder capsules with device,21496211000001102,VMP,capsule
+21495411000001107,Seebri Breezhaler 44microgram inhalation powder capsules with device,21495411000001107,AMP,capsule
+27890611000001109,Umeclidinium bromide 65micrograms/dose dry powder inhaler,27890611000001109,VMP,dose
+27567911000001101,Incruse Ellipta 55micrograms/dose dry powder inhaler,27567911000001101,AMP,dose
+2923111000001107,Duovent inhaler,2923111000001107,AMP,dose
+28410811000001107,Berodual N inhaler,28410811000001107,AMP,dose
+35936311000001102,Salbutamol 100micrograms/dose / Ipratropium 20micrograms/dose inhaler,35936311000001102,VMP,dose
+3348611000001107,Combivent inhaler,3348611000001107,AMP,dose
+28365011000001100,Aclidinium bromide 396micrograms/dose / Formoterol 11.8micrograms/dose dry powder inhaler,28365011000001100,VMP,dose
+28357211000001106,Duaklir 340micrograms/dose / 12micrograms/dose Genuair,28357211000001106,AMP,dose
+24645511000001105,Umeclidinium bromide 65micrograms/dose / Vilanterol 22micrograms/dose dry powder inhaler,24645511000001105,VMP,dose
+32364511000001104,Umeclidinium bromide 65micrograms/dose / Vilanterol 22micrograms/dose dry powder inhaler,32364511000001104,AMP,dose
+32629811000001101,Umeclidinium bromide 65micrograms/dose / Vilanterol 22micrograms/dose dry powder inhaler,32629811000001101,AMP,dose
+24644611000001108,Anoro Ellipta 55micrograms/dose / 22micrograms/dose dry powder inhaler,24644611000001108,AMP,dose
+28049611000001104,Indacaterol 85micrograms/dose / Glycopyrronium bromide 54micrograms/dose inhalation powder capsules with device,28049611000001104,VMP,capsule
+28007211000001102,Ultibro Breezhaler 85microgram/43microgram inhalation powder capsules with device,28007211000001102,AMP,capsule
+35909511000001107,Beclometasone 50micrograms/dose inhaler,35909511000001107,VMP,dose
+3175711000001102,Beclometasone 50micrograms/dose inhaler,3175711000001102,AMP,dose
+3177111000001107,Beclometasone 50micrograms/dose inhaler,3177111000001107,AMP,dose
+11400011000001108,Beclometasone 50micrograms/dose inhaler,11400011000001108,AMP,dose
+3176711000001105,Beclometasone 50micrograms/dose inhaler,3176711000001105,AMP,dose
+17793411000001101,Beclometasone 50micrograms/dose inhaler,17793411000001101,AMP,dose
+4773611000001100,Beclometasone 50micrograms/dose inhaler,4773611000001100,AMP,dose
+3175911000001100,Beclometasone 50micrograms/dose inhaler,3175911000001100,AMP,dose
+42292311000001106,Beclometasone 100micrograms/dose inhaler,42292311000001106,VMP,dose
+3178211000001102,Beclometasone 100micrograms/dose inhaler,3178211000001102,AMP,dose
+3179011000001102,Beclometasone 100micrograms/dose inhaler,3179011000001102,AMP,dose
+11400511000001100,Beclometasone 100micrograms/dose inhaler,11400511000001100,AMP,dose
+7379111000001102,Beclometasone 100micrograms/dose inhaler,7379111000001102,AMP,dose
+17794111000001108,Beclometasone 100micrograms/dose inhaler,17794111000001108,AMP,dose
+4773811000001101,Beclometasone 100micrograms/dose inhaler,4773811000001101,AMP,dose
+3178411000001103,Beclometasone 100micrograms/dose inhaler,3178411000001103,AMP,dose
+35908811000001103,Beclometasone 250micrograms/dose inhaler,35908811000001103,VMP,dose
+3179811000001108,Beclometasone 250micrograms/dose inhaler,3179811000001108,AMP,dose
+3180911000001103,Beclometasone 250micrograms/dose inhaler,3180911000001103,AMP,dose
+11400811000001102,Beclometasone 250micrograms/dose inhaler,11400811000001102,AMP,dose
+7379311000001100,Beclometasone 250micrograms/dose inhaler,7379311000001100,AMP,dose
+17833911000001100,Beclometasone 250micrograms/dose inhaler,17833911000001100,AMP,dose
+4774011000001109,Beclometasone 250micrograms/dose inhaler,4774011000001109,AMP,dose
+3180011000001102,Beclometasone 250micrograms/dose inhaler,3180011000001102,AMP,dose
+39695611000001100,Beclometasone 200microgram inhalation powder capsules,39695611000001100,VMP,capsule
+35907711000001105,Beclometasone 100microgram inhalation powder blisters with device,35907711000001105,VMP,actuation
+39695711000001109,Beclometasone 400microgram inhalation powder capsules,39695711000001109,VMP,capsule
+35909011000001104,Beclometasone 400microgram inhalation powder blisters with device,35909011000001104,VMP,actuation
+35908211000001104,Beclometasone 200microgram inhalation powder blisters,35908211000001104,VMP,actuation
+35907611000001101,Beclometasone 100microgram inhalation powder blisters,35907611000001101,VMP,actuation
+35908911000001108,Beclometasone 400microgram inhalation powder blisters,35908911000001108,VMP,actuation
+35908511000001101,Beclometasone 200micrograms/dose inhaler,35908511000001101,VMP,dose
+4332611000001107,Beclometasone 200micrograms/dose inhaler,4332611000001107,AMP,dose
+15052211000001104,Beclometasone 200micrograms/dose inhaler,15052211000001104,AMP,dose
+35909211000001109,Beclometasone 50micrograms/dose breath actuated inhaler,35909211000001109,VMP,dose
+35907811000001102,Beclometasone 100micrograms/dose breath actuated inhaler,35907811000001102,VMP,dose
+35908611000001102,Beclometasone 250micrograms/dose breath actuated inhaler,35908611000001102,VMP,dose
+35909611000001106,Beclometasone 50micrograms/dose inhaler CFC free,35909611000001106,VMP,dose
+35908111000001105,Beclometasone 100micrograms/dose inhaler CFC free,35908111000001105,VMP,dose
+35909311000001101,Beclometasone 50micrograms/dose breath actuated inhaler CFC free,35909311000001101,VMP,dose
+35907911000001107,Beclometasone 100micrograms/dose breath actuated inhaler CFC free,35907911000001107,VMP,dose
+35909411000001108,Beclometasone 50micrograms/dose dry powder inhaler,35909411000001108,VMP,dose
+35908011000001109,Beclometasone 100micrograms/dose dry powder inhaler,35908011000001109,VMP,dose
+35908711000001106,Beclometasone 250micrograms/dose dry powder inhaler,35908711000001106,VMP,dose
+35909111000001103,Beclometasone 400micrograms/dose dry powder inhaler,35909111000001103,VMP,dose
+35908411000001100,Beclometasone 200micrograms/dose dry powder inhaler,35908411000001100,VMP,dose
+10621011000001101,Beclometasone 200micrograms/dose inhaler CFC free,10621011000001101,VMP,dose
+10621111000001100,Beclometasone 250micrograms/dose inhaler CFC free,10621111000001100,VMP,dose
+3180211000001107,Becloforte 250micrograms/dose inhaler,3180211000001107,AMP,dose
+3190311000001103,Becotide 100microgram Rotacaps,3190311000001103,AMP,capsule
+3192111000001101,Becotide 200microgram Rotacaps,3192111000001101,AMP,capsule
+3194011000001108,Becotide 400microgram Rotacaps,3194011000001108,AMP,capsule
+3178611000001100,Becotide 100 inhaler,3178611000001100,AMP,dose
+3176211000001103,Becotide 50 inhaler,3176211000001103,AMP,dose
+3179311000001104,Becotide 200 inhaler,3179311000001104,AMP,dose
+3292811000001106,Ventide inhaler,3292811000001106,AMP,dose
+3182411000001107,AeroBec Forte 250 Autohaler,3182411000001107,AMP,dose
+3181411000001102,AeroBec 100 Autohaler,3181411000001102,AMP,dose
+3176411000001104,Beclazone 50 inhaler,3176411000001104,AMP,dose
+3178811000001101,Beclazone 100 inhaler,3178811000001101,AMP,dose
+3180611000001109,Beclazone 250 inhaler,3180611000001109,AMP,dose
+3604611000001104,Beclazone 50 Easi-Breathe inhaler,3604611000001104,AMP,dose
+3181711000001108,Beclazone 100 Easi-Breathe inhaler,3181711000001108,AMP,dose
+3182611000001105,Beclazone 250 Easi-Breathe inhaler,3182611000001105,AMP,dose
+3179511000001105,Beclazone 200 inhaler,3179511000001105,AMP,dose
+3175211000001109,Filair 50 inhaler,3175211000001109,AMP,dose
+3177911000001105,Filair 100 inhaler,3177911000001105,AMP,dose
+3088611000001100,Becodisks 100microgram with Diskhaler,3088611000001100,AMP,actuation
+3096011000001109,Becodisks 200microgram with Diskhaler,3096011000001109,AMP,actuation
+3099811000001109,Becodisks 200microgram,3099811000001109,AMP,actuation
+3102211000001109,Becodisks 400microgram with Diskhaler,3102211000001109,AMP,actuation
+3104911000001109,Becodisks 400microgram,3104911000001109,AMP,actuation
+3111911000001108,Asmabec 50 Clickhaler,3111911000001108,AMP,dose
+3112511000001109,Asmabec 100 Clickhaler,3112511000001109,AMP,dose
+3174111000001102,Asmabec 250 Clickhaler,3174111000001102,AMP,dose
+3176811000001102,Qvar 50 inhaler,3176811000001102,AMP,dose
+3175611000001106,Qvar 100 inhaler,3175611000001106,AMP,dose
+3177411000001102,Qvar 50 Autohaler,3177411000001102,AMP,dose
+3177711000001108,Qvar 100 Autohaler,3177711000001108,AMP,dose
+8159511000001107,Qvar 50micrograms/dose Easi-Breathe inhaler,8159511000001107,AMP,dose
+8159711000001102,Qvar 100micrograms/dose Easi-Breathe inhaler,8159711000001102,AMP,dose
+3112911000001102,Pulvinal Beclometasone Dipropionate 100micrograms/dose dry powder inhaler,3112911000001102,AMP,dose
+9525111000001105,Easyhaler Beclometasone 200micrograms/dose dry powder inhaler,9525111000001105,AMP,dose
+10617711000001103,Clenil Modulite 50micrograms/dose inhaler,10617711000001103,AMP,dose
+10618211000001109,Clenil Modulite 100micrograms/dose inhaler,10618211000001109,AMP,dose
+10619311000001107,Clenil Modulite 200micrograms/dose inhaler,10619311000001107,AMP,dose
+10619611000001102,Clenil Modulite 250micrograms/dose inhaler,10619611000001102,AMP,dose
+35430111000001100,Kelhale 50micrograms/dose inhaler,35430111000001100,AMP,dose
+35430311000001103,Kelhale 100micrograms/dose inhaler,35430311000001103,AMP,dose
+36603211000001106,Soprobec 50micrograms/dose inhaler,36603211000001106,AMP,dose
+36603411000001105,Soprobec 200micrograms/dose inhaler,36603411000001105,AMP,dose
+36603611000001108,Soprobec 100micrograms/dose inhaler,36603611000001108,AMP,dose
+36603811000001107,Soprobec 250micrograms/dose inhaler,36603811000001107,AMP,dose
+35912811000001103,Budesonide 50micrograms/dose inhaler,35912811000001103,VMP,dose
+35912511000001101,Budesonide 200micrograms/dose inhaler,35912511000001101,VMP,dose
+35912411000001100,Budesonide 200micrograms/dose dry powder inhaler,35912411000001100,VMP,dose
+35912711000001106,Budesonide 400micrograms/dose dry powder inhaler,35912711000001106,VMP,dose
+35912111000001105,Budesonide 100micrograms/dose dry powder inhaler,35912111000001105,VMP,dose
+35912011000001109,Budesonide 100micrograms/dose / Formoterol 6micrograms/dose dry powder inhaler,35912011000001109,VMP,dose
+38896811000001103,Budesonide 200micrograms/dose / Formoterol 6micrograms/dose dry powder inhaler,38896811000001103,VMP,dose
+4378111000001103,Budesonide 400micrograms/dose / Formoterol 12micrograms/dose dry powder inhaler,4378111000001103,VMP,dose
+8024611000001102,Budesonide 200micrograms/dose dry powder inhalation cartridge with device,8024611000001102,VMP,dose
+9117811000001107,Budesonide 200micrograms/dose dry powder inhalation cartridge,9117811000001107,VMP,dose
+14959511000001107,Budesonide 100micrograms/dose inhaler CFC free,14959511000001107,VMP,dose
+15374611000001106,Budesonide 200micrograms/dose inhaler CFC free,15374611000001106,VMP,dose
+32960711000001105,Budesonide 200micrograms/dose / Formoterol 6micrograms/dose inhaler CFC free,32960711000001105,VMP,dose
+2924111000001109,Pulmicort 200micrograms/dose inhaler,2924111000001109,AMP,dose
+3240911000001108,Pulmicort LS 50micrograms/dose inhaler,3240911000001108,AMP,dose
+3112411000001105,Pulmicort 200 Turbohaler,3112411000001105,AMP,dose
+3228711000001106,Pulmicort 400 Turbohaler,3228711000001106,AMP,dose
+3113111000001106,Pulmicort 100 Turbohaler,3113111000001106,AMP,dose
+14951111000001102,Pulmicort 100micrograms/dose inhaler CFC free,14951111000001102,AMP,dose
+15358411000001102,Pulmicort 200micrograms/dose inhaler CFC free,15358411000001102,AMP,dose
+3294211000001101,Symbicort 100/6 Turbohaler,3294211000001101,AMP,dose
+3294611000001104,Symbicort 200/6 Turbohaler,3294611000001104,AMP,dose
+4373811000001100,Symbicort 400/12 Turbohaler,4373811000001100,AMP,dose
+32926011000001100,Symbicort 200micrograms/dose / 6micrograms/dose pressurised inhaler,32926011000001100,AMP,dose
+8031811000001102,Budelin Novolizer 200micrograms/dose inhalation powder,8031811000001102,AMP,dose
+9111811000001100,Budelin Novolizer 200micrograms/dose inhalation powder refill,9111811000001100,AMP,dose
+10073911000001106,Easyhaler Budesonide 100micrograms/dose dry powder inhaler,10073911000001106,AMP,dose
+10074611000001102,Easyhaler Budesonide 200micrograms/dose dry powder inhaler,10074611000001102,AMP,dose
+10074411000001100,Easyhaler Budesonide 400micrograms/dose dry powder inhaler,10074411000001100,AMP,dose
+25254111000001105,DuoResp Spiromax 160micrograms/dose / 4.5micrograms/dose dry powder inhaler,25254111000001105,AMP,dose
+25254711000001106,DuoResp Spiromax 320micrograms/dose / 9micrograms/dose dry powder inhaler,25254711000001106,AMP,dose
+34812111000001106,Fobumix Easyhaler 320micrograms/dose / 9micrograms/dose dry powder inhaler,34812111000001106,AMP,dose
+34950311000001108,Fobumix Easyhaler 160micrograms/dose / 4.5micrograms/dose dry powder inhaler,34950311000001108,AMP,dose
+34950611000001103,Fobumix Easyhaler 80micrograms/dose / 4.5micrograms/dose dry powder inhaler,34950611000001103,AMP,dose
+36059911000001104,Fluticasone propionate 50microgram inhalation powder blisters with device,36059911000001104,VMP,actuation
+36059211000001108,Fluticasone propionate 100microgram inhalation powder blisters,36059211000001108,VMP,actuation
+36059411000001107,Fluticasone propionate 250microgram inhalation powder blisters with device,36059411000001107,VMP,actuation
+36059511000001106,Fluticasone propionate 250microgram inhalation powder blisters,36059511000001106,VMP,actuation
+36059711000001101,Fluticasone propionate 500microgram inhalation powder blisters with device,36059711000001101,VMP,actuation
+38897911000001106,Fluticasone propionate 50micrograms/dose dry powder inhaler,38897911000001106,VMP,dose
+38897811000001101,Fluticasone propionate 100micrograms/dose dry powder inhaler,38897811000001101,VMP,dose
+39691211000001100,Fluticasone propionate 100micrograms/dose dry powder inhaler,39691211000001100,AMP,dose
+36565411000001101,Fluticasone propionate 250micrograms/dose dry powder inhaler,36565411000001101,VMP,dose
+38897711000001109,Fluticasone propionate 500micrograms/dose dry powder inhaler,38897711000001109,VMP,dose
+38897611000001100,Fluticasone propionate 100micrograms/dose / Salmeterol 50micrograms/dose dry powder inhaler,38897611000001100,VMP,dose
+38897511000001104,Fluticasone propionate 250micrograms/dose / Salmeterol 50micrograms/dose dry powder inhaler,38897511000001104,VMP,dose
+38897411000001103,Fluticasone propionate 500micrograms/dose / Salmeterol 50micrograms/dose dry powder inhaler,38897411000001103,VMP,dose
+31064811000001101,Fluticasone propionate 500micrograms/dose / Salmeterol 50micrograms/dose dry powder inhaler,31064811000001101,AMP,dose
+39111211000001103,Fluticasone 125micrograms/dose inhaler CFC free,39111211000001103,VMP,dose
+39111411000001104,Fluticasone 250micrograms/dose inhaler CFC free,39111411000001104,VMP,dose
+39111011000001108,Fluticasone 50micrograms/dose / Salmeterol 25micrograms/dose inhaler CFC free,39111011000001108,VMP,dose
+39111111000001109,Fluticasone 125micrograms/dose / Salmeterol 25micrograms/dose inhaler CFC free,39111111000001109,VMP,dose
+39111311000001106,Fluticasone 250micrograms/dose / Salmeterol 25micrograms/dose inhaler CFC free,39111311000001106,VMP,dose
+39110911000001100,Fluticasone 50micrograms/dose inhaler CFC free,39110911000001100,VMP,dose
+21113711000001102,Fluticasone 125micrograms/dose / Formoterol 5micrograms/dose inhaler CFC free,21113711000001102,VMP,dose
+21113811000001105,Fluticasone 250micrograms/dose / Formoterol 10micrograms/dose inhaler CFC free,21113811000001105,VMP,dose
+21113911000001100,Fluticasone 50micrograms/dose / Formoterol 5micrograms/dose inhaler CFC free,21113911000001100,VMP,dose
+35647511000001107,Fluticasone 125micrograms/dose / Formoterol 5micrograms/dose breath actuated inhaler CFC free,35647511000001107,VMP,dose
+35647611000001106,Fluticasone 50micrograms/dose / Formoterol 5micrograms/dose breath actuated inhaler CFC free,35647611000001106,VMP,dose
+3097711000001109,Flixotide 50microgram disks with Diskhaler,3097711000001109,AMP,actuation
+3098611000001101,Flixotide 100microgram disks with Diskhaler,3098611000001101,AMP,actuation
+3106311000001102,Flixotide 250microgram disks with Diskhaler,3106311000001102,AMP,actuation
+3103511000001100,Flixotide 250microgram disks,3103511000001100,AMP,actuation
+3183811000001101,Flixotide 50micrograms/dose Accuhaler,3183811000001101,AMP,dose
+3184311000001107,Flixotide 100micrograms/dose Accuhaler,3184311000001107,AMP,dose
+3184911000001108,Flixotide 250micrograms/dose Accuhaler,3184911000001108,AMP,dose
+3185211000001103,Flixotide 500micrograms/dose Accuhaler,3185211000001103,AMP,dose
+398511000001105,Flixotide 125micrograms/dose Evohaler,398511000001105,AMP,dose
+2831211000001109,Flixotide 250micrograms/dose Evohaler,2831211000001109,AMP,dose
+726611000001102,Flixotide 50micrograms/dose Evohaler,726611000001102,AMP,dose
+3186911000001100,Seretide 100 Accuhaler,3186911000001100,AMP,dose
+3187211000001106,Seretide 250 Accuhaler,3187211000001106,AMP,dose
+3188311000001102,Seretide 500 Accuhaler,3188311000001102,AMP,dose
+453611000001102,Seretide 50 Evohaler,453611000001102,AMP,dose
+810211000001105,Seretide 125 Evohaler,810211000001105,AMP,dose
+539811000001106,Seretide 250 Evohaler,539811000001106,AMP,dose
+21019411000001101,Flutiform 125micrograms/dose / 5micrograms/dose inhaler,21019411000001101,AMP,dose
+21019711000001107,Flutiform 250micrograms/dose / 10micrograms/dose inhaler,21019711000001107,AMP,dose
+21020611000001104,Flutiform 50micrograms/dose / 5micrograms/dose inhaler,21020611000001104,AMP,dose
+35647311000001101,Flutiform K-haler 125micrograms/dose / 5micrograms/dose breath actuated inhaler,35647311000001101,AMP,dose
+35650811000001109,Flutiform K-haler 50micrograms/dose / 5micrograms/dose breath actuated inhaler,35650811000001109,AMP,dose
+29782111000001107,Sirdupla 25micrograms/dose / 125micrograms/dose inhaler,29782111000001107,AMP,dose
+29782511000001103,Sirdupla 25micrograms/dose / 250micrograms/dose inhaler,29782511000001103,AMP,dose
+30950311000001106,AirFluSal Forspiro 50micrograms/dose / 500micrograms/dose dry powder inhaler,30950311000001106,AMP,dose
+34215311000001107,AirFluSal 25micrograms/dose / 125micrograms/dose inhaler,34215311000001107,AMP,dose
+34215511000001101,AirFluSal 25micrograms/dose / 250micrograms/dose inhaler,34215511000001101,AMP,dose
+33679711000001103,Aerivio Spiromax 50micrograms/dose / 500micrograms/dose dry powder inhaler,33679711000001103,AMP,dose
+34023611000001101,Sereflo 25micrograms/dose / 125micrograms/dose inhaler,34023611000001101,AMP,dose
+34023811000001102,Sereflo 25micrograms/dose / 250micrograms/dose inhaler,34023811000001102,AMP,dose
+34677011000001107,Aloflute 25micrograms/dose / 125micrograms/dose inhaler,34677011000001107,AMP,dose
+34675711000001103,Aloflute 25micrograms/dose / 250micrograms/dose inhaler,34675711000001103,AMP,dose
+35515511000001100,Fusacomb Easyhaler 50micrograms/dose / 250micrograms/dose dry powder inhaler,35515511000001100,AMP,dose
+35515311000001106,Fusacomb Easyhaler 50micrograms/dose / 500micrograms/dose dry powder inhaler,35515311000001106,AMP,dose
+35594011000001105,Combisal 25micrograms/dose / 50micrograms/dose inhaler,35594011000001105,AMP,dose
+35594211000001100,Combisal 25micrograms/dose / 125micrograms/dose inhaler,35594211000001100,AMP,dose
+35594411000001101,Combisal 25micrograms/dose / 250micrograms/dose inhaler,35594411000001101,AMP,dose
+36604711000001102,Stalpex 50micrograms/dose / 500micrograms/dose dry powder inhaler,36604711000001102,AMP,dose
+38895411000001109,Mometasone 200micrograms/dose dry powder inhaler,38895411000001109,VMP,dose
+38895611000001107,Mometasone 400micrograms/dose dry powder inhaler,38895611000001107,VMP,dose
+4045711000001107,Asmanex 200micrograms/dose Twisthaler,4045711000001107,AMP,dose
+4043811000001103,Asmanex 400micrograms/dose Twisthaler,4043811000001103,AMP,dose
+9004511000001107,Ciclesonide 80micrograms/dose inhaler CFC free,9004511000001107,VMP,dose
+44221111000001101,Ciclesonide 80micrograms/dose inhaler CFC free,44221111000001101,AMP,dose
+43823711000001105,Ciclesonide 80micrograms/dose inhaler CFC free,43823711000001105,AMP,dose
+44138311000001106,Ciclesonide 80micrograms/dose inhaler CFC free,44138311000001106,AMP,dose
+9004411000001108,Ciclesonide 160micrograms/dose inhaler CFC free,9004411000001108,VMP,dose
+44221911000001103,Ciclesonide 160micrograms/dose inhaler CFC free,44221911000001103,AMP,dose
+43823911000001107,Ciclesonide 160micrograms/dose inhaler CFC free,43823911000001107,AMP,dose
+44137711000001109,Ciclesonide 160micrograms/dose inhaler CFC free,44137711000001109,AMP,dose
+9003911000001102,Alvesco 80 inhaler,9003911000001102,AMP,dose
+9004211000001109,Alvesco 160 inhaler,9004211000001109,AMP,dose
+23661311000001105,Fluticasone furoate 184micrograms/dose / Vilanterol 22micrograms/dose dry powder inhaler,23661311000001105,VMP,dose
+23661411000001103,Fluticasone furoate 92micrograms/dose / Vilanterol 22micrograms/dose dry powder inhaler,23661411000001103,VMP,dose
+23621711000001102,Relvar Ellipta 184micrograms/dose / 22micrograms/dose dry powder inhaler,23621711000001102,AMP,dose
+23622011000001107,Relvar Ellipta 92micrograms/dose / 22micrograms/dose dry powder inhaler,23622011000001107,AMP,dose
+9720211000001107,Nedocromil 2mg/dose inhaler CFC free,9720211000001107,VMP,dose
+4163411000001103,Tilade 2mg/dose Syncroner with spacer,4163411000001103,AMP,dose
+9714111000001103,Tilade 2mg/dose inhaler CFC free,9714111000001103,AMP,dose
+35926711000001101,Sodium cromoglicate 5mg/dose inhaler,35926711000001101,VMP,dose
+39712711000001109,Sodium cromoglicate 20mg inhalation powder capsules,39712711000001109,VMP,capsule
+13801911000001104,Sodium cromoglicate 5mg/dose inhaler CFC free,13801911000001104,VMP,dose
+38958611000001101,Sodium cromoglicate 5mg/dose inhaler CFC free,38958611000001101,AMP,dose
+3203811000001100,Intal 20mg Spincaps,3203811000001100,AMP,capsule
+533311000001100,Intal 5mg/dose inhaler,533311000001100,AMP,dose
+13777011000001102,Intal 5mg/dose inhaler CFC free,13777011000001102,AMP,dose
+20515111000001102,Mannitol 40mg inhalation powder capsules with two devices,20515111000001102,VMP,capsule
+20515311000001100,Bronchitol 40mg inhalation powder capsules with two devices,20515311000001100,AMP,capsule
+134498003,VMP previous to 38896811000001103,134498003,VMP,dose
+134499006,VMP previous to 35912011000001109,134499006,VMP,dose
+320201003,VMP previous to 35916311000001106,320201003,VMP,dose
+320206008,VMP previous to 39113111000001105,320206008,VMP,dose
+320244004,VMP previous to 39110811000001105,320244004,VMP,dose
+320248001,VMP previous to 35937811000001108,320248001,VMP,actuation
+320249009,VMP previous to 35938011000001101,320249009,VMP,actuation
+320250009,VMP previous to 39113211000001104,320250009,VMP,dose
+320261001,VMP previous to 12626211000001108,320261001,VMP,capsule
+320263003,VMP previous to 39112911000001101,320263003,VMP,dose
+320264009,VMP previous to 39113011000001109,320264009,VMP,dose
+320274007,VMP previous to 39111011000001108,320274007,VMP,dose
+320275008,VMP previous to 39111111000001109,320275008,VMP,dose
+320276009,VMP previous to 39111311000001106,320276009,VMP,dose
+320277000,VMP previous to 38897611000001100,320277000,VMP,dose
+320279002,VMP previous to 38897511000001104,320279002,VMP,dose
+320280004,VMP previous to 38897411000001103,320280004,VMP,dose
+320348004,VMP previous to 36049311000001103,320348004,VMP,dose
+320442002,VMP previous to 35936311000001102,320442002,VMP,dose
+320487003,VMP previous to 35909011000001104,320487003,VMP,actuation
+320488008,VMP previous to 35908911000001108,320488008,VMP,actuation
+320490009,VMP previous to 35909211000001109,320490009,VMP,dose
+320491008,VMP previous to 35908611000001102,320491008,VMP,dose
+320492001,VMP previous to 35907811000001102,320492001,VMP,dose
+320520000,VMP previous to 39695711000001109,320520000,VMP,capsule
+320527002,VMP previous to 35907711000001105,320527002,VMP,actuation
+320529004,VMP previous to 35907611000001101,320529004,VMP,actuation
+320530009,VMP previous to 35908211000001104,320530009,VMP,actuation
+320531008,VMP previous to 35908811000001103,320531008,VMP,dose
+320532001,VMP previous to 35908511000001101,320532001,VMP,dose
+320533006,VMP previous to 35909511000001107,320533006,VMP,dose
+320535004,VMP previous to 39695611000001100,320535004,VMP,capsule
+320537007,VMP previous to 42292311000001106,320537007,VMP,dose
+320565009,VMP previous to 35912111000001105,320565009,VMP,dose
+320567001,VMP previous to 35912411000001100,320567001,VMP,dose
+320568006,VMP previous to 35912711000001106,320568006,VMP,dose
+320571003,VMP previous to 35912511000001101,320571003,VMP,dose
+320574006,VMP previous to 35912811000001103,320574006,VMP,dose
+320580003,VMP previous to 36059911000001104,320580003,VMP,actuation
+320582006,VMP previous to 36059411000001107,320582006,VMP,actuation
+320587000,VMP previous to 36059211000001108,320587000,VMP,actuation
+320588005,VMP previous to 36059511000001106,320588005,VMP,actuation
+320599007,VMP previous to 36059711000001101,320599007,VMP,actuation
+320602002,VMP previous to 38897911000001106,320602002,VMP,dose
+320603007,VMP previous to 38897811000001101,320603007,VMP,dose
+320604001,VMP previous to 36565411000001101,320604001,VMP,dose
+320605000,VMP previous to 38897711000001109,320605000,VMP,dose
+320614005,VMP previous to 39111211000001103,320614005,VMP,dose
+320615006,VMP previous to 39111411000001104,320615006,VMP,dose
+320618008,VMP previous to 39110911000001100,320618008,VMP,dose
+320630002,VMP previous to 35909411000001108,320630002,VMP,dose
+320631003,VMP previous to 35908011000001109,320631003,VMP,dose
+320632005,VMP previous to 35908711000001106,320632005,VMP,dose
+320644008,VMP previous to 39712711000001109,320644008,VMP,capsule
+320646005,VMP previous to 35926711000001101,320646005,VMP,dose
+3497211000001109,VMP previous to 9478911000001107,3497211000001109,VMP,capsule
+3497311000001101,VMP previous to 9479011000001103,3497311000001101,VMP,capsule
+35894111000001105,VMP previous to 38893611000001108,35894111000001105,VMP,dose
+35912311000001107,VMP previous to 38896811000001103,35912311000001107,VMP,dose
+4053811000001101,VMP previous to 38895411000001109,4053811000001101,VMP,dose
+4053911000001106,VMP previous to 38895611000001107,4053911000001106,VMP,dose
+407769008,VMP previous to 35909111000001103,407769008,VMP,dose
+407770009,VMP previous to 35908411000001100,407770009,VMP,dose
+408013007,VMP previous to 38895611000001107,408013007,VMP,dose
+408026006,VMP previous to 38895411000001109,408026006,VMP,dose
+408061000,VMP previous to 35909611000001106,408061000,VMP,dose
+408062007,VMP previous to 35909311000001101,408062007,VMP,dose
+408063002,VMP previous to 35908111000001105,408063002,VMP,dose
+408064008,VMP previous to 35907911000001107,408064008,VMP,dose
+414538008,VMP previous to 38894511000001107,414538008,VMP,dose
+703924000,VMP previous to 38893611000001108,703924000,VMP,dose
+7393811000001101,VMP previous to 38894511000001107,7393811000001101,VMP,dose
