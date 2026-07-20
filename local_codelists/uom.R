@@ -52,7 +52,7 @@ build_vmp_uom_sql <- function(ids) {
     "  CAST(vmp.id AS STRING) AS lookup_id,\n",
     "  uom.descr AS uom\n",
     "FROM `ebmdatalab.dmd.vmp` vmp\n",
-    "LEFT JOIN `dmd.unitofmeasure` uom ON vmp.udfs_uom = uom.cd\n",
+    "LEFT JOIN `dmd.unitofmeasure` uom ON vmp.unit_dose_uom = uom.cd\n",
     "WHERE vmp.id IN (",
     in_clause(ids),
     ")\n"
@@ -67,7 +67,7 @@ build_amp_uom_sql <- function(ids) {
     "  uom.descr AS uom\n",
     "FROM `ebmdatalab.dmd.amp` amp\n",
     "LEFT JOIN `ebmdatalab.dmd.vmp` vmp ON amp.vmp = vmp.id\n",
-    "LEFT JOIN `dmd.unitofmeasure` uom ON vmp.udfs_uom = uom.cd\n",
+    "LEFT JOIN `dmd.unitofmeasure` uom ON vmp.unit_dose_uom = uom.cd\n",
     "WHERE amp.id IN (",
     in_clause(ids),
     ")\n"
