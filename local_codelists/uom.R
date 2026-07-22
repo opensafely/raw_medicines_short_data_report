@@ -11,9 +11,6 @@ read_codelist <- function(path) {
   cl <- read_csv(
     path,
     col_types = cols(
-      code = col_character(),
-      term = col_character(),
-      dmd_id = col_character(),
       .default = col_character()
     ),
     show_col_types = FALSE
@@ -22,6 +19,11 @@ read_codelist <- function(path) {
   if (!"dmd_type" %in% names(cl) && "type" %in% names(cl)) {
     cl$dmd_type <- cl$type
     cl$type <- NULL
+  } else if (!"dmd_type" %in% names (cl) && !"type" %in% names (cl)) {
+    cl$dmd_type <- case_when(
+      grepl("AMP", term) ~ "AMP",
+      grepl("VMP", term) ~ "VMP"
+    )
   }
   cl
 }
@@ -108,28 +110,61 @@ save_codelist <- function(output_path, input_path) {
   invisible(out)
 }
 
-# save codelists with uom column
+## save codelists with uom column
+
+# statins
 save_codelist(
   "local_codelists/user-emprestige-all-statins-uom.csv",
   "codelists/user-emprestige-all-statins-dmd.csv"
 )
+# codeine
 save_codelist(
   "local_codelists/user-emprestige-codeine-for-pain-uom.csv",
   "codelists/user-emprestige-codeine-for-pain-dmd.csv"
 )
+# opioids
 save_codelist(
   "local_codelists/opensafely-high-dose-long-acting-opioids-openprescribing-dmd-uom.csv",
   "codelists/opensafely-high-dose-long-acting-opioids-openprescribing-dmd.csv"
 )
+# injectables
 save_codelist(
   "local_codelists/opensafely-long-acting-injectable-and-depot-antipsychotics-dmd-uom.csv",
   "codelists/opensafely-long-acting-injectable-and-depot-antipsychotics-dmd.csv"
 )
+# injectables - oxy
 save_codelist(
   "local_codelists/opensafely-oxycodone-subcutaneous-dmd-uom.csv",
   "codelists/opensafely-oxycodone-subcutaneous-dmd.csv"
 )
+# inhalers
 save_codelist(
   "local_codelists/user-emprestige-all-inhalers-dmd-uom.csv",
   "codelists/user-emprestige-all-inhalers-dmd.csv"
+)
+
+# uom tester
+save_codelist(
+  "local_codelists/user-chriswood-example-quantity-test-medications-uom.csv",
+  "codelists/user-chriswood-example-quantity-test-medications.csv"
+)
+# acute meds 1
+save_codelist(
+  "local_codelists/user-chriswood-example-acute-medications-uom.csv",
+  "codelists/user-chriswood-example-acute-medications.csv"
+)
+#acute meds 2
+save_codelist(
+  "local_codelists/user-chriswood-example-acute-medications-tramadol-uom.csv",
+  "codelists/user-chriswood-example-acute-medications-tramadol.csv"
+)
+# repeat meds 1
+save_codelist(
+  "local_codelists/user-chriswood-example-repeat-medications-atorvastatin-uom.csv",
+  "codelists/user-chriswood-example-repeat-medications-atorvastatin.csv"
+)
+# repeat meds 2
+save_codelist(
+  "local_codelists/user-chriswood-example-repeat-medications-ramipril-uom.csv",
+  "codelists/user-chriswood-example-repeat-medications-ramipril.csv"
 )
