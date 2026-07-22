@@ -17,7 +17,8 @@ read_codelist <- function(path) {
     ),
     show_col_types = FALSE
   )
-  # opensafely-oxycodone-subcutaneous-dmd uses "type" instead of "dmd_type"
+
+  # some codelists use different namings or are missing columns
   if (!"dmd_type" %in% names(cl) && "type" %in% names(cl)) {
     cl$dmd_type <- cl$type
     cl$type <- NULL
@@ -34,7 +35,7 @@ read_codelist <- function(path) {
   cl
 }
 
-# convert dmd covdes to bigint for SQL queries
+# convert dmd codes to bigint for SQL queries
 as_int64 <- function(codes) {
   as.integer64(codes[!is.na(codes) & codes != ""])
 }
@@ -113,7 +114,7 @@ save_codelist <- function(output_path, input_path) {
 
   out <- cl[, c("code", "term", "dmd_id", "dmd_type", "uom")]
   write_csv(out, output_path)
-  invisible(out)
+
 }
 
 ## save codelists with uom column
