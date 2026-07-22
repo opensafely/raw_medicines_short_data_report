@@ -11,6 +11,8 @@ read_codelist <- function(path) {
   cl <- read_csv(
     path,
     col_types = cols(
+      code = col_character(),
+      term = col_character(),
       .default = col_character()
     ),
     show_col_types = FALSE
@@ -21,9 +23,13 @@ read_codelist <- function(path) {
     cl$type <- NULL
   } else if (!"dmd_type" %in% names (cl) && !"type" %in% names (cl)) {
     cl$dmd_type <- case_when(
-      grepl("AMP", term) ~ "AMP",
-      grepl("VMP", term) ~ "VMP"
+      grepl("AMP", cl$term) ~ "AMP",
+      grepl("VMP", cl$term) ~ "VMP"
     )
+  }
+
+  if (!"dmd_id" %in% names(cl)) {
+    cl$dmd_id <- cl$code
   }
   cl
 }
