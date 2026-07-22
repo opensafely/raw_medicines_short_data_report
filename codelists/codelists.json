@@ -53,6 +53,36 @@
       "url": "https://www.opencodelists.org/codelist/user/emprestige/all-inhalers-dmd/5ff7812d/",
       "downloaded_at": "2026-07-02 10:57:18.746882Z",
       "sha": "d44494e47e7ff951e68f01a1b263971c8a104be3"
+    },
+    "user-chriswood-example-quantity-test-medications.csv": {
+      "id": "user/chriswood/example-quantity-test-medications/2d545186",
+      "url": "https://www.opencodelists.org/codelist/user/chriswood/example-quantity-test-medications/2d545186/",
+      "downloaded_at": "2026-07-22 08:32:17.279876Z",
+      "sha": "cea4a4d168ae4feeb1df3eeb68fb0142b90362d2"
+    },
+    "user-chriswood-example-acute-medications.csv": {
+      "id": "user/chriswood/example-acute-medications/40fe44cf",
+      "url": "https://www.opencodelists.org/codelist/user/chriswood/example-acute-medications/40fe44cf/",
+      "downloaded_at": "2026-07-22 08:34:00.254640Z",
+      "sha": "dc0e78d131b5ecd693c1f200637d157464b5db4d"
+    },
+    "user-chriswood-example-acute-medications-tramadol.csv": {
+      "id": "user/chriswood/example-acute-medications-tramadol/0edf5e65",
+      "url": "https://www.opencodelists.org/codelist/user/chriswood/example-acute-medications-tramadol/0edf5e65/",
+      "downloaded_at": "2026-07-22 08:34:00.331194Z",
+      "sha": "a10446a32e6911fabab0c2ae186bc221ce7b2ee4"
+    },
+    "user-chriswood-example-repeat-medications-atorvastatin.csv": {
+      "id": "user/chriswood/example-repeat-medications-atorvastatin/43b104c5",
+      "url": "https://www.opencodelists.org/codelist/user/chriswood/example-repeat-medications-atorvastatin/43b104c5/",
+      "downloaded_at": "2026-07-22 08:34:00.404343Z",
+      "sha": "c6d54a9c0cbcfdbf11b007eb78ddb9860112ee48"
+    },
+    "user-chriswood-example-repeat-medications-ramipril.csv": {
+      "id": "user/chriswood/example-repeat-medications-ramipril/11921e5b",
+      "url": "https://www.opencodelists.org/codelist/user/chriswood/example-repeat-medications-ramipril/11921e5b/",
+      "downloaded_at": "2026-07-22 08:34:00.476670Z",
+      "sha": "f22587ed0f2f30ebba8640e0f90e86f93429d171"
     }
   }
 }

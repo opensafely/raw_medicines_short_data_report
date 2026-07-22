@@ -178,10 +178,10 @@ code,term,dmd_id,dmd_type,uom
 34782811000001100,Co-codamol 60mg/1000mg tablets,34782811000001100,AMP,tablet
 34617911000001101,Co-codamol 60mg/1000mg tablets,34617911000001101,AMP,tablet
 36861011000001107,Co-codamol 60mg/1000mg tablets,36861011000001107,AMP,tablet
-38063911000001100,Co-codamol 30mg/500mg/5ml oral solution sugar free,38063911000001100,VMP,ml
-38561311000001100,Co-codamol 30mg/500mg/5ml oral solution sugar free,38561311000001100,AMP,ml
-38848711000001102,Co-codamol 30mg/500mg/5ml oral solution sugar free,38848711000001102,AMP,ml
-37929611000001101,Co-codamol 30mg/500mg/5ml oral solution sugar free,37929611000001101,AMP,ml
+38063911000001100,Co-codamol 30mg/500mg/5ml oral solution sugar free,38063911000001100,VMP,spoonful
+38561311000001100,Co-codamol 30mg/500mg/5ml oral solution sugar free,38561311000001100,AMP,spoonful
+38848711000001102,Co-codamol 30mg/500mg/5ml oral solution sugar free,38848711000001102,AMP,spoonful
+37929611000001101,Co-codamol 30mg/500mg/5ml oral solution sugar free,37929611000001101,AMP,spoonful
 38555211000001104,Co-codamol 8mg/500mg effervescent tablets sugar free,38555211000001104,VMP,tablet
 38741511000001100,Co-codamol 8mg/500mg effervescent tablets sugar free,38741511000001100,AMP,tablet
 38525011000001108,Co-codamol 8mg/500mg effervescent tablets sugar free,38525011000001108,AMP,tablet
@@ -224,17 +224,17 @@ code,term,dmd_id,dmd_type,uom
 20549911000001105,Boots Aspirin and Codeine tablets,20549911000001105,AMP,tablet
 4956111000001107,Aspirin 500mg / Codeine 8mg dispersible tablets sugar free,4956111000001107,VMP,tablet
 17849211000001105,Boots Paracetamol and Codeine Extra capsules,17849211000001105,AMP,capsule
-36090011000001104,Codeine 60mg/1ml solution for injection ampoules,36090011000001104,VMP,ml
-558511000001103,Codeine 60mg/1ml solution for injection ampoules,558511000001103,AMP,ml
-754411000001107,Codeine 60mg/1ml solution for injection ampoules,754411000001107,AMP,ml
-447811000001106,Codeine 60mg/1ml solution for injection ampoules,447811000001106,AMP,ml
-32755411000001106,Codeine 60mg/1ml solution for injection ampoules,32755411000001106,AMP,ml
-36566111000001100,Codeine 25mg/5ml oral solution,36566111000001100,VMP,ml
-641111000001109,Codeine 25mg/5ml oral solution,641111000001109,AMP,ml
-106811000001100,Codeine 25mg/5ml oral solution,106811000001100,AMP,ml
-30046011000001101,Codeine 25mg/5ml oral solution,30046011000001101,AMP,ml
-39847111000001102,Codeine 25mg/5ml oral solution,39847111000001102,AMP,ml
-27811000001100,Codeine 25mg/5ml oral solution,27811000001100,AMP,ml
+36090011000001104,Codeine 60mg/1ml solution for injection ampoules,36090011000001104,VMP,ampoule
+558511000001103,Codeine 60mg/1ml solution for injection ampoules,558511000001103,AMP,ampoule
+754411000001107,Codeine 60mg/1ml solution for injection ampoules,754411000001107,AMP,ampoule
+447811000001106,Codeine 60mg/1ml solution for injection ampoules,447811000001106,AMP,ampoule
+32755411000001106,Codeine 60mg/1ml solution for injection ampoules,32755411000001106,AMP,ampoule
+36566111000001100,Codeine 25mg/5ml oral solution,36566111000001100,VMP,spoonful
+641111000001109,Codeine 25mg/5ml oral solution,641111000001109,AMP,spoonful
+106811000001100,Codeine 25mg/5ml oral solution,106811000001100,AMP,spoonful
+30046011000001101,Codeine 25mg/5ml oral solution,30046011000001101,AMP,spoonful
+39847111000001102,Codeine 25mg/5ml oral solution,39847111000001102,AMP,spoonful
+27811000001100,Codeine 25mg/5ml oral solution,27811000001100,AMP,spoonful
 42010311000001103,Codeine 15mg tablets,42010311000001103,VMP,tablet
 631411000001103,Codeine 15mg tablets,631411000001103,AMP,tablet
 3811000001102,Codeine 15mg tablets,3811000001102,AMP,tablet
@@ -300,8 +300,8 @@ code,term,dmd_id,dmd_type,uom
 15247511000001107,Codeine phosphate powder,15247511000001107,AMP,NA
 5147211000001108,Codeine phosphate powder,5147211000001108,AMP,NA
 5147411000001107,Codeine phosphate powder,5147411000001107,AMP,NA
-12388811000001109,Codeine 30mg/1ml solution for injection ampoules,12388811000001109,VMP,ml
-12315611000001102,Codeine 30mg/1ml solution for injection ampoules,12315611000001102,AMP,ml
+12388811000001109,Codeine 30mg/1ml solution for injection ampoules,12388811000001109,VMP,ampoule
+12315611000001102,Codeine 30mg/1ml solution for injection ampoules,12315611000001102,AMP,ampoule
 21148211000001106,Codeine 5mg suppositories,21148211000001106,VMP,suppository
 21130211000001107,Codeine 5mg suppositories,21130211000001107,AMP,suppository
 18519311000001102,Codeine 10mg suppositories,18519311000001102,VMP,suppository
@@ -326,12 +326,12 @@ code,term,dmd_id,dmd_type,uom
 8428011000001109,Codeine 10mg/5ml oral suspension,8428011000001109,VMP,NA
 8405411000001103,Codeine 10mg/5ml oral solution,8405411000001103,AMP,NA
 8406011000001103,Codeine 10mg/5ml oral suspension,8406011000001103,AMP,NA
-8087411000001101,Codeine 6.75mg/5ml oral solution,8087411000001101,VMP,ml
+8087411000001101,Codeine 6.75mg/5ml oral solution,8087411000001101,VMP,spoonful
 20122011000001107,Codeine 20mg suppositories,20122011000001107,VMP,suppository
 20116511000001109,Codeine 20mg suppositories,20116511000001109,AMP,suppository
 21148111000001100,Codeine 1mg suppositories,21148111000001100,VMP,suppository
 21130811000001108,Codeine 1mg suppositories,21130811000001108,AMP,suppository
-8086211000001102,Bepro 6.75mg/5ml syrup,8086211000001102,AMP,ml
+8086211000001102,Bepro 6.75mg/5ml syrup,8086211000001102,AMP,spoonful
 36045211000001108,Ibuprofen 300mg modified-release / Codeine 20mg tablets,36045211000001108,VMP,tablet
 42104611000001105,Ibuprofen 200mg / Codeine 12.8mg tablets,42104611000001105,VMP,tablet
 31004511000001103,Boots Ibuprofen and Codeine 200mg/12.8mg tablets,31004511000001103,AMP,tablet
@@ -349,8 +349,8 @@ code,term,dmd_id,dmd_type,uom
 322502004,VMP previous to 42010311000001103,322502004,VMP,tablet
 322503009,VMP previous to 42010411000001105,322503009,VMP,tablet
 322504003,VMP previous to 42010511000001109,322504003,VMP,tablet
-322505002,VMP previous to 36566111000001100,322505002,VMP,ml
-322506001,VMP previous to 36090011000001104,322506001,VMP,ml
+322505002,VMP previous to 36566111000001100,322505002,VMP,spoonful
+322506001,VMP previous to 36090011000001104,322506001,VMP,ampoule
 322507005,VMP previous to 36090211000001109,322507005,VMP,NA
 329683004,VMP previous to 42104611000001105,329683004,VMP,tablet
 329713000,VMP previous to 36045211000001108,329713000,VMP,tablet

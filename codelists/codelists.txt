@@ -10,3 +10,10 @@ user/chriswood/repeat-table-sdr-instalment-dispensed-issue/4beee89b
 
 opensafely/long-acting-injectable-and-depot-antipsychotics-dmd/536cc8dc
 user/emprestige/all-inhalers-dmd/5ff7812d
+
+user/chriswood/example-quantity-test-medications/2d545186
+
+user/chriswood/example-acute-medications/40fe44cf
+user/chriswood/example-acute-medications-tramadol/0edf5e65/
+user/chriswood/example-repeat-medications-atorvastatin/43b104c5/
+user/chriswood/example-repeat-medications-ramipril/11921e5b/ 
