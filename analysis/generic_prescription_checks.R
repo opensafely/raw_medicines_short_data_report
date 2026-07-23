@@ -27,7 +27,7 @@ df <- read_feather(here::here("output", "dataset.arrow")) %>%
       col_names("acute_med_2"),
       col_names("repeat_med_1"),
       col_names("repeat_med_2"),
-      col_names("quantity_test")
+      col_names("field_test")
     ))
   )
 
@@ -111,4 +111,4 @@ summarise_uom("acute_med_1", "user-chriswood-example-acute-medications-uom.csv")
 summarise_uom("acute_med_2", "user-chriswood-example-acute-medications-tramadol-uom.csv")
 summarise_uom("repeat_med_1", "user-chriswood-example-repeat-medications-atorvastatin-uom.csv")
 summarise_uom("repeat_med_2", "user-chriswood-example-repeat-medications-ramipril-uom.csv")
-summarise_uom("quantity_test", "user-chriswood-example-quantity-test-medications-uom.csv")
+summarise_uom("field_test", "user-chriswood-example-quantity-test-medications-uom.csv")
