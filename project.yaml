@@ -43,6 +43,15 @@ actions:
       moderately_sensitive:
         quantity_skim: output/quantity_uoms.csv
 
+  generic_prescription_checks:
+    run: r:v2 analysis/generic_prescription_checks.R
+    needs:
+      - generate_dataset
+    outputs:
+      moderately_sensitive:
+        generic_prescription_skim: output/generic_prescriptions_skim.txt
+        generic_prescription_uoms: output/*_quantity_uoms.csv
+
   generate_measures:
     run: >
         ehrql:v1 generate-measures

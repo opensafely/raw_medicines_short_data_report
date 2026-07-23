@@ -5,6 +5,7 @@ library(readr)
 
 # import dataset
 df <- read_feather(here::here("output", "dataset.arrow")) %>% 
+  filter(meds_exist) %>%
   select(c(patient_id, statin_quantity, statin_code, statin_quantity_rep, statin_code_rep,
            statin_code_med_with_rep, statin_quantity_med_with_rep, opioids_quantity, opioids_code,
            opioids_quantity_rep, opioids_code_rep, opioids_code_med_with_rep, opioids_quantity_med_with_rep,

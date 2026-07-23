@@ -522,3 +522,98 @@ dataset.inhalers_code = (
     .first_for_patient()
     .dmd_code
 )
+
+
+## block for generic prescriptions which can be edited
+
+def get_generic_prescriptions(prescription, codelist):
+    generic_prescriptions_issue = (
+        medications
+        .where(medications.date.is_on_or_after(index_date))
+        .where(medications.repeat_medication_id != -1)
+        .where(medications.dmd_code.is_in(codelist))
+        .count_for_patient()
+    )
+    dataset.add_column(f"{prescription}_issue", generic_prescriptions_issue)
+    generic_prescriptions_repeat = (
+        repeat_medications
+        .where(repeat_medications.date.is_on_or_after(index_date))
+        .where(repeat_medications.dmd_code.is_in(codelist))
+        .count_for_patient()
+    )
+    dataset.add_column(f"{prescription}_repeat", generic_prescriptions_repeat)
+    generic_prescriptions_repeat_issues = (
+        medications
+        .where(medications.date.is_on_or_after(index_date))
+        .where(medications.repeat_medication_id == -1)
+        .where(medications.dmd_code.is_in(codelist))
+        .count_for_patient()
+    )
+    dataset.add_column(f"{prescription}_repeat_issue", generic_prescriptions_repeat_issues)
+    generic_prescriptions_issue_quantity = (
+        medications
+        .where(medications.date.is_on_or_after(index_date))
+        .where(medications.repeat_medication_id != -1)
+        .where(medications.dmd_code.is_in(codelist))
+        .sort_by(medications.date)
+        .first_for_patient()
+        .quantity
+    )
+    dataset.add_column(f"{prescription}_issue_quantity", generic_prescriptions_issue_quantity)
+    generic_prescriptions_issue_code = (
+        medications
+        .where(medications.date.is_on_or_after(index_date))
+        .where(medications.repeat_medication_id != -1)
+        .where(medications.dmd_code.is_in(codelist))
+        .sort_by(medications.date)
+        .first_for_patient()
+        .dmd_code
+    )
+    dataset.add_column(f"{prescription}_issue_code", generic_prescriptions_issue_code)
+    generic_prescriptions_repeat_quantity = (
+        repeat_medications
+        .where(repeat_medications.date.is_on_or_after(index_date))
+        .where(repeat_medications.dmd_code.is_in(codelist))
+        .sort_by(repeat_medications.date)
+        .first_for_patient()
+        .quantity
+    )
+    dataset.add_column(f"{prescription}_repeat_quantity", generic_prescriptions_repeat_quantity)
+    generic_prescriptions_repeat_code = (
+        repeat_medications
+        .where(repeat_medications.date.is_on_or_after(index_date))
+        .where(repeat_medications.dmd_code.is_in(codelist))
+        .sort_by(repeat_medications.date)
+        .first_for_patient()
+        .dmd_code
+    )
+    dataset.add_column(f"{prescription}_repeat_code", generic_prescriptions_repeat_code)
+    generic_prescriptions_repeat_issue_quantity = (
+        medications
+        .where(medications.date.is_on_or_after(index_date))
+        .where(medications.repeat_medication_id == -1)
+        .where(medications.dmd_code.is_in(codelist))
+        .sort_by(medications.date)
+        .first_for_patient()
+        .quantity
+    )
+    dataset.add_column(f"{prescription}_repeat_issue_quantity", generic_prescriptions_repeat_issue_quantity)
+    generic_prescriptions_repeat_issue_code = (
+        medications
+        .where(medications.date.is_on_or_after(index_date))
+        .where(medications.repeat_medication_id == -1)
+        .where(medications.dmd_code.is_in(codelist))
+        .sort_by(medications.date)
+        .first_for_patient()
+        .dmd_code
+    )
+    dataset.add_column(f"{prescription}_repeat_issue_code", generic_prescriptions_repeat_issue_code)
+
+## now use the function for some testing
+
+# acute medications 
+get_generic_prescriptions("acute_med_1", codelists.acute_1)
+get_generic_prescriptions("acute_med_2", codelists.acute_2)
+get_generic_prescriptions("repeat_med_1", codelists.repeat_1)
+get_generic_prescriptions("repeat_med_2", codelists.repeat_2)
+get_generic_prescriptions("quantity_test", codelists.quantity_test)
