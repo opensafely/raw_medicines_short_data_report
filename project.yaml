@@ -42,6 +42,7 @@ actions:
     outputs:
       moderately_sensitive:
         quantity_skim: output/quantity_uoms.csv
+        quantity_plots: output/*_plot.png
 
   generic_prescription_checks:
     run: r:v2 analysis/generic_prescription_checks.R
@@ -52,6 +53,7 @@ actions:
         generic_prescription_skim: output/generic_prescriptions/generic_prescriptions_skim.txt
         generic_prescription_counts: output/generic_prescriptions/*_prescribing.csv
         generic_prescription_uoms: output/generic_prescriptions/*_quantity_uoms.csv
+        generic_prescription_plots: output/generic_prescriptions/*_plot.png
 
   generate_measures:
     run: >
