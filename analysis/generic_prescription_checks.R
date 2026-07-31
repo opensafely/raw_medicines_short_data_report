@@ -90,8 +90,8 @@ summarise_uom <- function(prescription, codelist) {
       names_pattern = col_regex,
       values_drop_na = FALSE
     ) %>%
-    mutate(med = prescription, .before = 2)# %>%
-    # filter(!is.na(code))
+    mutate(med = prescription, .before = 2) %>%
+    filter(!is.na(code))
   
   # summarise the UOM contained in the quantity
   uom_sums <- uom_long %>%
@@ -99,6 +99,7 @@ summarise_uom <- function(prescription, codelist) {
     summarise(
       n = n(),
       n_quantity_contains_uom = sum(str_detect(quantity, uom), na.rm = TRUE),
+      perc = n_quantity_contains_uom/n,
       .groups = "drop"
     )
   
