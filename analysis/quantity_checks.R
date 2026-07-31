@@ -92,7 +92,7 @@ df_long <- df_with_uom %>%
     names_pattern = "^(statin|opioids|injections_oxy|injections|inhalers)_(quantity|code|term|uom)(_rep)?$",
     values_drop_na = FALSE
   ) %>%
-  # mutate(record = if_else(is.na(record), "issue", "repeat")) %>%
+  mutate(record = if_else(is.na(record), "issue", "repeat")) %>%
   filter(!is.na(code))  # optional: keep rows with a prescription
 
 # check to see how often the uom appears in the quantity
@@ -101,7 +101,7 @@ sums <- df_long %>%
   summarise(
     n = n(),
     n_quantity_contains_uom = sum(str_detect(quantity, uom), na.rm = TRUE),
-    perc = n_quantity_contains_uom/n
+    perc = (n_quantity_contains_uom/n)*100
   ) #%>%
 #  mutate(med_type = "statins")
 
