@@ -68,6 +68,116 @@ summarise_counts("field_test")
 
 ## quantities
 
+# get missing quantities
+text_based_missing <- df %>%
+  select(contains("quantity")) %>%
+  pivot_longer(
+    cols = everything(),
+    names_to = "variable",
+    values_to = "value"
+  ) %>%
+  count(variable, value) %>%
+  group_by(variable) %>%
+  mutate(prop = n / sum(n)) %>%
+  filter(is.na(value)|value == "") %>%
+  ungroup()
+
+# save
+write_csv(text_based_missing, here::here("output", "generic_prescriptions", "missing_quantities.csv"))
+
+# keep only top 10 categories per variable for plotting
+plot_data <- df %>%
+  select(contains("quantity")) %>%
+  pivot_longer(
+    cols = everything(),
+    names_to = "variable",
+    values_to = "value"
+  ) %>%
+  filter(!is.na(value) & value != "") %>%
+  count(variable, value) %>%
+  group_by(variable) %>%
+  mutate(prop = n / sum(n)) %>%
+  slice_max(order_by = prop, n = 10, with_ties = FALSE) %>%
+  ungroup()
+
+# visualise
+visual_sum <- ggplot(
+  plot_data,
+  aes(
+    x = reorder(value, prop),
+    y = prop,
+    fill = variable
+  )
+) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  facet_wrap(~ variable, scales = "free_y") +
+  scale_y_continuous(labels = percent_format()) +
+  geom_text(
+    aes(label = percent(prop, accuracy = 0.1)),
+    hjust = -0.1,
+    size = 3
+  ) +
+  #expand_limits(y = max(text_based$prop) * 1.15) +
+  labs(
+    title = "Proportion of Quantity Categories",
+    x = NULL,
+    y = "Proportion"
+  ) +
+  theme_minimal()
+
+# save 
+ggsave(here::here("output", "generic_prescriptions", "quantity_summary_plot.png"))
+
+# look at the medications associated with the quantity
+dmds_for_quants <- df %>%
+  select(contains("code")) %>%
+  pivot_longer(
+    cols = everything(),
+    names_to = "variable",
+    values_to = "value"
+  ) %>%
+  #filter(!is.na(value) & value != "") %>%
+  count(variable, value) %>%
+  group_by(variable) %>%
+  mutate(prop = n / sum(n)) %>%
+  ungroup()
+
+# keep only top 10 categories per variable for plotting
+plot_data <- dmds_for_quants %>%
+  group_by(variable) %>%
+  slice_max(order_by = prop, n = 10, with_ties = FALSE) %>%
+  ungroup()
+
+# visualise
+visual_sum <- ggplot(
+  plot_data,
+  aes(
+    x = reorder(value, prop),
+    y = prop,
+    fill = variable
+  )
+) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  facet_wrap(~ variable, scales = "free_y") +
+  scale_y_continuous(labels = percent_format()) +
+  geom_text(
+    aes(label = percent(prop, accuracy = 0.1)),
+    hjust = -0.1,
+    size = 3
+  ) +
+  #expand_limits(y = max(text_based$prop) * 1.15) +
+  labs(
+    title = "Proportion of dm+d Codes",
+    x = NULL,
+    y = "Proportion"
+  ) +
+  theme_minimal()
+
+# save 
+ggsave(here::here("output", "generic_prescriptions", "dmd_summary_plot.png"))
+
 # summarise unit of measure (uom) for each prescription type
 summarise_uom <- function(prescription, codelist) {
   
@@ -135,6 +245,55 @@ summarise_uom <- function(prescription, codelist) {
   
   # save the result
   write_csv(uom_sums, here::here("output", "generic_prescriptions", paste0(prescription,"_quantity_uoms.csv")))
+  
+  # look at the medications associated with the quantity
+  terms_for_quants <- uom_presc %>%
+    select(contains("term")) %>%
+    pivot_longer(
+      cols = everything(),
+      names_to = "variable",
+      values_to = "value"
+    ) %>%
+    #filter(!is.na(value) & value != "") %>%
+    count(variable, value) %>%
+    group_by(variable) %>%
+    mutate(prop = n / sum(n)) %>%
+    ungroup()
+  
+  # keep only top 10 categories per variable for plotting
+  plot_data <- terms_for_quants %>%
+    group_by(variable) %>%
+    slice_max(order_by = prop, n = 10, with_ties = FALSE) %>%
+    ungroup()
+  
+  # visualise
+  visual_sum_terms <- ggplot(
+    plot_data,
+    aes(
+      x = reorder(value, prop),
+      y = prop,
+      fill = variable
+    )
+  ) +
+    geom_col(show.legend = FALSE) +
+    coord_flip() +
+    facet_wrap(~ variable, scales = "free_y") +
+    scale_y_continuous(labels = percent_format()) +
+    geom_text(
+      aes(label = percent(prop, accuracy = 0.1)),
+      hjust = -0.1,
+      size = 3
+    ) +
+    #expand_limits(y = max(text_based$prop) * 1.15) +
+    labs(
+      title = "Proportion of Terms",
+      x = NULL,
+      y = "Proportion"
+    ) +
+    theme_minimal()
+  
+  # save 
+  ggsave(here::here("output", "generic_prescriptions", paste0(prescription, "_term_summary_plot.png")))
   
 }
 
