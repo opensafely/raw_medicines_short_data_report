@@ -2,6 +2,7 @@ library(tidyverse)
 library(here)
 library(arrow)
 library(readr)
+library(ggplot2)
 
 # import dataset
 df <- read_feather(here::here("output", "dataset.arrow")) %>% 
@@ -146,7 +147,7 @@ visual_sum <- ggplot(
     hjust = -0.1,
     size = 3
   ) +
-  expand_limits(y = max(text_based$prop) * 1.15) +
+  #expand_limits(y = max(text_based$prop) * 1.15) +
   labs(
     title = "Proportion of dm+d Codes",
     x = NULL,
@@ -195,7 +196,7 @@ visual_sum_terms <- ggplot(
     hjust = -0.1,
     size = 3
   ) +
-  expand_limits(y = max(text_based$prop) * 1.15) +
+  #expand_limits(y = max(text_based$prop) * 1.15) +
   labs(
     title = "Proportion of Terms",
     x = NULL,

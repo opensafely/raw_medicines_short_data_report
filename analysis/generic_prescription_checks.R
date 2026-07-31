@@ -3,6 +3,7 @@ library(here)
 library(arrow)
 library(readr)
 library(tidyverse)
+library(ggplot2)
 
 # define the expected column names
 col_names <- function(prescription) {
