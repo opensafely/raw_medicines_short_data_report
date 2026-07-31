@@ -9,7 +9,7 @@ col_names <- function(prescription) {
   paste0(
     prescription,
     c(
-#      "_issue", "_repeat", "_repeat_issue",
+      "_issue", "_repeat", "_repeat_issue",
       "_issue_quantity", "_issue_code",
       "_repeat_quantity", "_repeat_code",
       "_repeat_issue_quantity", "_repeat_issue_code"
@@ -31,12 +31,42 @@ df <- read_feather(here::here("output", "dataset.arrow")) %>%
     ))
   )
 
+# create output directory
+fs::dir_create(here::here("output", "generic_prescriptions"))
+
 # skim the data
 capture.output(
   df %>% skimr::skim_without_charts(),
-  file = here::here("output", "generic_prescriptions_skim.txt"),
+  file = here::here("output", "generic_prescriptions", "generic_prescriptions_skim.txt"),
   split = FALSE
 )
+
+# get summary of counts 
+summarise_counts <- function(prescription) {
+  
+  issue_col <- paste0(prescription, "_issue")
+  repeat_col <- paste0(prescription, "_repeat")
+  repeat_issue_col <- paste0(prescription, "_repeat_issue")
+  
+  sums <- df %>%
+    summarise(
+      av_issues = mean(.data[[issue_col]], na.rm = TRUE),
+      av_repeats = mean(.data[[repeat_col]], na.rm = TRUE),
+      av_repeat_issues = mean(.data[[repeat_issue_col]], na.rm = TRUE)
+    )
+  
+  write_csv(sums, here::here("output", "generic_prescriptions", 
+                             paste0(prescription, "_prescribing.csv")))
+  
+}
+
+summarise_counts("acute_med_1")
+summarise_counts("acute_med_2")
+summarise_counts("repeat_med_1")
+summarise_counts("repeat_med_2")
+summarise_counts("field_test")
+
+## quantities
 
 # summarise unit of measure (uom) for each prescription type
 summarise_uom <- function(prescription, codelist) {
@@ -99,12 +129,12 @@ summarise_uom <- function(prescription, codelist) {
     summarise(
       n = n(),
       n_quantity_contains_uom = sum(str_detect(quantity, uom), na.rm = TRUE),
-      perc = n_quantity_contains_uom/n,
+      perc = (n_quantity_contains_uom/n)*100,
       .groups = "drop"
     )
   
   # save the result
-  write_csv(uom_sums, here::here("output", paste0(prescription,"_quantity_uoms.csv")))
+  write_csv(uom_sums, here::here("output", "generic_prescriptions", paste0(prescription,"_quantity_uoms.csv")))
   
 }
 
