@@ -4,6 +4,7 @@ library(arrow)
 library(readr)
 library(tidyverse)
 library(ggplot2)
+library(scales)
 
 # define the expected column names
 col_names <- function(prescription) {

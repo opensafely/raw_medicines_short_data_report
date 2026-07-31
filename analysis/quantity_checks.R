@@ -3,6 +3,7 @@ library(here)
 library(arrow)
 library(readr)
 library(ggplot2)
+library(scales)
 
 # import dataset
 df <- read_feather(here::here("output", "dataset.arrow")) %>% 
