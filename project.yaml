@@ -35,6 +35,14 @@ actions:
         tex_sum_vis: output/quantity_summary_plot.png
         dmd_sum_vis: output/dmd_summary_plot.png
 
+  active_prescriptions_checks:
+    run: r:v2 analysis/active_prescriptions_checks.R
+    needs:
+      - generate_dataset
+    outputs:
+      moderately_sensitive:
+        active_prescriptions_skim: output/active_prescriptions_skim.txt
+
   quantity_checks:
     run: r:v2 analysis/quantity_checks.R
     needs:
@@ -52,6 +60,7 @@ actions:
       moderately_sensitive:
         generic_prescription_skim: output/generic_prescriptions/generic_prescriptions_skim.txt
         generic_prescription_counts: output/generic_prescriptions/*_prescribing.csv
+        generic_prescription_missing: output/generic_prescriptions/missing_quantities.csv
         generic_prescription_uoms: output/generic_prescriptions/*_quantity_uoms.csv
         generic_prescription_plots: output/generic_prescriptions/*_plot.png
 
