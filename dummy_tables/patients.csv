@@ -8,9 +8,9 @@ patient_id,date_of_birth,date_of_death,sex
 15,1938-03-01,,intersex
 16,2011-07-01,,unknown
 21,2009-04-01,,unknown
-25,2009-11-01,,intersex
+25,2009-11-01,,female
 28,1972-02-01,,intersex
-29,2014-08-01,,intersex
+29,2014-08-01,,female
 30,1969-01-01,,male
 31,1968-05-01,,male
 32,1994-05-01,,unknown
@@ -19,7 +19,7 @@ patient_id,date_of_birth,date_of_death,sex
 35,1961-06-01,,unknown
 36,2016-12-01,,male
 37,1923-11-01,,female
-38,1957-03-01,,male
+38,1957-03-01,,unknown
 39,1990-06-01,,female
 40,1971-06-01,,male
 41,1975-12-01,,intersex
@@ -32,8 +32,9 @@ patient_id,date_of_birth,date_of_death,sex
 55,1957-02-01,,unknown
 56,1962-11-01,,intersex
 58,1968-09-01,,male
-59,2007-01-01,2025-10-05,unknown
+59,2007-01-01,2026-01-08,unknown
 60,1929-07-01,,unknown
+61,2015-01-01,,female
 62,1990-04-01,,female
 63,1998-12-01,,intersex
 64,1996-04-01,,unknown
@@ -45,7 +46,6 @@ patient_id,date_of_birth,date_of_death,sex
 73,1978-12-01,,male
 74,1988-12-01,,unknown
 75,2002-08-01,,intersex
-76,1935-11-01,,intersex
+76,1935-11-01,,female
 78,2017-09-01,,intersex
 79,2019-09-01,,female
-80,1921-07-01,,intersex
