@@ -1,16 +1,26 @@
 version: '5.0'
 
 actions:
+
+  # ---------------------------------------------------------------------------
+  # Generate patient-level dataset
+  # ---------------------------------------------------------------------------
+
   generate_dataset:
     run: >
       ehrql:v1 generate-dataset
-      analysis/dataset_definition.py 
+      analysis/dataset_definition.py
       --test-data-file analysis/test_dataset_definition.py
       --dummy-tables dummy_tables
       --output output/dataset.arrow
     outputs:
       highly_sensitive:
         dataset: output/dataset.arrow
+
+
+  # ---------------------------------------------------------------------------
+  # Dataset quality checks
+  # ---------------------------------------------------------------------------
 
   check_dataset:
     run: r:v2 analysis/dataset_checks.R
@@ -19,29 +29,33 @@ actions:
     outputs:
       moderately_sensitive:
         skim: output/dataset_skim.txt
-        checks: output/dataset_check.csv
-        missing: output/dataset_missing.csv
-        status: output/dataset_status.csv
-        status_issues: output/dataset_status_issues.csv
-        status_reps: output/dataset_status_repeats.csv
-        dates: output/dataset_date_outliers.csv
-        dates_check: output/dataset_date_outliers_check.csv
-        indexes: output/dataset_date_indexes.csv
-        indexes_check: output/dataset_date_indexes_check.csv
-        plots: output/sample_*.png
-        demographics: output/meds_by_*.csv
-        text_miss: output/missing_quantities.csv
-        text_sum: output/quantity_sums_*.csv
-        tex_sum_vis: output/quantity_summary_plot.png
-        dmd_sum_vis: output/dmd_summary_plot.png
+        summary: output/dataset_check.csv
+        variables: output/dataset_variable_inventory.csv
+        missingness: output/dataset_missingness.csv
+        count_checks: output/dataset_count_checks.csv
+        date_checks: output/dataset_date_checks.csv
 
-  active_prescriptions_checks:
-    run: r:v2 analysis/active_prescriptions_checks.R
+
+  # ---------------------------------------------------------------------------
+  # Objective 1a
+  # Can the Medication Issues table identify repeat prescribing?
+  # ---------------------------------------------------------------------------
+
+  repeat_identification:
+    run: r:v2 analysis/repeat_identification.R
     needs:
       - generate_dataset
     outputs:
       moderately_sensitive:
-        active_prescriptions_skim: output/active_prescriptions_skim.txt
+        summary: output/repeat_identification/repeat_identification_summary.csv
+        patient_patterns: output/repeat_identification/repeat_identification_patient_patterns.csv
+        repeat_issue_plot: output/repeat_identification/repeat_issue_proportion.png
+
+
+  # ---------------------------------------------------------------------------
+  # Objective 1b
+  # Can Medication Issues provide information about quantity prescribed?
+  # ---------------------------------------------------------------------------
 
   quantity_checks:
     run: r:v2 analysis/quantity_checks.R
@@ -49,27 +63,28 @@ actions:
       - generate_dataset
     outputs:
       moderately_sensitive:
-        quantity_skim: output/quantity_uoms.csv
-        quantity_plots: output/*_plot.png
+        completeness: output/quantity_checks/quantity_completeness.csv
+        common_quantities: output/quantity_checks/common_quantity_strings.csv
+        common_dmd_codes: output/quantity_checks/common_quantity_dmd_codes.csv
+        dmd_quantity_combinations: output/quantity_checks/common_dmd_quantity_combinations.csv
+        uom_summary: output/quantity_checks/quantity_uom_summary.csv
+        common_quantity_plot: output/quantity_checks/common_quantity_strings.png
 
-  generic_prescription_checks:
-    run: r:v2 analysis/generic_prescription_checks.R
+
+  # ---------------------------------------------------------------------------
+  # Objective 2
+  # Does repeat_medications provide additional information?
+  # ---------------------------------------------------------------------------
+
+  repeat_table_checks:
+    run: r:v2 analysis/repeat_table_checks.R
     needs:
       - generate_dataset
     outputs:
       moderately_sensitive:
-        generic_prescription_skim: output/generic_prescriptions/generic_prescriptions_skim.txt
-        generic_prescription_counts: output/generic_prescriptions/*_prescribing.csv
-        generic_prescription_missing: output/generic_prescriptions/missing_quantities.csv
-        generic_prescription_uoms: output/generic_prescriptions/*_quantity_uoms.csv
-        generic_prescription_plots: output/generic_prescriptions/*_plot.png
-
-  generate_measures:
-    run: >
-        ehrql:v1 generate-measures
-        analysis/measures_definition.py
-        --dummy-tables dummy_tables
-        --output output/measures/:csv
-    outputs:
-      moderately_sensitive:
-        dataset: output/measures/*.csv
+        linkage: output/repeat_table_checks/linkage_summary.csv
+        concordance: output/repeat_table_checks/dmd_quantity_concordance.csv
+        temporal: output/repeat_table_checks/temporal_summary.csv
+        derived_patient_level: output/repeat_table_checks/repeat_table_derived_patient_level.csv
+        repeat_duration_plot: output/repeat_table_checks/repeat_duration_distribution.png
+        

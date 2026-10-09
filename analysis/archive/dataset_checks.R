@@ -1,0 +1,843 @@
+# import librarys
+library(here)
+library(arrow)
+library(tidyverse)
+library(ggplot2)
+library(lubridate)
+library(scales)
+
+# import dataset
+df <- read_feather(here::here("output", "dataset.arrow"))
+
+# skim the data
+capture.output(
+  df %>%
+    group_by(meds_exist) %>%
+    mutate(
+      across(
+        where(~ inherits(.x, "Date")),
+        ~ if (all(is.na(.x))) {
+          # for columns with all missing dates, set them to an identifier
+          replace(.x, is.na(.x), as.Date("1800-01-01"))
+        } else {
+          .x
+        }
+      )
+    ) %>%
+    skimr::skim_without_charts(),
+  file = here::here("output", "dataset_skim.txt"),
+  split = FALSE
+)
+
+# summarise those missing meds
+meds_exist_sum <- df %>% 
+  summarise(
+    total = n_distinct(patient_id),
+    missing_meds = sum(meds_exist == FALSE),
+    prop_missing_meds = missing_meds/total
+  )
+
+# save
+write_csv(meds_exist_sum, here::here("output", "missing_meds.csv"))
+
+# remove people with missing meds
+df <- df %>% 
+  filter(meds_exist) %>% 
+  select(-meds_exist)
+
+# inspect data
+df_check <- df %>%
+  #group_by(meds_exist) %>%
+  summarise(
+    total = n_distinct(patient_id),
+    av_meds = mean(meds_row_no),
+    av_reps = mean(repeats_row_no),
+    av_meds_id = mean(meds_rep_id_no),
+    av_meds_consult_id = mean(meds_consult_id_no),
+    av_reps_id = mean(repeats_rep_id_no),
+    av_reps_consult_id = mean(repeats_consult_id_no),
+    n_ids_differ = sum(rep_ids_differ),
+    prop_ids_differ = n_ids_differ/total*100,
+    av_concord = mean(concordant_dates),
+    total_concord = sum(concordant_dates),
+    prop_concord = total_concord/total*100,
+    av_discord = mean(discordant_dates),
+    total_discord = sum(discordant_dates),
+    prop_discord = total_discord/total*100,
+    av_start_first = mean(start_date_first),
+    av_start_second = mean(start_date_second),
+    av_active_repeats = mean(active_repeats)
+  )
+
+# save summary
+write_csv(df_check, here::here("output", "dataset_check.csv"))
+
+# do some other checks
+df_miss <- df %>% 
+  #group_by(meds_exist) %>%
+  summarise(
+    meds_rep_id = sum(medications_missing_rep_id),
+    reps_rep_id = sum(repeats_missing_rep_id),
+    rep_date = sum(rep_missing_date),
+    rep_start_date = sum(rep_missing_start_date),
+    rep_end_date = sum(rep_missing_end_date),
+    rep_end_date_in_future = sum(rep_end_date_in_future)
+  ) %>% 
+  pivot_longer(
+    cols = everything(),
+    names_to = "missing_type",
+    values_to = "total"
+  ) %>% 
+  mutate(
+    frac = total/nrow(df)
+  )
+
+# save summary
+write_csv(df_miss, here::here("output", "dataset_missing.csv"))
+
+# get missing medication status
+#missing_status_row <- df %>%
+#  select(contains("missing_status")) %>%
+#  summarise(across(.cols = everything(), ~ sum(.x))) %>% 
+#  rename(med_count = medications_missing_status_issue,
+#         rep_count = medications_missing_status_repeat,
+#         med_count_with_rep = medications_missing_status_issue_with_rep_id) %>% 
+#  mutate(status_type = NA_real_, status = "Missing", .before = 1)
+
+# medication status
+df_status_med <- df %>% 
+  #group_by(meds_exist) %>%
+  select(contains("medications_status") & !contains("rep_id")) %>% 
+  summarise(across(.cols = everything(), ~ sum(.x))) %>% 
+  pivot_longer(
+    cols = everything(),
+    names_to = "status_type",
+    names_prefix = "medications_status_",
+    values_to = "med_count"
+  ) %>% 
+  mutate(
+    "status" = case_when(
+      status_type == 0 ~ "Normal",
+      status_type == 4 ~ "Historical",
+      status_type == 5 ~ "Blue script",
+      status_type == 6 ~ "Private",
+      status_type == 7 ~ "Not in possession",
+      status_type == 8 ~ "Repeat dispensed",
+      status_type == 9 ~ "In possession",
+      status_type == 10 ~ "Dental",
+      status_type == 11 ~ "Hospital",
+      status_type == 12 ~ "Problem substance",
+      status_type == 13 ~ "From patient group direction",
+      status_type == 14 ~ "To take out",
+      status_type == 15 ~ "On admission",
+      status_type == 16 ~ "Regular medication",
+      status_type == 17 ~ "As required medication",
+      status_type == 18 ~ "Variable dose medication",
+      status_type == 19 ~ "Rate-controlled single regular",
+      status_type == 20 ~ "Only once",
+      status_type == 21 ~ "Outpatient",
+      status_type == 22 ~ "Rate-controlled multiple regular",
+      status_type == 23 ~ "Rate-controlled multiple only once",
+      status_type == 24 ~ "Rate-controlled single only once",
+      status_type == 25 ~ "Placeholder",
+      status_type == 26 ~ "Unconfirmed",
+      status_type == 27 ~ "Infusion",
+      status_type == 28 ~ "Reducing dose blue script",
+      is.na(status_type) ~ "Missing",
+      TRUE ~ "Other"
+    ),
+    .after = 1
+  ) %>%
+  #rbind(missing_status_row[, 1:3]) %>% 
+  mutate(
+    med_count_perc = med_count/sum(med_count) * 100
+  )
+
+# repeat medication status
+df_status_rep <- df %>% 
+  #group_by(meds_exist) %>%
+  select(contains("repeats_status")) %>% 
+  summarise(across(.cols = everything(), ~ sum(.x))) %>% 
+  pivot_longer(
+    cols = everything(),
+    names_to = "status_type",
+    names_prefix = "repeats_status_",
+    values_to = "rep_count"
+  ) %>% 
+  mutate(
+    "status" = case_when(
+      status_type == 0 ~ "Normal",
+      status_type == 4 ~ "Historical",
+      status_type == 5 ~ "Blue script",
+      status_type == 6 ~ "Private",
+      status_type == 7 ~ "Not in possession",
+      status_type == 8 ~ "Repeat dispensed",
+      status_type == 9 ~ "In possession",
+      status_type == 10 ~ "Dental",
+      status_type == 11 ~ "Hospital",
+      status_type == 12 ~ "Problem substance",
+      status_type == 13 ~ "From patient group direction",
+      status_type == 14 ~ "To take out",
+      status_type == 15 ~ "On admission",
+      status_type == 16 ~ "Regular medication",
+      status_type == 17 ~ "As required medication",
+      status_type == 18 ~ "Variable dose medication",
+      status_type == 19 ~ "Rate-controlled single regular",
+      status_type == 20 ~ "Only once",
+      status_type == 21 ~ "Outpatient",
+      status_type == 22 ~ "Rate-controlled multiple regular",
+      status_type == 23 ~ "Rate-controlled multiple only once",
+      status_type == 24 ~ "Rate-controlled single only once",
+      status_type == 25 ~ "Placeholder",
+      status_type == 26 ~ "Unconfirmed",
+      status_type == 27 ~ "Infusion",
+      status_type == 28 ~ "Reducing dose blue script",
+      is.na(status_type) ~ "Missing",
+      TRUE ~ "Other"
+    ),
+    .after = 1
+  ) %>%
+  #rbind(missing_status_row[, c(1:2, 4)]) %>% 
+  mutate(
+    rep_count_perc = rep_count/sum(rep_count) * 100
+  )
+
+# medication status for rows with repeat ID
+df_status_med_reps <- df %>% 
+  #group_by(meds_exist) %>% 
+  select(contains("medications_status") & contains("rep_id")) %>%
+  summarise(across(.cols = everything(), ~ sum(.x))) %>% 
+  pivot_longer(
+    cols = everything(),
+    names_to = "status_type",
+    names_prefix = "medications_status_with_rep_id_",
+    values_to = "med_count_with_rep"
+  ) %>% 
+  mutate(
+    "status" = case_when(
+      status_type == 0 ~ "Normal",
+      status_type == 4 ~ "Historical",
+      status_type == 5 ~ "Blue script",
+      status_type == 6 ~ "Private",
+      status_type == 7 ~ "Not in possession",
+      status_type == 8 ~ "Repeat dispensed",
+      status_type == 9 ~ "In possession",
+      status_type == 10 ~ "Dental",
+      status_type == 11 ~ "Hospital",
+      status_type == 12 ~ "Problem substance",
+      status_type == 13 ~ "From patient group direction",
+      status_type == 14 ~ "To take out",
+      status_type == 15 ~ "On admission",
+      status_type == 16 ~ "Regular medication",
+      status_type == 17 ~ "As required medication",
+      status_type == 18 ~ "Variable dose medication",
+      status_type == 19 ~ "Rate-controlled single regular",
+      status_type == 20 ~ "Only once",
+      status_type == 21 ~ "Outpatient",
+      status_type == 22 ~ "Rate-controlled multiple regular",
+      status_type == 23 ~ "Rate-controlled multiple only once",
+      status_type == 24 ~ "Rate-controlled single only once",
+      status_type == 25 ~ "Placeholder",
+      status_type == 26 ~ "Unconfirmed",
+      status_type == 27 ~ "Infusion",
+      status_type == 28 ~ "Reducing dose blue script",
+      is.na(status_type) ~ "Missing",
+      TRUE ~ "Other"
+    ),
+    .after = 1
+  ) %>%
+  #rbind(missing_status_row[, c(1:2, 5)]) %>% 
+  mutate(
+    med_count_with_rep_perc = med_count_with_rep/sum(med_count_with_rep) * 100
+  )
+
+# combine
+df_status <- merge(df_status_med, df_status_rep)
+df_status <- merge(df_status, df_status_med_reps)
+
+# save
+write_csv(df_status, here::here("output", "dataset_status.csv"))
+
+# medication status for nhs issues
+df_status_nhs_issues <- df %>% 
+  #group_by(meds_exist) %>% 
+  select(contains("nhs_issues")) %>%
+  summarise(across(.cols = everything(), ~ sum(.x))) %>% 
+  pivot_longer(
+    cols = everything(),
+    names_to = "status_type",
+    names_prefix = "nhs_issues_status_",
+    values_to = "NHS_ISSUE"
+  ) %>% 
+  mutate(
+    "status" = case_when(
+      status_type == 0 ~ "Normal",
+      status_type == 4 ~ "Historical",
+      status_type == 5 ~ "Blue script",
+      status_type == 6 ~ "Private",
+      status_type == 7 ~ "Not in possession",
+      status_type == 8 ~ "Repeat dispensed",
+      status_type == 9 ~ "In possession",
+      status_type == 10 ~ "Dental",
+      status_type == 11 ~ "Hospital",
+      status_type == 12 ~ "Problem substance",
+      status_type == 13 ~ "From patient group direction",
+      status_type == 14 ~ "To take out",
+      status_type == 15 ~ "On admission",
+      status_type == 16 ~ "Regular medication",
+      status_type == 17 ~ "As required medication",
+      status_type == 18 ~ "Variable dose medication",
+      status_type == 19 ~ "Rate-controlled single regular",
+      status_type == 20 ~ "Only once",
+      status_type == 21 ~ "Outpatient",
+      status_type == 22 ~ "Rate-controlled multiple regular",
+      status_type == 23 ~ "Rate-controlled multiple only once",
+      status_type == 24 ~ "Rate-controlled single only once",
+      status_type == 25 ~ "Placeholder",
+      status_type == 26 ~ "Unconfirmed",
+      status_type == 27 ~ "Infusion",
+      status_type == 28 ~ "Reducing dose blue script",
+      is.na(status_type) ~ "Missing",
+      TRUE ~ "Other"
+    ),
+    .after = 1
+  ) %>%
+  mutate(
+    nhs_issue_perc = NHS_ISSUE/sum(NHS_ISSUE) * 100
+  )
+
+# medication status for private issues
+df_status_private_issues <- df %>% 
+  #group_by(meds_exist) %>% 
+  select(contains("private_issues")) %>%
+  summarise(across(.cols = everything(), ~ sum(.x))) %>% 
+  pivot_longer(
+    cols = everything(),
+    names_to = "status_type",
+    names_prefix = "private_issues_status_",
+    values_to = "PRIVATE_ISSUE"
+  ) %>% 
+  mutate(
+    "status" = case_when(
+      status_type == 0 ~ "Normal",
+      status_type == 4 ~ "Historical",
+      status_type == 5 ~ "Blue script",
+      status_type == 6 ~ "Private",
+      status_type == 7 ~ "Not in possession",
+      status_type == 8 ~ "Repeat dispensed",
+      status_type == 9 ~ "In possession",
+      status_type == 10 ~ "Dental",
+      status_type == 11 ~ "Hospital",
+      status_type == 12 ~ "Problem substance",
+      status_type == 13 ~ "From patient group direction",
+      status_type == 14 ~ "To take out",
+      status_type == 15 ~ "On admission",
+      status_type == 16 ~ "Regular medication",
+      status_type == 17 ~ "As required medication",
+      status_type == 18 ~ "Variable dose medication",
+      status_type == 19 ~ "Rate-controlled single regular",
+      status_type == 20 ~ "Only once",
+      status_type == 21 ~ "Outpatient",
+      status_type == 22 ~ "Rate-controlled multiple regular",
+      status_type == 23 ~ "Rate-controlled multiple only once",
+      status_type == 24 ~ "Rate-controlled single only once",
+      status_type == 25 ~ "Placeholder",
+      status_type == 26 ~ "Unconfirmed",
+      status_type == 27 ~ "Infusion",
+      status_type == 28 ~ "Reducing dose blue script",
+      is.na(status_type) ~ "Missing",
+      TRUE ~ "Other"
+    ),
+    .after = 1
+  ) %>%
+  mutate(
+    private_issue_perc = PRIVATE_ISSUE/sum(PRIVATE_ISSUE) * 100
+  )
+
+# medication status for installment issues
+df_status_installment_issues <- df %>% 
+  #group_by(meds_exist) %>% 
+  select(contains("installment_issues")) %>%
+  summarise(across(.cols = everything(), ~ sum(.x))) %>% 
+  pivot_longer(
+    cols = everything(),
+    names_to = "status_type",
+    names_prefix = "installment_issues_status_",
+    values_to = "INSTALLMENT_ISSUE"
+  ) %>% 
+  mutate(
+    "status" = case_when(
+      status_type == 0 ~ "Normal",
+      status_type == 4 ~ "Historical",
+      status_type == 5 ~ "Blue script",
+      status_type == 6 ~ "Private",
+      status_type == 7 ~ "Not in possession",
+      status_type == 8 ~ "Repeat dispensed",
+      status_type == 9 ~ "In possession",
+      status_type == 10 ~ "Dental",
+      status_type == 11 ~ "Hospital",
+      status_type == 12 ~ "Problem substance",
+      status_type == 13 ~ "From patient group direction",
+      status_type == 14 ~ "To take out",
+      status_type == 15 ~ "On admission",
+      status_type == 16 ~ "Regular medication",
+      status_type == 17 ~ "As required medication",
+      status_type == 18 ~ "Variable dose medication",
+      status_type == 19 ~ "Rate-controlled single regular",
+      status_type == 20 ~ "Only once",
+      status_type == 21 ~ "Outpatient",
+      status_type == 22 ~ "Rate-controlled multiple regular",
+      status_type == 23 ~ "Rate-controlled multiple only once",
+      status_type == 24 ~ "Rate-controlled single only once",
+      status_type == 25 ~ "Placeholder",
+      status_type == 26 ~ "Unconfirmed",
+      status_type == 27 ~ "Infusion",
+      status_type == 28 ~ "Reducing dose blue script",
+      is.na(status_type) ~ "Missing",
+      TRUE ~ "Other"
+    ),
+    .after = 1
+  ) %>%
+  mutate(
+    installment_issue_perc = INSTALLMENT_ISSUE/sum(INSTALLMENT_ISSUE) * 100
+  )
+
+# combine
+df_status_issues <- merge(df_status_nhs_issues, df_status_private_issues)
+df_status_issues <- merge(df_status_issues, df_status_installment_issues)
+
+# save
+write_csv(df_status_issues, here::here("output", "dataset_status_issues.csv"))
+
+# medication status for nhs issues (repeats)
+df_status_nhs_issues_rep <- df %>% 
+  #group_by(meds_exist) %>% 
+  select(contains("nhs_issues_rep")) %>%
+  summarise(across(.cols = everything(), ~ sum(.x))) %>% 
+  pivot_longer(
+    cols = everything(),
+    names_to = "status_type",
+    names_prefix = "nhs_issues_rep_status_",
+    values_to = "NHS_ISSUE"
+  ) %>% 
+  mutate(
+    "status" = case_when(
+      status_type == 0 ~ "Normal",
+      status_type == 4 ~ "Historical",
+      status_type == 5 ~ "Blue script",
+      status_type == 6 ~ "Private",
+      status_type == 7 ~ "Not in possession",
+      status_type == 8 ~ "Repeat dispensed",
+      status_type == 9 ~ "In possession",
+      status_type == 10 ~ "Dental",
+      status_type == 11 ~ "Hospital",
+      status_type == 12 ~ "Problem substance",
+      status_type == 13 ~ "From patient group direction",
+      status_type == 14 ~ "To take out",
+      status_type == 15 ~ "On admission",
+      status_type == 16 ~ "Regular medication",
+      status_type == 17 ~ "As required medication",
+      status_type == 18 ~ "Variable dose medication",
+      status_type == 19 ~ "Rate-controlled single regular",
+      status_type == 20 ~ "Only once",
+      status_type == 21 ~ "Outpatient",
+      status_type == 22 ~ "Rate-controlled multiple regular",
+      status_type == 23 ~ "Rate-controlled multiple only once",
+      status_type == 24 ~ "Rate-controlled single only once",
+      status_type == 25 ~ "Placeholder",
+      status_type == 26 ~ "Unconfirmed",
+      status_type == 27 ~ "Infusion",
+      status_type == 28 ~ "Reducing dose blue script",
+      is.na(status_type) ~ "Missing",
+      TRUE ~ "Other"
+    ),
+    .after = 1
+  ) %>%
+  mutate(
+    nhs_issue_perc = NHS_ISSUE/sum(NHS_ISSUE) * 100
+  )
+
+# medication status for private issues (repeats)
+df_status_private_issues_rep <- df %>% 
+  #group_by(meds_exist) %>% 
+  select(contains("private_issues_rep")) %>%
+  summarise(across(.cols = everything(), ~ sum(.x))) %>% 
+  pivot_longer(
+    cols = everything(),
+    names_to = "status_type",
+    names_prefix = "private_issues_rep_status_",
+    values_to = "PRIVATE_ISSUE"
+  ) %>% 
+  mutate(
+    "status" = case_when(
+      status_type == 0 ~ "Normal",
+      status_type == 4 ~ "Historical",
+      status_type == 5 ~ "Blue script",
+      status_type == 6 ~ "Private",
+      status_type == 7 ~ "Not in possession",
+      status_type == 8 ~ "Repeat dispensed",
+      status_type == 9 ~ "In possession",
+      status_type == 10 ~ "Dental",
+      status_type == 11 ~ "Hospital",
+      status_type == 12 ~ "Problem substance",
+      status_type == 13 ~ "From patient group direction",
+      status_type == 14 ~ "To take out",
+      status_type == 15 ~ "On admission",
+      status_type == 16 ~ "Regular medication",
+      status_type == 17 ~ "As required medication",
+      status_type == 18 ~ "Variable dose medication",
+      status_type == 19 ~ "Rate-controlled single regular",
+      status_type == 20 ~ "Only once",
+      status_type == 21 ~ "Outpatient",
+      status_type == 22 ~ "Rate-controlled multiple regular",
+      status_type == 23 ~ "Rate-controlled multiple only once",
+      status_type == 24 ~ "Rate-controlled single only once",
+      status_type == 25 ~ "Placeholder",
+      status_type == 26 ~ "Unconfirmed",
+      status_type == 27 ~ "Infusion",
+      status_type == 28 ~ "Reducing dose blue script",
+      is.na(status_type) ~ "Missing",
+      TRUE ~ "Other"
+    ),
+    .after = 1
+  ) %>%
+  mutate(
+    private_issue_perc = PRIVATE_ISSUE/sum(PRIVATE_ISSUE) * 100
+  )
+
+# medication status for installment issues (repeats)
+df_status_installment_issues_rep <- df %>% 
+  #group_by(meds_exist) %>% 
+  select(contains("installment_issues_rep")) %>%
+  summarise(across(.cols = everything(), ~ sum(.x))) %>% 
+  pivot_longer(
+    cols = everything(),
+    names_to = "status_type",
+    names_prefix = "installment_issues_rep_status_",
+    values_to = "INSTALLMENT_ISSUE"
+  ) %>% 
+  mutate(
+    "status" = case_when(
+      status_type == 0 ~ "Normal",
+      status_type == 4 ~ "Historical",
+      status_type == 5 ~ "Blue script",
+      status_type == 6 ~ "Private",
+      status_type == 7 ~ "Not in possession",
+      status_type == 8 ~ "Repeat dispensed",
+      status_type == 9 ~ "In possession",
+      status_type == 10 ~ "Dental",
+      status_type == 11 ~ "Hospital",
+      status_type == 12 ~ "Problem substance",
+      status_type == 13 ~ "From patient group direction",
+      status_type == 14 ~ "To take out",
+      status_type == 15 ~ "On admission",
+      status_type == 16 ~ "Regular medication",
+      status_type == 17 ~ "As required medication",
+      status_type == 18 ~ "Variable dose medication",
+      status_type == 19 ~ "Rate-controlled single regular",
+      status_type == 20 ~ "Only once",
+      status_type == 21 ~ "Outpatient",
+      status_type == 22 ~ "Rate-controlled multiple regular",
+      status_type == 23 ~ "Rate-controlled multiple only once",
+      status_type == 24 ~ "Rate-controlled single only once",
+      status_type == 25 ~ "Placeholder",
+      status_type == 26 ~ "Unconfirmed",
+      status_type == 27 ~ "Infusion",
+      status_type == 28 ~ "Reducing dose blue script",
+      is.na(status_type) ~ "Missing",
+      TRUE ~ "Other"
+    ),
+    .after = 1
+  ) %>%
+  mutate(
+    installment_issue_perc = INSTALLMENT_ISSUE/sum(INSTALLMENT_ISSUE) * 100
+  )
+
+# combine
+df_status_issues_rep <- merge(df_status_nhs_issues_rep, df_status_private_issues_rep)
+df_status_issues_rep <- merge(df_status_issues_rep, df_status_installment_issues_rep)
+
+# save
+write_csv(df_status_issues_rep, here::here("output", "dataset_status_repeats.csv"))
+
+# sample date distributions
+df_dates <- df %>% 
+  select(c(meds_sample_date, repeats_sample_date, 
+           repeats_sample_start_date, repeats_sample_end_date)) %>%
+  # filter data to include only people with medicines data - done earlier
+  mutate(across(everything(), ~ as.Date(.x)))
+
+summarise_date_outlier_types <- function(df, outlier_conditions) {
+  date_cols <- names(df)
+  n_total <- nrow(df)
+
+  bind_rows(lapply(names(outlier_conditions), function(outlier_type) {
+    cond <- outlier_conditions[[outlier_type]]
+    counts <- vapply(date_cols, function(col) {
+      sum(cond(pull(df, !!sym(col))), na.rm = TRUE)
+    }, numeric(1))
+
+    values <- c(
+      total = n_total,
+      setNames(counts, paste0(date_cols, "_n")),
+      setNames(100 * counts / n_total, paste0(date_cols, "_pct"))
+    )
+
+    tibble(
+      outlier_type = outlier_type,
+      !!!as.list(values)
+    )
+  }))
+}
+
+outlier_conditions <- list(
+  missing_identifier = function(x) x == as.Date("9999-12-31"),
+  prior_to_index = function(x) x < as.Date("2025-01-01"),
+  long_post_index = function(x) x >= as.Date("2030-01-01") & x != as.Date("9999-12-31")
+)
+
+df_dates_outliers <- summarise_date_outlier_types(df_dates, outlier_conditions)
+
+df_dates_outliers_check <- bind_rows(
+  missing_identifier = df_dates %>% 
+    filter(if_any(.cols = everything(), ~ .x == as.Date("9999-12-31"))) %>% 
+    summarise(across(everything(), ~ sum(.x == as.Date("9999-12-31"), na.rm = TRUE))),
+  prior_to_index = df_dates %>% 
+    filter(if_any(.cols = everything(), ~ .x < as.Date("2025-01-01"))) %>% 
+    summarise(across(everything(), ~ sum(.x < as.Date("2025-01-01"), na.rm = TRUE))),
+  long_post_index = df_dates %>% 
+    filter(if_any(.cols = everything(), ~ .x >= as.Date("2030-01-01") & .x != as.Date("9999-12-31"))) %>% 
+    summarise(across(everything(), ~ sum(.x >= as.Date("2030-01-01") & .x != as.Date("9999-12-31"), na.rm = TRUE))),
+  .id = "outlier_type"
+) 
+
+# save
+write_csv(df_dates_outliers, here::here("output", "dataset_date_outliers.csv"))
+write_csv(df_dates_outliers_check, here::here("output", "dataset_date_outliers_check.csv"))
+
+# get info about dates occuring on index 
+df_dates_index <- df_dates %>% 
+  summarise_date_outlier_types(
+    function(x) x == as.Date("2025-01-01")
+  )
+
+df_dates_index_check <- df_dates %>% 
+  filter(if_any(.cols = everything(), ~ .x == as.Date("2025-01-01"))) %>% 
+  summarise(across(everything(), ~sum(.x == as.Date("2025-01-01"), na.rm = TRUE))) %>%
+  mutate(across(everything(), ~ .x/nrow(df_dates) * 100, .names = "{.col}_perc"))
+
+# save
+write_csv(df_dates_index, here::here("output", "dataset_date_indexes.csv"))
+write_csv(df_dates_index_check, here::here("output", "dataset_date_indexes_check.csv"))
+
+# plot the date distributions
+
+med_date_plot <- df_dates %>% 
+  filter(
+    !is.na(meds_sample_date),
+    meds_sample_date >= as.Date("2020-01-01"),
+    meds_sample_date < as.Date("2030-01-01")
+  ) %>% 
+  ggplot(aes(x = meds_sample_date)) + 
+  geom_histogram(binwidth = 15) #+
+#  #scale_x_date(date_breaks = "50 years", date_labels = "%Y-%m")
+ggsave(here::here("output", "sample_med_date_plot.png"))
+
+rep_date_plot <- df_dates %>% 
+  filter(
+    !is.na(repeats_sample_date),
+    repeats_sample_date >= as.Date("2020-01-01"),
+    repeats_sample_date < as.Date("2030-01-01")
+  ) %>% 
+  ggplot(aes(x = repeats_sample_date)) + 
+  geom_histogram(binwidth = 15) 
+ggsave(here::here("output", "sample_rep_date_plot.png"))
+
+rep_start_date_plot <- df_dates %>% 
+  filter(
+    !is.na(repeats_sample_start_date),
+    repeats_sample_start_date >= as.Date("2020-01-01"),
+    repeats_sample_start_date < as.Date("2030-01-01")
+  ) %>% 
+  ggplot(aes(x = repeats_sample_start_date)) + 
+  geom_histogram(binwidth = 15)
+ggsave(here::here("output", "sample_rep_start_date_plot.png"))
+
+rep_end_date_plot <- df_dates %>% 
+  filter(
+    !is.na(repeats_sample_end_date),
+    repeats_sample_end_date >= as.Date("2020-01-01"),
+    repeats_sample_end_date < as.Date("2030-01-01")
+  ) %>% 
+  ggplot(aes(x = repeats_sample_end_date)) + 
+  geom_histogram(binwidth = 15) 
+ggsave(here::here("output", "sample_rep_end_date_plot.png"))
+
+# looking at demographic breakdowns
+meds_by_sex <- df %>% 
+  #filter(meds_exist) %>%
+  group_by(patient_sex) %>% 
+  summarise(
+    mean_age = mean(patient_age, na.rm = TRUE),
+    mean_repeats = mean(active_repeats, na.rm = TRUE),
+    statin_users = sum(statin_prescriptions > 0),
+    statin_repeats = sum(statin_repeats),
+    statin_repeat_issues = sum(statin_repeat_issues),
+    opioids_users = sum(opioids_prescriptions > 0),
+    opioids_repeats = sum(opioids_repeats),
+    opioids_repeat_issues = sum(opioids_repeat_issues)
+  )
+meds_by_age <- df %>% 
+  #filter(meds_exist) %>%
+  group_by(age_cat) %>% 
+  summarise(
+    mean_age = mean(patient_age, na.rm = TRUE),
+    mean_repeats = mean(active_repeats, na.rm = TRUE),
+    statin_users = sum(statin_prescriptions > 0),
+    statin_repeats = sum(statin_repeats),
+    statin_repeat_issues = sum(statin_repeat_issues),
+    opioids_users = sum(opioids_prescriptions > 0),
+    opioids_repeats = sum(opioids_repeats),
+    opioids_repeat_issues = sum(opioids_repeat_issues)
+  )
+
+# save demographic summaries
+write_csv(meds_by_sex, here::here("output", "meds_by_sex.csv"))
+write_csv(meds_by_age, here::here("output", "meds_by_age.csv"))
+
+## quantities
+
+# get missing quantitys
+text_based_missing <- df %>%
+  #group_by(meds_exist) %>%
+  select(contains("quantity")) %>%
+  pivot_longer(
+    cols = everything(),
+    names_to = "variable",
+    values_to = "value"
+  ) %>%
+  count(variable, value) %>%
+  group_by(variable) %>%
+  mutate(prop = n / sum(n)) %>%
+  filter(is.na(value)|value == "") %>%
+  ungroup()
+
+# save
+write_csv(text_based_missing, here::here("output", "missing_quantities.csv"))
+
+# get a subset/summary of quantity fields
+text_based <- df %>%
+  #group_by(meds_exist) %>%
+  select(contains("quantity")) %>%
+  pivot_longer(
+    cols = everything(),
+    names_to = "variable",
+    values_to = "value"
+  ) %>%
+  filter(!is.na(value) & value != "") %>%
+  count(variable, value) %>%
+  group_by(variable) %>%
+  mutate(prop = n / sum(n)) %>%
+  ungroup()
+
+text_based_save <- text_based %>% 
+  filter(grepl("sample", variable)) %>%
+  arrange(desc(prop))
+
+# save summary in files of suitable sizx
+chunk_size <- 5000
+n_chunks <- ceiling(nrow(text_based_save) / chunk_size)
+for (i in seq_len(n_chunks)) {
+  start_row <- (i - 1) * chunk_size + 1
+  end_row <- min(i * chunk_size, nrow(text_based_save))
+  chunk <- text_based_save[start_row:end_row, ]
+  write_csv(
+    chunk,
+    here::here("output", paste0("quantity_sums_part_", i, ".csv"))
+  )
+}
+
+# keep only top 10 categories per variable for plotting
+plot_data <- text_based %>%
+  group_by(variable) %>%
+  slice_max(order_by = prop, n = 10, with_ties = FALSE) %>%
+  ungroup()
+
+# visualise
+visual_sum <- ggplot(
+  plot_data,
+  aes(
+    x = reorder(value, prop),
+    y = prop,
+    fill = variable
+  )
+) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  facet_wrap(~ variable, scales = "free_y") +
+  scale_y_continuous(labels = percent_format()) +
+  geom_text(
+    aes(label = percent(prop, accuracy = 0.1)),
+    hjust = -0.1,
+    size = 3
+  ) +
+  expand_limits(y = max(text_based$prop) * 1.15) +
+  labs(
+    title = "Proportion of Quantity Categories",
+    x = NULL,
+    y = "Proportion"
+  ) +
+  theme_minimal()
+
+# save 
+ggsave(here::here("output", "quantity_summary_plot.png"))
+
+# look at the medications associated with the quantity
+dmds_for_quants <- df %>%
+  #group_by(meds_exist) %>%
+  select(c(sample_issue_med, sample_issue_med_reps, sample_repeat_med)) %>%
+  pivot_longer(
+    cols = everything(),
+    names_to = "variable",
+    values_to = "value"
+  ) %>%
+  #filter(!is.na(value) & value != "") %>%
+  count(variable, value) %>%
+  group_by(variable) %>%
+  mutate(prop = n / sum(n)) %>%
+  ungroup()
+
+# keep only top 10 categories per variable for plotting
+plot_data <- dmds_for_quants %>%
+  group_by(variable) %>%
+  slice_max(order_by = prop, n = 10, with_ties = FALSE) %>%
+  ungroup()
+
+# visualise
+visual_sum <- ggplot(
+  plot_data,
+  aes(
+    x = reorder(value, prop),
+    y = prop,
+    fill = variable
+  )
+) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  facet_wrap(~ variable, scales = "free_y") +
+  scale_y_continuous(labels = percent_format()) +
+  geom_text(
+    aes(label = percent(prop, accuracy = 0.1)),
+    hjust = -0.1,
+    size = 3
+  ) +
+  expand_limits(y = max(text_based$prop) * 1.15) +
+  labs(
+    title = "Proportion of dm+d Codes",
+    x = NULL,
+    y = "Proportion"
+  ) +
+  theme_minimal()
+
+# save 
+ggsave(here::here("output", "dmd_summary_plot.png"))
