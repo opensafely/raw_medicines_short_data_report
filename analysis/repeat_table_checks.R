@@ -644,7 +644,7 @@ if (nrow(repeat_long) > 0) {
     ),
     plot_duration
   )
-else {
+} else {
   message(
     "No repeat records found; skipping repeat duration distribution plot."
   )
