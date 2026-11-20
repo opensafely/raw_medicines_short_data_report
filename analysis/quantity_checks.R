@@ -451,6 +451,15 @@ if (nrow(common_quantities) > 1) {
     "No non-empty quantity strings found; skipping figure of common ",
     "quantity strings."
   )
+  blank_plot <- ggplot() + theme_void()
+  ggsave(
+    file.path(
+      output_dir,
+      "common_quantity_strings.png"
+    ),
+    plot_quantities,
+    height = 8
+  )
 }
 
 # =============================================================================

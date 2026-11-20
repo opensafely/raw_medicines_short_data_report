@@ -648,4 +648,12 @@ if (nrow(repeat_long) > 1) {
   message(
     "No repeat records found; skipping repeat duration distribution plot."
   )
+  blank_plot <- ggplot() + theme_void()
+  ggsave(
+    file.path(
+      output_dir,
+      "repeat_duration_distribution.png"
+    ),
+    plot_duration
+  )
 }
