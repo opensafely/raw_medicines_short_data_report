@@ -402,7 +402,7 @@ write_csv(
 # Figure: common quantity strings
 
 # =============================================================================
-if (nrow(common_quantities) > 0) {
+if (nrow(common_quantities) > 1) {
   message(
     "Saving figure of common quantity strings to ",
     file.path(
