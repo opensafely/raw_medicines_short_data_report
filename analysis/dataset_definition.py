@@ -43,7 +43,7 @@ dataset.configure_dummy_data(
 )
 
 # define end of follow-up to account for censoring
-followup_end = minimum_of(death_date, practice_registrations.end_date.for_patient_on(index_date), end_date)
+followup_end = minimum_of(death_date, practice_registrations.for_patient_on(index_date).end_date, end_date)
 dataset.add_column("followup_end", followup_end)
 
 # get patients with at least one medication record in relevant period
