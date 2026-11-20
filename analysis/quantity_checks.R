@@ -33,10 +33,14 @@ raw_df <- read_feather(
 # -----------------------------------------------------------------------------
 quantity_names <- names(raw_df) %>%
   str_subset("_issue_quantity$") %>%
-  str_remove("_issue_quantity$")
+  str_remove("_issue_quantity$") %>% 
+  str_remove("_repeat") %>% 
+  unique()
 code_names <- names(raw_df) %>%
   str_subset("_issue_code$") %>%
-  str_remove("_issue_code$")
+  str_remove("_issue_code$") %>% 
+  str_remove("_repeat") %>% 
+    unique()
 medicines <- intersect(
   quantity_names,
   code_names
@@ -268,8 +272,7 @@ uom_lookup <- imap_dfr(
   function(filename, medicine) {
     read_csv(
       here::here(
-        "analysis",
-        "codelists",
+        "local_codelists",
         filename
       ),
       show_col_types = FALSE
@@ -399,8 +402,15 @@ write_csv(
 # Figure: common quantity strings
 
 # =============================================================================
-
-plot_quantities <- common_quantities %>%
+if (nrow(common_quantities) > 0) {
+  message(
+    "Saving figure of common quantity strings to ",
+    file.path(
+      output_dir,
+      "common_quantity_strings.png"
+    )
+  )
+  plot_quantities <- common_quantities %>%
   ggplot(
     aes(
       x = reorder(
@@ -427,14 +437,21 @@ plot_quantities <- common_quantities %>%
   ) +
   theme_minimal()
 
-ggsave(
-  file.path(
-    output_dir,
-    "common_quantity_strings.png"
-  ),
-  plot_quantities,
-  height = 8
-)
+  ggsave(
+    file.path(
+      output_dir,
+      "common_quantity_strings.png"
+    ),
+    plot_quantities,
+    height = 8
+  )
+
+} else {
+  message(
+    "No non-empty quantity strings found; skipping figure of common ",
+    "quantity strings."
+  )
+}
 
 # =============================================================================
 # Prototype of quantity-field usage

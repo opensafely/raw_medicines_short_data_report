@@ -48,7 +48,7 @@ dataset.define_population(has_registration & was_alive & correct_age)
 dataset.configure_dummy_data(population_size = 250)
 
 # define end of follow-up to account for censoring
-followup_end = minimum_of(death_date, practice_registrations.end_date.for_patient_on(index_date), end_date)
+followup_end = minimum_of(death_date, practice_registrations.for_patient_on(index_date).end_date, end_date)
 dataset.add_column("followup_end", followup_end)
 
 # Basic patient descriptors retained for stratified summaries if required.

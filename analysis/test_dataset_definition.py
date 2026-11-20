@@ -211,7 +211,7 @@ test_data = {
         },
     },
     6: {
-        **record(6, born=date(2008, 1, 2)),
+        **record(6, born=date(2008, 1, 1)),
         "expected_in_population": False,  # 16 at index
     },
     7: {

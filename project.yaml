@@ -87,4 +87,3 @@ actions:
         temporal: output/repeat_table_checks/temporal_summary.csv
         derived_patient_level: output/repeat_table_checks/repeat_table_derived_patient_level.csv
         repeat_duration_plot: output/repeat_table_checks/repeat_duration_distribution.png
-        

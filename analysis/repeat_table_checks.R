@@ -606,41 +606,46 @@ write_csv(
 )
 
 
-# Retain patient-level derived data for further disclosure-controlled summaries.
-write_csv(
-  repeat_long,
-  file.path(
-    output_dir,
-    "repeat_table_derived_patient_level.csv"
-  )
-)
+# # Retain patient-level derived data for further disclosure-controlled summaries.
+# write_csv(
+#   repeat_long,
+#   file.path(
+#     output_dir,
+#     "repeat_table_derived_patient_level.csv"
+#   )
+# )
 
 
 # =============================================================================
 # Figure: distribution of recorded repeat duration
 # =============================================================================
+if (nrow(repeat_long) > 0) {
+  plot_duration <- repeat_long %>%
+    filter(!is.na(repeat_duration_days)) %>%
+    ggplot(
+      aes(x = repeat_duration_days)
+    ) +
+    geom_histogram(bins = 30) +
+    facet_wrap(
+      ~ medicine,
+      scales = "free_y"
+    ) +
+    labs(
+      title = "Recorded duration of selected repeat records",
+      x = "Repeat end date - repeat start date (days)",
+      y = "Patients"
+    ) +
+    theme_minimal()
 
-plot_duration <- repeat_long %>%
-  filter(!is.na(repeat_duration_days)) %>%
-  ggplot(
-    aes(x = repeat_duration_days)
-  ) +
-  geom_histogram(bins = 30) +
-  facet_wrap(
-    ~ medicine,
-    scales = "free_y"
-  ) +
-  labs(
-    title = "Recorded duration of selected repeat records",
-    x = "Repeat end date - repeat start date (days)",
-    y = "Patients"
-  ) +
-  theme_minimal()
-
-ggsave(
-  file.path(
-    output_dir,
-    "repeat_duration_distribution.png"
-  ),
-  plot_duration
-)
+  ggsave(
+    file.path(
+      output_dir,
+      "repeat_duration_distribution.png"
+    ),
+    plot_duration
+  )
+else {
+  message(
+    "No repeat records found; skipping repeat duration distribution plot."
+  )
+}
