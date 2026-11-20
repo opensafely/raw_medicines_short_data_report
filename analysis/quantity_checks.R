@@ -457,7 +457,7 @@ if (nrow(common_quantities) > 1) {
       output_dir,
       "common_quantity_strings.png"
     ),
-    plot_quantities,
+    blank_plot,
     height = 8
   )
 }

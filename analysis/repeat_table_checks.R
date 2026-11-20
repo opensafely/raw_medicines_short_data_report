@@ -654,6 +654,6 @@ if (nrow(repeat_long) > 1) {
       output_dir,
       "repeat_duration_distribution.png"
     ),
-    plot_duration
+    blank_plot
   )
 }
