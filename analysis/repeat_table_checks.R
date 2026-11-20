@@ -619,7 +619,7 @@ write_csv(
 # =============================================================================
 # Figure: distribution of recorded repeat duration
 # =============================================================================
-if (nrow(repeat_long) > 0) {
+if (nrow(repeat_long$medicine) > 0) {
   plot_duration <- repeat_long %>%
     filter(!is.na(repeat_duration_days)) %>%
     ggplot(
